@@ -29,7 +29,7 @@ Route::get('/config', function(){
     \Artisan::call('route:clear');
     dd('Config cache cleared successfully');
 });
-Route::get('/storage', function(){
+Route::get('/link-storage', function(){
     \Artisan::call('storage:link');
     dd('storage linked!');
 });
@@ -118,6 +118,7 @@ Route::middleware(['user.auth'])->group(function () {
     //verify account
     Route::prefix('verify-account')->group(function() {
         route::get('/', 'VerifyAccountController@index')->name('verify.account.view');
+        route::post('/submit-verification', 'VerifyAccountController@submitImages')->name('verify.account.submit');
     });
 
     Route::prefix('profile/ladies')->group(function () {

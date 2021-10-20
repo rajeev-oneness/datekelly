@@ -30,7 +30,7 @@
                 <div class="leftpart bg-light-pink">
                     <img src="{{asset('storage/ladies/profile_pic'). '/' . auth()->guard($guard)->user()->profile_pic}}" class="ledies_pic">
                     <ul>
-                        <li><a href="{{route('verify.account.view')}}">Verify my account</a></li>
+                        <li><a href="{{route('verify.account.view')}}" class="{{request()->routeIs('verify.account.*')?'active':''}}">Verify my account</a></li>
                         <li><a href="{{route('lady.premium.picture.list')}}" class="{{request()->routeIs('lady.premium.picture.*')?'active':''}}">Premium Pictures</a></li>
                         <li><a href="{{route('booking.list')}}" class="{{request()->routeIs('booking.*')?'active':''}}">Online Booking</a></li>
                         <li><a href="">Upgrade advertisement</a></li>
@@ -53,7 +53,7 @@
                 <div class="leftpart bg-light-yellow">
                     <img src="{{asset('storage/clubs/profile_pic'). '/' . auth()->guard($guard)->user()->profile_pic}}" class="ledies_pic">
                     <ul>
-                        <li><a href="">Verify my account</a></li>
+                        <li><a href="{{route('verify.account.view')}}" class="{{request()->routeIs('verify.account.*')?'active':''}}">Verify my account</a></li>
                         <li><a href="{{route('advertisement.list')}}" class="{{request()->routeIs('advertisement.*')?'active':''}}">View advertisement</a></li>
                         <li><a href="{{route('booking.list')}}" class="{{request()->routeIs('booking.*')?'active':''}}">Online Booking</a></li>
                         <li><a href="">Upgrade advertisement</a></li>
@@ -76,7 +76,7 @@
                     <img src="{{asset('storage/mens/profile_pic'). '/' . auth()->guard($guard)->user()->profile_pic}}" class="ledies_pic">
                     <ul>
                         <li><a href="">Upgrade my account</a></li>
-                        <li><a href="">Verify my account</a></li>
+                        <li><a href="{{route('verify.account.view')}}" class="{{request()->routeIs('verify.account.*')?'active':''}}">Verify my account</a></li>
                         <li><a href="{{route('men.premium.picture')}}" class="{{request()->routeIs('men.premium.picture.*')?'active':''}}">Premium Pictures</a></li>
                         <li><a href="{{route('booking.list')}}" class="{{request()->routeIs('booking.*')?'active':''}}">Online Booking</a></li>
                         <li><a href="{{route('men.account.edit', encrypt(auth()->guard(get_guard())->user()->id))}}" class="{{request()->routeIs('men.account.*')?'active':''}}">Edit</a></li>

@@ -1,6 +1,16 @@
 @extends('front.layouts.master')
 
 @section('dashboard-content')
+@if ($UserVerification->id_card && $UserVerification->id_card_with_user && $UserVerification->newspaper_with_user && $UserVerification->user_img)
+<div class="col-12 col-md-9 pl-2 pl-md-5 rightpart veryfybody">
+    <div>
+        <h4 class="mb-3">Verify my account</h4>
+        <p>
+            <span class="badge bg-pink">Verified!<i class="fas fa-check text-green ml-1"></i></span>
+        </p>
+    </div>
+</div>
+@else
 <div class="col-12 col-md-9 pl-2 pl-md-5 rightpart veryfybody">
     <div>
         <h4 class="mb-3">Verify my account</h4>
@@ -48,59 +58,70 @@
         </div>
     </div>
     <div class="mt-4 upload-section">
-        <form>
+        <form method="POST" action="{{route('verify.account.submit')}}" enctype="multipart/form-data">
+            @csrf
+            @if (!$UserVerification->id_card)
             <div class="row m-0 justify-content-start">
                 <div class="col-12 col-md-4 p-0"><h6>1) Photo of ID Card</h6></div>
                 <div class="chosefile col-6 col-md-3 p-0 mt-md-0 mt-3">
-                    <input type="file" id="real-file" hidden="hidden" />
-                    <button type="button" id="custom-button">Select file</button>
+                    <input type="file" id="real-file" name="id_card"/>
+                    
                 </div>
                 <div class="col-6 col-md-2 p-0 mt-md-0 mt-3">
                     <button type="submit" class="btn btn-upload mx-sm-2 mb-2">Upload now</button>
                 </div>
             </div>
+            @endif
+            @if (!$UserVerification->id_card_with_user)
             <div class="row m-0 justify-content-start">
                 <div class="col-12 col-md-4 p-0">
                     <h6>2) Photo of you and ID Card</h6>
                 </div>
                 <div class="chosefile col-6 col-md-3 p-0 mt-md-0 mt-3">
-                    <input type="file" id="real-file" hidden="hidden" />
-                    <button type="button" id="custom-button">Select file</button>
+                    <input type="file" id="real-file" name="id_card_with_user"/>
+                    
                 </div>
                 <div class="col-6 col-md-2 p-0 mt-md-0 mt-3">
                     <button type="submit" class="btn btn-upload mx-sm-2 mb-2">Upload now</button>
                 </div>
             </div>
+            @endif
+            @if (!$UserVerification->newspaper_with_user)
             <div class="row m-0 justify-content-start">
                 <div class="col-12 col-md-4 p-0">
                     <h6>3) Photo of you and newspaper </h6>
                 </div>
                 <div class="chosefile col-6 col-md-3 p-0 mt-md-0 mt-3">
-                    <input type="file" id="real-file" hidden="hidden" />
-                    <button type="button" id="custom-button">Select file</button>
+                    <input type="file" id="real-file" name="newspaper_with_user"/>
+                    
                 </div>
                 <div class="col-6 col-md-2 p-0 mt-md-0 mt-3">
                     <button type="submit" class="btn btn-upload mx-sm-2 mb-2">Upload now</button>
                 </div>
             </div>
+            @endif
+            @if (!$UserVerification->user_img)
             <div class="row m-0 justify-content-start">
                 <div class="col-12 col-md-4 p-0">
                     <h6>4) Photo of you with upper body</h6>
                 </div>
                 <div class="chosefile col-6 col-md-3 p-0 mt-md-0 mt-3">
-                    <input type="file" id="real-file" hidden="hidden" />
-                    <button type="button" id="custom-button">Select file</button>
+                    <input type="file" id="real-file" name="user_img"/>
+                    
                 </div>
                 <div class="col-6 col-md-2 p-0 mt-md-0 mt-3">
                     <button type="submit" class="btn btn-upload mx-sm-2 mb-2">Upload now</button>
                 </div>
             </div>
+            @endif
         </form>
         <p class="pt-3">
             After receiving all 4 photos we will verify your account as soon as possible.
         </p>
     </div>
+
 </div>
+@endif
 
 @endsection
 

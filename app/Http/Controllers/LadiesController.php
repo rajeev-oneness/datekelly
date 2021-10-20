@@ -8,6 +8,7 @@ use App\Models\Country;
 use App\Models\City;
 use App\Models\Advertise;
 use Illuminate\Support\Facades\Storage;
+use App\Models\UserVerification;
 use Hash;
 
 class LadiesController extends Controller
@@ -77,6 +78,9 @@ class LadiesController extends Controller
         }
         
         $ladies->save();
+        $UserVerification = new UserVerification;
+        $UserVerification->user_id = $ladies->id;
+        $UserVerification->save();
         $guard = get_guard();
         if($guard == '' && $guard != 'admin') {
             $user = User::where('email',$req->email)->first();

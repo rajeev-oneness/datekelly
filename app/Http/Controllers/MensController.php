@@ -10,6 +10,7 @@ use App\Models\PremiumPicturePurchase;
 use App\Models\LoveCount;
 use App\Models\Advertisement;
 use Illuminate\Support\Facades\Storage;
+use App\Models\UserVerification;
 use Hash;
  
 class MensController extends Controller
@@ -78,6 +79,9 @@ class MensController extends Controller
         }
         
         $mens->save();
+        $UserVerification = new UserVerification;
+        $UserVerification->user_id = $mens->id;
+        $UserVerification->save();
         $guard = get_guard();
         if($guard == '' && $guard != 'admin') {
             $user = User::where('email',$req->email)->first();

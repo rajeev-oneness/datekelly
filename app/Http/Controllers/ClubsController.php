@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Country;
 use App\Models\City;
 use Illuminate\Support\Facades\Storage;
+use App\Models\UserVerification;
 use Hash;
 
 class ClubsController extends Controller
@@ -76,6 +77,9 @@ class ClubsController extends Controller
         }
         
         $clubs->save();
+        $UserVerification = new UserVerification;
+        $UserVerification->user_id = $clubs->id;
+        $UserVerification->save();
         $guard = get_guard();
         if($guard == '' && $guard != 'admin') {
             $user = User::where('email',$req->email)->first();
