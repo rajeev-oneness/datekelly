@@ -66,7 +66,7 @@
                 {{-- <span class="form-text text-muted">Please enter your full name</span> --}}
             </div>
             <div class="p-3">
-                <img src="{{asset('storage/ladies/profile_pic/'.$lady->profile_pic)}}" alt="Profile Pic" width="100">
+                <img src="{{asset($lady->profile_pic)}}" alt="Profile Pic" width="100">
             </div>
             <div class="col-lg-6">
                 <label>Profile Picture:</label>

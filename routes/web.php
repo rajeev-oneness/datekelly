@@ -149,10 +149,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/update-password', 'Auth\ChangePasswordController@update')->name('update.password');
 });
 
-
 //home
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 
 //admin
 Route::group(['middleware' => 'admin'], function() {
@@ -166,7 +164,6 @@ Route::prefix('admin')->group(function () {
 //city and country ajax call
 Route::post('/get-all-countries', 'Admin\CityController@getCountry')->name('get.country');
 Route::post('/get-cities', 'Admin\CountryController@getCity')->name('get.country-wise.city');
-
 
 //contact us
 Route::get('/contact-us', 'FrontController@contactus')->name('contact.us');

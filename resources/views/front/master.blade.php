@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('front/css/owl.theme.default.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('front/css/style.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('front/css/responsive.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/sumoselect.min.css')}}">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
     @yield('css')
 </head>
@@ -117,6 +118,7 @@
 		<script type="text/javascript" src="{{asset('front/js/aos.js')}}"></script>
 		<script type="text/javascript" src="{{asset('front/js/custom.js')}}"></script>
         <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="{{asset('js/sumoselect.min.js')}}"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script>
             @if(Session::has('Success'))
@@ -127,7 +129,7 @@
 
             $(document).ready( function () {
                 $('#customDataTable').DataTable();
-            } );
+            });
         </script>
 
         @yield('script')

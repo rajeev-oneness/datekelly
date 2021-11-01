@@ -16,7 +16,6 @@
     }
 
     function totalCoinsCalculate($coinDetails) {
-        // dd($coinDetails);
         $sum = 0;
         foreach ($coinDetails as $key => $value) {
             $sum += $value->coins;
@@ -30,6 +29,24 @@
         $image->move('upload/' . $folder . '/', $random . '.' . $image->getClientOriginalExtension());
         $imageurl = 'upload/' . $folder . '/' . $random . '.' . $image->getClientOriginalExtension();
         return $imageurl;
+    }
+
+    function fileTypeCheck($file)
+    {
+        return $file->getClientOriginalExtension();
+    }
+
+    function emptyCheck($string, $date = false)
+    {
+        if ($date) {
+            return !empty($string) ? $string : '0000-00-00';
+        }
+        return !empty($string) ? $string : '';
+    }
+
+    function numberCheck($number)
+    {
+        return !empty($number) ? $number : 0;
     }
 
 ?>
