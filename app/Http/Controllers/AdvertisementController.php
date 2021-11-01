@@ -248,7 +248,6 @@ class AdvertisementController extends Controller
         //duration
         $durations = AdvertisementServiceDuration::where('advertisement_id', $adId)->pluck('advertisement_id')->toArray();
         if(!empty($durations)) {
-            // dd($durations);
             AdvertisementServiceDuration::whereIn('advertisement_id', $durations)->delete();
         }
         foreach ($req->duration as $key => $val) {
@@ -271,11 +270,7 @@ class AdvertisementController extends Controller
      */
     public function delete($id)
     {
-        $advertisement = Advertisement::findOrFail(decrypt($id));
-        // if($advertisement->image != '') {
-        //     Storage::delete('public/ladies/profile_pic/'.$lady->profile_pic);
-        // }
-        $advertisement->delete();
+        $advertisement = Advertisement::findOrFail(decrypt($id))->delete();
         $guard = get_guard();
         if($guard == 'admin') {
             return redirect()->route('admin.advertisement')->with('Success','Advertisement Deleted SuccessFully');
@@ -293,9 +288,6 @@ class AdvertisementController extends Controller
     public function verify($id)
     {
         $advertisement = Advertisement::findOrFail(decrypt($id));
-        // if($advertisement->image != '') {
-        //     Storage::delete('public/ladies/profile_pic/'.$lady->profile_pic);
-        // }
         if($advertisement->is_verified == 0) {
             $advertisement->is_verified = 1;
         } else {

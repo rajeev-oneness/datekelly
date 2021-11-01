@@ -45,7 +45,6 @@ class ClubsController extends Controller
      */
     public function store(Request $req)
     {
-        // dd($req->all());
         $req->validate([
             'password' => 'required|string|min:8|confirmed',
             'email' => 'email|unique:users'
@@ -64,18 +63,10 @@ class ClubsController extends Controller
         $clubs->address = $req->address;
         $clubs->website_address = $req->website_address;
         $clubs->status = 1;
-        
-        if($req->hasFile('profile_pic')) {
-            // if($clubs->profile_pic != '') {
-            //     Storage::delete('public/clubs/profile_pic/'.$clubs->logo);
-            // }
-            $ext = '.'.$req->profile_pic->getClientOriginalExtension();
-            $time = time();
-            $fileName = hash('ripemd128', $time).$ext;
-            $clubs->profile_pic = $fileName;
-            $req->profile_pic->storeAs('clubs/profile_pic', $fileName,'public');
+        if ($req->hasFile('profile_pic')) {
+            $image = $req->file('profile_pic');
+            $clubs->profile_pic = imageUpload($image, 'club');
         }
-        
         $clubs->save();
         $UserVerification = new UserVerification;
         $UserVerification->user_id = $clubs->id;
@@ -111,7 +102,6 @@ class ClubsController extends Controller
     {
         $countries = Country::all();
         $club = User::where('id', decrypt($id))->with('country', 'city')->first();
-        // dd($club);
         if(get_guard() == 'admin') {
             return view('admin.clubs.edit', compact('club', 'countries'));
         } else {
@@ -129,7 +119,6 @@ class ClubsController extends Controller
     public function update(Request $req)
     {
         $club = User::findOrFail(decrypt($req->id));
-        // dd($club);
         $club->name = $req->name;
         $club->phn_no = $req->phn_no;
         $club->whatsapp_no = $req->whatsapp_no;
@@ -139,18 +128,10 @@ class ClubsController extends Controller
         $club->city_id = $req->city_id;
         $club->address = $req->address;
         $club->website_address = $req->website_address;
-        
-        if($req->hasFile('profile_pic')) {
-            if($club->profile_pic != '') {
-                Storage::delete('public/clubs/profile_pic/'.$club->profile_pic);
-            }
-            $ext = '.'.$req->profile_pic->getClientOriginalExtension();
-            $time = time();
-            $fileName = hash('ripemd128', $time).$ext;
-            $club->profile_pic = $fileName;
-            $req->profile_pic->storeAs('clubs/profile_pic', $fileName,'public');
+        if ($req->hasFile('profile_pic')) {
+            $image = $req->file('profile_pic');
+            $club->profile_pic = imageUpload($image, 'club');
         }
-        
         $club->save();
         if(get_guard() == 'admin') {
             return redirect()->route('admin.clubs')->with('Success','Club Updated SuccessFully');
@@ -167,11 +148,7 @@ class ClubsController extends Controller
      */
     public function delete($id)
     {
-        $club = User::findOrFail(decrypt($id));
-        if($club->profile_pic != '') {
-            Storage::delete('public/clubs/profile_pic/'.$club->profile_pic);
-        }
-        $club->delete();
+        $club = User::findOrFail(decrypt($id))->delete();
         return redirect()->route('admin.clubs')->with('Success','Club Deleted SuccessFully');
     }
 }

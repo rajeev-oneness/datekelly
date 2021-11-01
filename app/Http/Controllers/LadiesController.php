@@ -20,10 +20,7 @@ class LadiesController extends Controller
      */
     public function index()
     {
-        $ladies = User::with('country')
-                    ->where('user_type', 1)
-                    ->where('status', 1)
-                    ->orderBy('created_at', 'DESC')->get();
+        $ladies = User::with('country')->where('user_type', 1)->where('status', 1)->orderBy('created_at', 'DESC')->get();
         return view('admin.ladies.index', compact('ladies'));
     }
 
@@ -47,10 +44,19 @@ class LadiesController extends Controller
      */
     public function store(Request $req)
     {
-        // dd($req->all());
         $req->validate([
+            'name' => 'required|string|max:200',
+            'email' => 'required|string|email|unique:users',
+            'phn_no' => 'required|numeric',
+            'whatsapp_no' => 'required|numeric',
+            'age' => 'required|numeric|max:80',
+            'address' => 'required|string',
+            'assigned_club' => 'nullable|numeric|min:1',
+            'country_id' => 'required|numeric|min:1',
+            'city_id' => 'required|numeric|min:1',
             'password' => 'required|string|min:8|confirmed',
-            'email' => 'email|unique:users'
+            'about' => 'required|string',
+            'profile_pic' => 'nullable|',
         ]);
         $ladies = new User;
         $ladies->user_type = 1;
@@ -68,15 +74,10 @@ class LadiesController extends Controller
         $ladies->city_id = $req->city_id;
         $ladies->address = $req->address;
         $ladies->status = 1;
-        
-        if($req->hasFile('profile_pic')) {
-            $ext = '.'.$req->profile_pic->getClientOriginalExtension();
-            $time = time();
-            $fileName = hash('ripemd128', $time).$ext;
-            $ladies->profile_pic = $fileName;
-            $req->profile_pic->storeAs('ladies/profile_pic', $fileName,'public');
+        if ($req->hasFile('profile_pic')) {
+            $image = $req->file('profile_pic');
+            $ladies->profile_pic = imageUpload($image, 'ladies');
         }
-        
         $ladies->save();
         $UserVerification = new UserVerification;
         $UserVerification->user_id = $ladies->id;
@@ -113,7 +114,6 @@ class LadiesController extends Controller
         $clubs = User::where('user_type', 2)->where('status', 1)->get();
         $countries = Country::all();
         $lady = User::where('id', decrypt($id))->with('country', 'city')->first();
-        // dd($clubs);
         if(get_guard() == 'admin') {
             return view('admin.ladies.edit', compact('lady', 'countries', 'clubs'));
         } else {
@@ -144,18 +144,10 @@ class LadiesController extends Controller
         $lady->country_id = $req->country_id;
         $lady->city_id = $req->city_id;
         $lady->address = $req->address;
-        
-        if($req->hasFile('profile_pic')) {
-            if($lady->profile_pic != '') {
-                Storage::delete('public/ladies/profile_pic/'.$lady->profile_pic);
-            }
-            $ext = '.'.$req->profile_pic->getClientOriginalExtension();
-            $time = time();
-            $fileName = hash('ripemd128', $time).$ext;
-            $lady->profile_pic = $fileName;
-            $req->profile_pic->storeAs('ladies/profile_pic', $fileName,'public');
+        if ($req->hasFile('profile_pic')) {
+            $image = $req->file('profile_pic');
+            $lady->profile_pic = imageUpload($image, 'ladies');
         }
-        
         $lady->save();
         if(get_guard() == 'admin') {
             return redirect()->route('admin.ladies')->with('Success','Lady Updated SuccessFully');
@@ -172,11 +164,7 @@ class LadiesController extends Controller
      */
     public function delete($id)
     {
-        $lady = User::findOrFail(decrypt($id));
-        if($lady->profile_pic != '') {
-            Storage::delete('public/ladies/profile_pic/'.$lady->profile_pic);
-        }
-        $lady->delete();
+        $lady = User::findOrFail(decrypt($id))->delete();
         return redirect()->route('admin.ladies')->with('Success','Lady Deleted SuccessFully');
     }
 

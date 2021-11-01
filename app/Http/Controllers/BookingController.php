@@ -69,10 +69,8 @@ class BookingController extends Controller
         $user = auth()->guard($guard)->user();
         $userId = $user->id;
         $userType = $user->user_type;
-        // $bookings = Booking::select('*');
-
+        $confirmedBookings = [];$notConfirmedBookings = [];
         if($userType == 2) {
-            // $bookings = $bookings->with('customerDetail')->where('user_id', $userId)->where('date', '>=', date('Y-m-d'));
             $confirmedBookings = Booking::select('*')->with('customerDetail')->where('user_id', $userId)->where('date', '>=', date('Y-m-d'))->where('is_confirmed', 1)->orderBy('created_at', 'DESC')->get();
             $notConfirmedBookings = Booking::select('*')->with('customerDetail')->where('user_id', $userId)->where('date', '>=', date('Y-m-d'))->where('is_confirmed', 0)->where('is_visited', 0)->orderBy('created_at', 'DESC')->get();
         }
@@ -80,8 +78,6 @@ class BookingController extends Controller
             $confirmedBookings = Booking::with('userDetail')->where('customer_id', $userId)->where('date', '>=', date('Y-m-d'))->where('is_confirmed', 1)->orderBy('created_at', 'DESC')->get();
             $notConfirmedBookings = Booking::with('userDetail')->where('customer_id', $userId)->where('date', '>=', date('Y-m-d'))->where('is_confirmed', 0)->where('is_visited', 0)->orderBy('created_at', 'DESC')->get();
         }
-        
-        // dd($notConfirmedBookings);
         return view('front.booking.list', compact('confirmedBookings', 'notConfirmedBookings', 'userType'));
     }
 

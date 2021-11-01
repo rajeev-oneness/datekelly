@@ -48,7 +48,6 @@ class MensController extends Controller
      */
     public function store(Request $req)
     {
-        // dd($req->all());
         $req->validate([
             'password' => 'required|string|min:8|confirmed',
             'email' => 'email|unique:users'
@@ -66,18 +65,10 @@ class MensController extends Controller
         $mens->city_id = $req->city_id;
         $mens->address = $req->address;
         $mens->status = 1;
-        
-        if($req->hasFile('profile_pic')) {
-            // if($mens->profile_pic != '') {
-            //     Storage::delete('public/mens/profile_pic/'.$mens->logo);
-            // }
-            $ext = '.'.$req->profile_pic->getClientOriginalExtension();
-            $time = time();
-            $fileName = hash('ripemd128', $time).$ext;
-            $mens->profile_pic = $fileName;
-            $req->profile_pic->storeAs('mens/profile_pic', $fileName,'public');
+        if ($req->hasFile('profile_pic')) {
+            $image = $req->file('profile_pic');
+            $mens->profile_pic = imageUpload($image, 'mens');
         }
-        
         $mens->save();
         $UserVerification = new UserVerification;
         $UserVerification->user_id = $mens->id;
@@ -139,18 +130,10 @@ class MensController extends Controller
         $men->country_id = $req->country_id;
         $men->city_id = $req->city_id;
         $men->address = $req->address;
-        
-        if($req->hasFile('profile_pic')) {
-            if($men->profile_pic != '') {
-                Storage::delete('public/mens/profile_pic/'.$men->profile_pic);
-            }
-            $ext = '.'.$req->profile_pic->getClientOriginalExtension();
-            $time = time();
-            $fileName = hash('ripemd128', $time).$ext;
-            $men->profile_pic = $fileName;
-            $req->profile_pic->storeAs('mens/profile_pic', $fileName,'public');
+        if ($req->hasFile('profile_pic')) {
+            $image = $req->file('profile_pic');
+            $men->profile_pic = imageUpload($image, 'mens');
         }
-        
         $men->save();
         if(get_guard() == 'admin') {
             return redirect()->route('admin.mens')->with('Success','Men Updated SuccessFully');
@@ -167,11 +150,7 @@ class MensController extends Controller
      */
     public function delete($id)
     {
-        $men = User::findOrFail(decrypt($id));
-        if($men->profile_pic != '') {
-            Storage::delete('public/mens/profile_pic/'.$men->profile_pic);
-        }
-        $men->delete();
+        $men = User::findOrFail(decrypt($id))->delete();
         return redirect()->route('admin.mens')->with('Success','Men Deleted SuccessFully');
     }
 
@@ -186,7 +165,6 @@ class MensController extends Controller
         $loves = LoveCount::where('from', auth()->guard(get_guard())->user()->id);
         $totalLove = $loves->count();
         $adIds = $loves->pluck('advertisement_id')->toArray();
-        // dd($adIds);
         $advertisements = Advertisement::whereIn('id', $adIds)->get();
         return view('front.mens.favourites', compact('totalLove', 'advertisements'));
     }

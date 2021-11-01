@@ -1,5 +1,4 @@
 @extends('front.layouts.master')
-
 @section('dashboard-content')
 <div class="col-12 col-md-9 pl-2 pl-md-5 rightpart">
     <div class="row m-0 dashboard align-items-center">

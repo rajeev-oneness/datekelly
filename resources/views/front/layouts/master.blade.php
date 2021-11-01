@@ -28,7 +28,7 @@
             <div class="col-12 col-md-3">
                 @if (auth()->guard($guard)->user()->user_type == 1)
                 <div class="leftpart bg-light-pink">
-                    <img src="{{asset('storage/ladies/profile_pic'). '/' . auth()->guard($guard)->user()->profile_pic}}" class="ledies_pic">
+                    <img src="{{asset(auth()->guard($guard)->user()->profile_pic)}}" class="ledies_pic">
                     <ul>
                         <li><a href="{{route('verify.account.view')}}" class="{{request()->routeIs('verify.account.*')?'active':''}}">Verify my account</a></li>
                         <li><a href="{{route('lady.premium.picture.list')}}" class="{{request()->routeIs('lady.premium.picture.*')?'active':''}}">Premium Pictures</a></li>
@@ -51,7 +51,7 @@
                 @endif
                 @if (auth()->guard($guard)->user()->user_type == 2)
                 <div class="leftpart bg-light-yellow">
-                    <img src="{{asset('storage/clubs/profile_pic'). '/' . auth()->guard($guard)->user()->profile_pic}}" class="ledies_pic">
+                    <img src="{{asset(auth()->guard($guard)->user()->profile_pic)}}" class="ledies_pic">
                     <ul>
                         <li><a href="{{route('verify.account.view')}}" class="{{request()->routeIs('verify.account.*')?'active':''}}">Verify my account</a></li>
                         <li><a href="{{route('advertisement.list')}}" class="{{request()->routeIs('advertisement.*')?'active':''}}">View advertisement</a></li>
@@ -73,7 +73,7 @@
                 @endif
                 @if (auth()->guard($guard)->user()->user_type == 3)
                 <div class="leftpart bg-light-blue">
-                    <img src="{{asset('storage/mens/profile_pic'). '/' . auth()->guard($guard)->user()->profile_pic}}" class="ledies_pic">
+                    <img src="{{asset(auth()->guard($guard)->user()->profile_pic)}}" class="ledies_pic">
                     <ul>
                         <li><a href="">Upgrade my account</a></li>
                         <li><a href="{{route('verify.account.view')}}" class="{{request()->routeIs('verify.account.*')?'active':''}}">Verify my account</a></li>

@@ -34,7 +34,6 @@ class AdminController extends Controller
         $admin = Admin::find(1);
         $admin->site_name = $req->site_name;
         $admin->site_email = $req->site_email;
-
         $settings = SiteSetting::find(1);
         $settings->site_name = $req->site_name;
         $settings->site_email = $req->site_email;
@@ -44,19 +43,10 @@ class AdminController extends Controller
         $settings->terms_conditons = $req->terms_conditons;
         $settings->cancellation_policy = $req->cancellation_policy;
         $settings->google_map = $req->google_map;
-        if($req->hasFile('site_logo')) {
-            if($settings->logo != '' && $admin->logo != '') {
-                Storage::delete('public/settings/logo/'.$settings->logo);
-            }
-            $ext = '.'.$req->site_logo->getClientOriginalExtension();
-            // $time = time();
-            // $fileName = hash('ripemd128', $time).$ext;
-            $fileName = 'site_logo'.$ext;
-            $settings->logo = $fileName;
-            $admin->logo = $fileName;
-            $req->site_logo->storeAs('settings/logo', $fileName,'public');
+        if ($req->hasFile('site_logo')) {
+            $image = $req->file('site_logo');
+            $admin->logo = imageUpload($image, 'logo');
         }
-        
         $settings->save();
         $admin->save();
         return redirect()->route('admin.site-settings.edit');

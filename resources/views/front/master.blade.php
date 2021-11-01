@@ -6,9 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" href="{{asset('front/img/favicon.ico')}}">
     <title>DateKelly | @yield('title')</title>
-
     <!--CSS-->
-
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
 	<link rel="stylesheet" type="text/css" href="{{asset('front/css/bootstrap.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('front/css/aos.css')}}">
@@ -17,9 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('front/css/style.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('front/css/responsive.css')}}">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
-
     @yield('css')
-
 </head>
 <body>
 
@@ -63,13 +59,7 @@
                         </form> --}}
                         <a href="{{route('user.dashboard')}}" class="nav-right-sec">
                             {{auth()->guard($guard)->user()->name}}
-                        @if (auth()->guard($guard)->user()->user_type == 1)
-                            <span><img src="{{asset('/storage/ladies/profile_pic') .'/'. auth()->guard($guard)->user()->profile_pic}}"></span>
-                        @elseif(auth()->guard($guard)->user()->user_type == 2)
-                            <span><img src="{{asset('/storage/clubs/profile_pic') .'/'. auth()->guard($guard)->user()->profile_pic}}"></span>
-                        @elseif(auth()->guard($guard)->user()->user_type == 3)
-                            <span><img src="{{asset('/storage/mens/profile_pic') .'/'. auth()->guard($guard)->user()->profile_pic}}"></span>
-                        @endif
+                            <span><img src="{{asset(auth()->guard($guard)->user()->profile_pic)}}"></span>
                         </a>
                         
                     @else
@@ -88,8 +78,6 @@
             </div>
         </nav>
     </header><!--header-part-->
-
-
 
     @yield('content')
     
@@ -121,13 +109,6 @@
             </div>
         </div>
     </footer><!--footer-part-->
-    
-    <!--Script-->
-		
-		<!--[if lt IE 9]>
-		  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-		<![endif]-->
 
 		<script type="text/javascript" src="{{asset('front/js/jquery-3.6.0.min.js')}}"></script>
 		<script type="text/javascript" src="{{asset('front/js/popper.min.js')}}"></script>
