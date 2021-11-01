@@ -299,17 +299,18 @@
 		}
 	}
 
-	function getCity(event){
-		if(event.value != '' && event.value > 0){
+	coutryByDefault('{{$data->firstCountryId}}');
+	function coutryByDefault(countryId){
+		var cityData = '';
+		if(parseInt(countryId) > 0){
 			$.ajax({
 				url: "{{route('get.country-wise.city')}}",
 	            method: 'POST',
 	            data: {
 	                '_token': '{{csrf_token()}}',
-	                'country_id': event.value,
+	                'country_id': countryId,
 	            },
 	            success:function(response) {
-					var cityData = '';
 					$.each(response.data, function(index, value) {
 						cityData += "<option value='"+value.id+"'>"+value.name+"</option>";
 					});
@@ -317,6 +318,15 @@
 					$("#city").SumoSelect().sumo.reload();
 	            }
 			});
+		}else{
+			$('#city').empty().append(cityData);
+			$("#city").SumoSelect().sumo.reload();
+		}
+	}
+
+	function getCity(event){
+		if(event.value != '' && event.value > 0){
+			coutryByDefault(event.value);
 		}
 	}
 </script>

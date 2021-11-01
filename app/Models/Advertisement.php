@@ -45,4 +45,14 @@ class Advertisement extends Model
     {
         return $this->hasMany('App\Models\AdvertisementReview', 'advertisement_id', 'id');
     }
+
+    public function advertisement_image()
+    {
+        return $this->hasMany('App\Models\AdvertisementsImage','advertisement_id','id');
+    }
+
+    public function service_working_days()
+    {
+        return $this->hasMany('App\Models\AdvertisementWorkingDays','advertisement_id','id');
+    }
 }

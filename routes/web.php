@@ -67,7 +67,7 @@ Route::middleware(['user.auth'])->group(function () {
         route::get('add', 'AdvertisementController@add')->name('advertisement.add');
         route::post('store', 'AdvertisementController@store')->name('advertisement.store');
         route::get('edit/{id}', 'AdvertisementController@edit')->name('advertisement.edit');
-        route::post('update', 'AdvertisementController@update')->name('advertisement.update');
+        route::post('update/{adId}', 'AdvertisementController@update')->name('advertisement.update');
         Route::get('delete/{id}', 'AdvertisementController@delete')->name('advertisement.delete');
     });
 

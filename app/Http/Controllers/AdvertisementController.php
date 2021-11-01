@@ -48,6 +48,10 @@ class AdvertisementController extends Controller
     {
         $data = (object)[];
         $data->countries = Country::select('*')->orderBy('name')->get();
+        $data->firstCountryId = 0;
+        foreach ($data->countries as $key => $value) {
+            $data->firstCountryId = $value->id;break;
+        }
         $data->cup_size = CupSize::select('*')->get();
         $data->body_size = BodySize::select('*')->get();
         $data->descents = Descent::select('*')->get();
@@ -55,7 +59,6 @@ class AdvertisementController extends Controller
         $data->time = ['15 Min', '30 Min','45 Min','1 Hour','2 Hour', '4 Hour', '8 Hour','12 Hour'];
         $data->servicesAndExtra = Service::select('*')->get();
         $data->workingDays = ['Monday','Tuesday','Wednesday','Thrusday','Friday','Saturday','Sunday'];
-        // $categories = Category::get();
         return view('front.advertisement.add', compact('data'));
     }
 
@@ -128,7 +131,7 @@ class AdvertisementController extends Controller
             $newAdvertisement->weight = numberCheck($req->weight);
             $newAdvertisement->cup_size = emptyCheck($req->cup_size);
             $newAdvertisement->body_size = emptyCheck($req->body_size);
-            $newAdvertisement->descent = emptyCheck($req->body_size);
+            $newAdvertisement->descent = emptyCheck($req->descent);
             $newAdvertisement->language = (!empty($req->language) ? implode(',',$req->language) : '');
             $newAdvertisement->address = emptyCheck($req->address);
             $newAdvertisement->my_service = emptyCheck($req->my_service);
@@ -293,14 +296,25 @@ class AdvertisementController extends Controller
      */
     public function edit($id)
     {
-        $guard = get_guard();
-        $languages = Language::all();
-        $categories = Category::all();
-        $countries = Country::all();
-        $advertisement = Advertisement::findOrFail(base64_decode($id));
-        if(empty(auth()->guard($guard)->user()) || !empty(auth()->guard($guard)->user())) {
-            return view('front.advertisement.edit', compact('advertisement','languages','categories','countries'));
-        }
+        $data = (object)[];
+        $data->info = Advertisement::findOrFail(base64_decode($id));
+        $data->countries = Country::select('*')->orderBy('name')->get();
+        $data->firstCountryId = $data->info->country_id;
+        $data->cup_size = CupSize::select('*')->get();
+        $data->body_size = BodySize::select('*')->get();
+        $data->descents = Descent::select('*')->get();
+        $data->language = Language::select('*')->get();
+        $data->time = ['15 Min', '30 Min','45 Min','1 Hour','2 Hour', '4 Hour', '8 Hour','12 Hour'];
+        $data->servicesAndExtra = Service::select('*')->get();
+        $data->workingDays = ['Monday','Tuesday','Wednesday','Thrusday','Friday','Saturday','Sunday'];
+        return view('front.advertisement.edit', compact('data'));
+        // $languages = Language::all();
+        // $categories = Category::all();
+        // $countries = Country::all();
+        // $advertisement = Advertisement::findOrFail(base64_decode($id));
+        // if(empty(auth()->guard($guard)->user()) || !empty(auth()->guard($guard)->user())) {
+        //     return view('front.advertisement.edit', compact('advertisement','languages','categories','countries'));
+        // }
     }
 
     /**
@@ -310,7 +324,220 @@ class AdvertisementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $req)
+    public function update(Request $req,$advertisementId)
+    {
+        $req->validate([
+            'advertisementId' => 'required|min:1|numeric',
+            'country' => 'nullable|min:1|numeric',
+            'city' => 'nullable|min:1|numeric',
+            'address' => 'nullable|string|max:200',
+            'telephone_number' => 'nullable|numeric',
+            'whatsapp_number' => 'nullable|numeric',
+            'my_service' => 'nullable|string|max:255',
+            'my_working_name' => 'nullable|string|max:200',
+            'sex' => 'nullable|string',
+            'age' => 'nullable|numeric',
+            'length' => 'nullable|numeric',
+            'weight' => 'nullable|numeric',
+            'cup_size' => 'nullable|string',
+            'body_size' => 'nullable|string',
+            'descent' => 'nullable|string',
+            'language' => 'nullable|array',
+            'language.*' => 'nullable|min:1|numeric',
+            'advertisement_text' => 'nullable|string',
+            'time' => 'nullable|array',
+            'time.*' => 'nullable|string',
+            'price' => 'nullable|array',
+            'price.*' => 'nullable|numeric',
+            'extraprice_for_escort' => 'nullable|min:1|numeric',
+            'workingDays' => 'nullable|array',
+            'workingDays.*' => 'nullable|string',
+            'workingTimeFrom' => 'nullable|array',
+            'workingTimeFrom.*' => 'nullable|string',
+            'workingTimeTill' => 'nullable|array',
+            'workingTimeTill.*' => 'nullable|string',
+            'images' => 'nullable|array',
+            'images.*' => 'nullable|image',
+            'video' => 'nullable|array',
+            'video.*' => 'nullable',
+            'services' => 'nullable|array',
+            'services.*' => 'nullable|string',
+            'servicesInclude' => 'nullable|array',
+            'servicesInclude.*' => 'nullable|string|in:0,1',
+            'servicesPrice' => 'nullable|array',
+            'servicesPrice.*' => 'nullable|string',
+        ]);
+        DB::beginTransaction();
+        try {
+            $newAdvertisement = Advertisement::findOrFail($advertisementId);
+            $newAdvertisement->title = emptyCheck($req->my_working_name);
+            $newAdvertisement->country_id = numberCheck($req->country);
+            $newAdvertisement->city_id = numberCheck($req->city);
+            $newAdvertisement->phn_no = emptyCheck($req->telephone_number);
+            $newAdvertisement->whatsapp = emptyCheck($req->whatsapp_number);
+            $newAdvertisement->about = emptyCheck($req->advertisement_text);
+            if(auth()->guard()->user()->user_type == 1) {
+                $newAdvertisement->ladies_id = auth()->guard()->user()->id;
+            } elseif(auth()->guard()->user()->user_type == 2) {
+                $newAdvertisement->club_id = auth()->guard()->user()->id;
+            }
+            $newAdvertisement->sex = emptyCheck($req->sex);
+            $newAdvertisement->age = numberCheck($req->age);
+            $newAdvertisement->length = numberCheck($req->length);
+            $newAdvertisement->weight = numberCheck($req->weight);
+            $newAdvertisement->cup_size = emptyCheck($req->cup_size);
+            $newAdvertisement->body_size = emptyCheck($req->body_size);
+            $newAdvertisement->descent = emptyCheck($req->descent);
+            $newAdvertisement->language = (!empty($req->language) ? implode(',',$req->language) : '');
+            $newAdvertisement->address = emptyCheck($req->address);
+            $newAdvertisement->my_service = emptyCheck($req->my_service);
+            $newAdvertisement->extraprice_for_escort = numberCheck($req->extraprice_for_escort);
+            $newAdvertisement->save();
+
+            // Advertisement Services
+            if(!empty($req->services) && count($req->services) > 0){
+                $advertisementServices = [];
+                foreach ($req->services as $keyService => $valueServices) {
+                    if($valueServices != ''){
+                        $serviceInclude = numberCheck($req->servicesInclude[$keyService]);
+                        $priceForService = 0;
+                        if($serviceInclude == 0){
+                            $priceForService = numberCheck($req->servicesPrice[$keyService]);
+                        }
+                        $advertisementServices[] = [
+                            'advertisement_id' => $newAdvertisement->id,
+                            'service_name' => $valueServices,
+                            'include' => $serviceInclude,
+                            'price' => $priceForService,
+                        ];
+                    }
+                }
+                if(count($advertisementServices) > 0){
+                    AdvertisementServices::where('advertisement_id',$newAdvertisement->id)->delete();
+                    AdvertisementServices::insert($advertisementServices);
+                }
+            }
+            
+            // Image upload
+            if(!empty($req->images) && count($req->images) > 0) {
+                $advertisementImages = [];$anyImage = '';
+                foreach ($req->images as $imagekey => $imagevalue) {
+                    $imagePath = imageUpload($imagevalue, 'ladyAdvertisement');
+                    $advertisementImages[] = [
+                        'advertisement_id' => $newAdvertisement->id,
+                        'img' => $imagePath,
+                        'type' => 'Image',
+                    ];
+                    $anyImage = $imagePath;
+                }
+                if(count($advertisementImages) > 0){
+                    $newAdvertisement->image = $anyImage;
+                    AdvertisementsImage::insert($advertisementImages);
+                }
+            }
+            
+            // Video Upload
+            if(!empty($req->video) && count($req->video) > 0) {
+                $advertisementVideos = [];
+                foreach ($req->video as $videokey => $videovalue) {
+                    $advertisementVideos[] = [
+                        'advertisement_id' => $newAdvertisement->id,
+                        'img' => imageUpload($videovalue, 'ladyAdvertisement'),
+                        'type' => 'Video',
+                    ];
+                }
+                if(count($advertisementVideos) > 0){
+                    AdvertisementsImage::insert($advertisementVideos);
+                }
+            }
+            
+            // Time and Price
+            if((!empty($req->time) && !empty($req->price)) && (count($req->time) > 0 && count($req->price) > 0)){
+                $advertiseMentServiceDuration = [];
+                foreach ($req->time as $timePriceIndex => $timePricevalue) {
+                    if($timePricevalue != '' && ($req->price[$timePriceIndex] != '' && $req->price[$timePriceIndex] > 0)){
+                        $advertiseMentServiceDuration[] = [
+                            'advertisement_id' => $newAdvertisement->id,
+                            'time' => $timePricevalue,
+                            'price' => $req->price[$timePriceIndex],
+                        ];
+                    }
+                }
+                if(count($advertiseMentServiceDuration) > 0){
+                    AdvertisementServiceDuration::where('advertisement_id',$newAdvertisement->id)->delete();
+                    AdvertisementServiceDuration::insert($advertiseMentServiceDuration);
+                }
+            }
+            
+            // Working Duration
+            if(!empty($req->workingDays) && count($req->workingDays) > 0){
+                $advertisementWorkingDays = [];
+                foreach ($req->workingDays as $dayIndex => $dayValue) {
+                    $fromTime = ''; $toTime = '';
+                    if($dayValue == 'Monday' || $dayValue == 'Mon'){
+                        $fromTime = $req->workingTimeFrom[0];
+                        $toTime = $req->workingTimeTill[0];
+                    }elseif($dayValue == 'Tuesday' || $dayValue == 'Tue'){
+                        $fromTime = $req->workingTimeFrom[1];
+                        $toTime = $req->workingTimeTill[1];
+                    }elseif($dayValue == 'Wednesday' || $dayValue == 'Wed'){
+                        $fromTime = $req->workingTimeFrom[2];
+                        $toTime = $req->workingTimeTill[2];
+                    }elseif($dayValue == 'Thrusday' || $dayValue == 'Thu'){
+                        $fromTime = $req->workingTimeFrom[3];
+                        $toTime = $req->workingTimeTill[3];
+                    }elseif($dayValue == 'Friday' || $dayValue == 'Fri'){
+                        $fromTime = $req->workingTimeFrom[4];
+                        $toTime = $req->workingTimeTill[4];
+                    }elseif($dayValue == 'Saturday' || $dayValue == 'Sat'){
+                        $fromTime = $req->workingTimeFrom[5];
+                        $toTime = $req->workingTimeTill[5];
+                    }elseif($dayValue == 'Sunday' || $dayValue == 'Sun'){
+                        $fromTime = $req->workingTimeFrom[6];
+                        $toTime = $req->workingTimeTill[6];
+                    }
+                    if($fromTime != '' && $toTime != ''){
+                        $advertisementWorkingDays[] = [
+                            'advertisement_id' => $newAdvertisement->id,
+                            'days' => $dayValue,
+                            'from' => $fromTime,
+                            'till' => $toTime,
+                        ];
+                    }
+                }
+                if(count($advertisementWorkingDays) > 0){
+                    AdvertisementWorkingDays::where('advertisement_id',$newAdvertisement->id)->delete();
+                    AdvertisementWorkingDays::insert($advertisementWorkingDays);
+                }
+            }
+            DB::commit();
+            return redirect()->route('advertisement.list')->with('Success','Advertisement updated SuccessFully');
+        } catch (Exception $e) {
+            DB::rollback();
+        }
+        $errors['terms_and_condition'] = 'Something went wrong please try after sometime';
+        return back()->withInput($req)->withErrors($errors);
+    }
+
+    public function deleteAdvertisementImage(Request $req)
+    {
+        $rules = [
+            'advertisement_id' => 'required|min:1|numeric',
+            'imageId' => 'required|min:1|numeric',
+        ];
+        $validator = validator()->make($req->all(),$rules);
+        if(!$validator->fails()){
+            $image = AdvertisementsImage::where('id',$req->imageId)->where('advertisement_id',$req->advertisement_id)->first();
+            if($image){
+                $image->delete();
+                return response()->json(['error' => false,'message' => 'deleted Success']);
+            }
+            return response()->json(['error' => true,'message' => 'Invalid Object Detected']);
+        }
+        return response()->json(['error' => true,'message' => $validator->errors()->first()]);
+    }
+
+    public function updateold(Request $req)
     {
         $ad = Advertisement::find(base64_decode($req->advertisement_id));
         $ad->title = $req->title;

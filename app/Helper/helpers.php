@@ -31,6 +31,32 @@
         return $imageurl;
     }
 
+    function checkServicesTaken($selectedServicesList, $serviceObject)
+    {
+        $data = [];
+        foreach ($selectedServicesList as $key => $value) {
+            if($value->service_name == $serviceObject->title){
+                $data['title'] = $serviceObject->title;
+                $data['include'] = $value->include;
+                $data['price'] = $value->price;
+            }
+        }
+        return $data;
+    }
+
+    function checkWorkingDaysTaken($selectedDays, $daysObject)
+    {
+        $data = [];
+        foreach($selectedDays as $key => $value){
+            if($value->days == $daysObject){
+                $data['day'] = true;
+                $data['from'] = $value->from;
+                $data['till'] = $value->till;
+            }
+        }
+        return $data;
+    }
+
     function fileTypeCheck($file)
     {
         return $file->getClientOriginalExtension();
