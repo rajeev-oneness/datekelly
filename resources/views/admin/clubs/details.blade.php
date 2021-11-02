@@ -31,16 +31,6 @@
                                 <div class="col-3"><strong>Name</strong></div>
                                 <div class="col-9">{{$club->name}}</div>
                             </div>
-                            {{-- <div class="row mb-3">
-                                <div class="col-3"><strong>Assigend Club</strong></div>
-                                <div class="col-9">
-                                    @if ($lady->lady_club)
-                                        {{$lady->lady_club->name}}
-                                    @else
-                                        N/A
-                                    @endif
-                                </div>
-                            </div> --}}
                             <div class="row mb-3">
                                 <div class="col-3"><strong>Country</strong></div>
                                 <div class="col-9">{{$club->country->name}}</div>
@@ -68,7 +58,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="row mb-4">
-                                <img src="{{asset('/storage/clubs/profile_pic') .'/'. $club->profile_pic}}" alt="Profile Picture" width="150px">
+                                <img src="{{asset($club->profile_pic)}}" alt="Profile Picture" width="150px">
                             </div>
                             <div class="row">
                                 <strong>About</strong>

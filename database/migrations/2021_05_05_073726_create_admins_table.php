@@ -32,7 +32,8 @@ class CreateAdminsTable extends Migration
             'password' => Hash::make('secret'),
             'is_admin_access'=>1,
             'site_name' => 'Datekelly',  
-            'site_email' => 'support@datekelly.ro'
+            'site_email' => 'support@datekelly.ro',
+            'logo' => 'images/site_logo.png',
         ];
     
         DB::table('admin')->insert($data);

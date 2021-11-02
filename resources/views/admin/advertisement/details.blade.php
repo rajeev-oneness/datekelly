@@ -99,7 +99,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="row mb-4">
-                                <div class="col-12"><img src="{{asset('/storage/advertiseImages') .'/'. $advertisement->image}}" alt="Profile Picture" width="150px"></div>
+                                <div class="col-12"><img src="{{asset($advertisement->image)}}" alt="Profile Picture" width="150px"></div>
                             </div>
                             <div class="row mb-4">
                                 <div class="col-12"><strong>Message</strong></div>
@@ -113,13 +113,10 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="tab_pane_2" role="tabpanel">
-                    @php
-                        $gallery = explode(',', $advertisement->image_gallery->img);
-                    @endphp
                     <div class="row text-center">
-                    @foreach ($gallery as $img)
+                    @foreach ($advertisement->advertisement_image as $key => $adImages)
                         <div class="col-3 m-4">
-                            <img src="{{asset('storage/advertiseImages').'/'.$img}}" width="250px">
+                            <img src="{{asset($adImages->img)}}" width="250px">
                         </div>
                     @endforeach
                     </div>

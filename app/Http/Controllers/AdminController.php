@@ -30,7 +30,6 @@ class AdminController extends Controller
     }
     public function siteSettingsUpdate(Request $req)
     {
-        // dd($req->all());
         $admin = Admin::find(1);
         $admin->site_name = $req->site_name;
         $admin->site_email = $req->site_email;

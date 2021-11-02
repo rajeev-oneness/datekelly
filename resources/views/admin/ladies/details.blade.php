@@ -68,7 +68,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="row mb-4">
-                                <img src="{{asset('/storage/ladies/profile_pic') .'/'. $lady->profile_pic}}" alt="Profile Picture" width="150px">
+                                <img src="{{asset($lady->profile_pic)}}" alt="Profile Picture" width="150px">
                             </div>
                             <div class="row">
                                 <strong>About</strong>

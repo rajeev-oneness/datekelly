@@ -22,10 +22,7 @@ class MensController extends Controller
      */
     public function index()
     {
-        $mens = User::with('country')
-                    ->where('user_type', 3)
-                    ->where('status', 1)
-                    ->orderBy('created_at', 'DESC')->get();
+        $mens = User::with('country')->where('user_type', 3)->where('status', 1)->orderBy('created_at', 'DESC')->get();
         return view('admin.mens.index', compact('mens'));
     }
 

@@ -6,7 +6,7 @@
         <div class="col-12"><a href="{{route('advertisement.add')}}" class="login-btn float-right">Add <i class="fas fa-plus"></i></a></div>
     </div>
     <div class="row m-0 mt-3 women-List">
-        @foreach ($advertisements as $ad)    
+        @foreach ($advertisements as $ad)
         <div class="col-12 col-md-4 pl-md-0 plr">
             <div class="card shadow-sm bg-light-pink" style="cursor: pointer;" onclick="location.href='{{route('advertisement.show', base64_encode($ad->id))}}'">
                 <div class="card-header p-2 border-0">

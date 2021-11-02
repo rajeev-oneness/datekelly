@@ -251,6 +251,7 @@ class AdvertisementController extends Controller
                     AdvertisementWorkingDays::insert($advertisementWorkingDays);
                 }
             }
+            $newAdvertisement->save();
             DB::commit();
             return redirect()->route('advertisement.list')->with('Success','Advertisement Added SuccessFully');
         } catch (Exception $e) {

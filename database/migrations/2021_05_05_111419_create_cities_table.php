@@ -21,6 +21,20 @@ class CreateCitiesTable extends Migration
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
+        $data = [
+            ['country_id' => 1, 'name' => 'Kolkata'],
+            ['country_id' => 2, 'name' => 'Sydney'],
+            ['country_id' => 4, 'name' => 'Paris'],
+            ['country_id' => 4, 'name' => 'Lyon'],
+            ['country_id' => 2, 'name' => 'Melbourne'],
+            ['country_id' => 3, 'name' => 'Bucharest'],
+            ['country_id' => 3, 'name' => 'Sibiu'],
+            ['country_id' => 5, 'name' => 'Den Haag'],
+            ['country_id' => 5, 'name' => 'Rijswijk'],
+            ['country_id' => 5, 'name' => 'Amsterdam'],
+            ['country_id' => 5, 'name' => 'Haarlem'],
+        ];
+        DB::table('cities')->insert($data);
     }
 
     /**

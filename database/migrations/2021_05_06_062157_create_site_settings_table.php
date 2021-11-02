@@ -30,7 +30,8 @@ class CreateSiteSettingsTable extends Migration
         });
         $data = [
             'site_name' => 'Datekelly',  
-            'site_email' => 'support@datekelly.ro',  
+            'site_email' => 'support@datekelly.ro',
+            'logo' => 'images/site_logo.png',
             'copyright' => 'orem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mollis nulla tempus blandit fermentum. Vivamus semper rutrum dolor in tempus. Suspendisse lacinia metus felis, et bibendum nisi posuere pharetra.',  
             'phn_no' => 1234567890, 
             'address' => 'Datekelly',  

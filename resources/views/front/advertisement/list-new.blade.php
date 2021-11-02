@@ -7,45 +7,6 @@
     </div>
     <div class="row m-0 dashboard align-items-center">
         @forelse($advertisements as $advertisement)
-        {{-- <div class="row m-0 mt-3 women-List" style="cursor: pointer;" onclick="location.href='{{route('advertisement.detail', base64_encode($advertisement->id))}}'"> --}}
-            {{-- <div class="col-12 col-md-4 pl-md-0 plr">
-                <div class="card shadow-sm {{($advertisement->club_id == 0)? 'bg-light-pink' : ''}}">
-                    <div class="card-header p-2 border-0">
-                        <h5 class="card-title m-0">{{$advertisement->title}}
-                            <span>{{($advertisement->city)? $advertisement->city->name : ''}}</span>
-                        </h5>
-                    </div>
-                    <div class="position-relative">
-                        <img src="{{asset('storage/advertiseImages'). '/' . $advertisement->image}}" class="card-img-top" alt="...">
-                        <div class="verified-sec">
-                            @if ($advertisement->is_verified == 1)
-                                <p>Verified <i class="fas fa-check"></i></p>
-                            @endif
-                            <h2>{{$advertisement->rating}}</h2>
-                            <div class="mt-1 text-center bg-pink w-40"><img src="{{asset('front/img/camera_icon.png')}}"></div>
-                        </div>
-                        <div class="price">&dollar; {{$advertisement->price}}</div>
-                    </div>
-                    <div class="card-body p-2">
-                      <div class="row m-0">
-                        <div class="col-6 col-md-6 text-md-left text-left p-0">
-                            <p class="loves"><i class="fas fa-heart"></i> &nbsp; {{$advertisement->no_of_loves}} Loves</p>
-                        </div>
-                        <div class="col-6 col-md-6 text-md-right text-right p-0 contacticon">
-                            <a href="tel:{{($advertisement->country)? '+'.$advertisement->country->phone_code : ''}}{{$advertisement->phn_no}}"><img src="{{asset('front/img/call-icon.png')}}"></a>
-                            <a href="https://wa.me/{{$advertisement->whatsapp}}"><img src="{{asset('front/img/whatsap_icon.png')}}"></a>
-                        </div>
-                      </div>
-                      <p class="subtext">
-                        {{$advertisement->title}} : 
-                            <span>
-                            {{$advertisement->message}}
-                            </span>
-                        </p>
-                    </div>
-                  </div>
-            </div> --}}
-        {{-- </div> --}}
         <div class="col-12 col-md-4 pl-md-0 plr">
             <div class="card shadow-sm bg-light-pink">
                 <div class="card-header p-2 border-0">
