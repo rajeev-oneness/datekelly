@@ -11,7 +11,8 @@
     		@csrf
     		<h5>Edit Lady Advertisement</h5><hr>
     		<input type="hidden" name="advertisementId" value="{{$data->info->id}}">
-
+			<input type="hidden" name="lat" id="selectedLatitude" value="{{$data->indo->lat}}">
+			<input type="hidden" name="lng" id="selectedLongitude" value="{{$data->indo->lng}}">
 			<div class="form-group row">
     			<div class="col-lg-6 d-flex flex-column">
                     <label class="" for="country">Country where I work:</label>

@@ -110,6 +110,8 @@ class AdvertisementController extends Controller
             'servicesInclude.*' => 'nullable|string|in:0,1',
             'servicesPrice' => 'nullable|array',
             'servicesPrice.*' => 'nullable|string',
+            'lat' => 'nullable|string',
+            'lng' => 'nullable|string',
         ]);
         DB::beginTransaction();
         try {
@@ -136,6 +138,8 @@ class AdvertisementController extends Controller
             $newAdvertisement->address = emptyCheck($req->address);
             $newAdvertisement->my_service = emptyCheck($req->my_service);
             $newAdvertisement->extraprice_for_escort = numberCheck($req->extraprice_for_escort);
+            $newAdvertisement->lat = emptyCheck($req->lat);
+            $newAdvertisement->lng = emptyCheck($req->lng);
             $newAdvertisement->save();
 
             // Advertisement Services
@@ -366,6 +370,8 @@ class AdvertisementController extends Controller
             'servicesInclude.*' => 'nullable|string|in:0,1',
             'servicesPrice' => 'nullable|array',
             'servicesPrice.*' => 'nullable|string',
+            'lat' => 'nullable|string',
+            'lng' => 'nullable|string',
         ]);
         DB::beginTransaction();
         try {
@@ -392,6 +398,8 @@ class AdvertisementController extends Controller
             $newAdvertisement->address = emptyCheck($req->address);
             $newAdvertisement->my_service = emptyCheck($req->my_service);
             $newAdvertisement->extraprice_for_escort = numberCheck($req->extraprice_for_escort);
+            $newAdvertisement->lat = emptyCheck($req->lat);
+            $newAdvertisement->lng = emptyCheck($req->lng);
             $newAdvertisement->save();
 
             // Advertisement Services

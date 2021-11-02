@@ -38,10 +38,9 @@ Route::get('/link-storage', function(){
 Route::get('/', 'FrontController@ladiesHome')->name('homepage');
 Route::get('/ladies', 'FrontController@ladiesHome')->name('ladies.home');
 Route::get('/search', 'FrontController@search')->name('search.home');
-Route::get('/search/result', 'FrontController@searchResult')->name('get.search.results');
+Route::any('/search/result', 'FrontController@searchResult')->name('get.search.results');
 Route::get('/club-agencies', 'FrontController@clubAgenciesHome')->name('club.agencies.home');
 Route::get('/reviews', 'FrontController@getReviews')->name('reviews.home');
-
 
 Route::middleware(['user.login'])->group(function () {
     Route::get('/login-user', 'FrontController@login')->name('user.login');

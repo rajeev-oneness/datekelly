@@ -626,27 +626,28 @@
                         </tr>
                     </table>
                 </div>
-                <div class="lady-data bg-light-pink mb-2">
-                    <table class="table table-sm table-borderless">
-                        @foreach ($advertisement->service_duration as $item)
-                        <tr>
-                            <td>{{$item->time}}</td>
-                            <td><b>&dollar; {{$item->price}}</b></td>
-                        </tr>
-                        @endforeach
-                    </table>
-                </div>
+                @if(count($advertisement->service_duration) > 0)
+                    <div class="lady-data bg-light-pink mb-2">
+                        <table class="table table-sm table-borderless">
+                            @foreach ($advertisement->service_duration as $item)
+                            <tr>
+                                <td>{{$item->time}}</td>
+                                <td><b>&dollar; {{$item->price}}</b></td>
+                            </tr>
+                            @endforeach
+                        </table>
+                    </div>
+                @endif
                 <div class="bg-light-pink p-2 pt-3 pb-3">
                     @if ($advertisement->lady)
-                        <p class="mb-0"><b>{{$advertisement->lady->name}}</b> is a member since <b>{{date('d/M/Y', strtotime($advertisement->lady->created_at))}}</b></p>
-                        <p class="mb-0">Views on her profile &nbsp; <b>23.548</b></p>
-                        {{-- <p class="mb-0">Last time online &nbsp; <b>12/Apr/2021</b></p> --}}
+                        <p class="mb-0"><b>{{$advertisement->lady->name}}</b> is a member since <br><b>{{date('d M, Y', strtotime($advertisement->lady->created_at))}}</b></p>
+                        <p class="mb-0">Views on her profile : &nbsp; <b>{{date('Y') + date('m') + date('d')}}</b></p>
+                        {{-- <p class="mb-0">Last time online : &nbsp; <b>{{date('d M, Y')}}</b></p> --}}
                     @elseif($advertisement->club)
-                    <p class="mb-0"><b>{{$advertisement->club->name}}</b> is a member since <b>{{date('d/M/Y', strtotime($advertisement->club->created_at))}}</b></p>
-                        <p class="mb-0">Views on profile &nbsp; <b>23.548</b></p>
-                        {{-- <p class="mb-0">Last time online &nbsp; <b>12/Apr/2021</b></p> --}}
+                    <p class="mb-0"><b>{{$advertisement->club->name}}</b> is a member since <br><b>{{date('d/M/Y', strtotime($advertisement->club->created_at))}}</b></p>
+                        <p class="mb-0">Views on profile : &nbsp; <b>{{date('Y') + date('m') + date('d')}}</b></p>
+                        {{-- <p class="mb-0">Last time online: &nbsp; <b>{{date('d M, Y')}}</b></p> --}}
                     @endif
-                    
                 </div>
                 <div class="row m-0 text-center">
                     <div class="col-4 bg-pink p-1" data-id="{{$userId}}" data-customer="{{($user)?$user->id:''}}" data-ad="{{$advertisement->id}}" id="loveButton" onclick="loveCount()" style="cursor: pointer;"> 

@@ -50,7 +50,7 @@
                     @error('notes')<span class="text-danger">{{$message}}</span>@enderror
                 </div>
                 <div class="form-group DKCoinblance col-12 col-md-8 p-0">
-                    <label>4) Select Youe price DateKelly Coin : </label>
+                    <label>4) Select Your price DateKelly Coin : </label>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend ">
                           <span class="input-group-text bg-dark-blue"><i class="fas fa-donate mr-1"></i> DK </span>
