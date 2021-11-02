@@ -32,7 +32,7 @@
             </div>
             <div class="form-row">
                 <div class="b-img-select">
-                    <a class="button secondary url" href="javascript:void(0);"><img src="{{asset('storage/advertiseImages').'/'.$advertisement->image}}"></a>
+                    <a class="button secondary url" href="javascript:void(0);"><img src="{{asset($advertisement->image)}}"></a>
                 </div>
             </div>
             <div class="form-row">
@@ -132,13 +132,7 @@
             <h5>Images</h5>
             <hr>
             <div class="b-img-select">
-                @php
-                    $i = 0;
-                    $gallery = explode(',', $advertisement->image_gallery->img);
-                @endphp
-                @foreach ($gallery as $key => $img)
-                    <a class="button secondary url" href="javascript:void(0);"><img src="{{asset('storage/advertiseImages').'/'.$img}}"></a>
-                @endforeach
+                
             </div>
             <div class="form-row">
                 <div class="col-sm-12">

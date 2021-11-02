@@ -15,7 +15,7 @@
                     </h5>
                 </div>
                 <div class="position-relative">
-                    <img src="{{asset('storage/advertiseImages'). '/' . $advertisement->image}}" class="card-img-top" alt="...">
+                    <img src="{{asset($advertisement->image)}}" class="card-img-top" alt="...">
                     <div class="verified-sec">
                         <p>Verified <i class="fas fa-check"></i></p>
                         <h2>{{$advertisement->rating}}</h2>

@@ -20,7 +20,7 @@
                     </h5>
                 </div>
                 <div class="position-relative">
-                    <img src="{{asset('storage/advertiseImages/'.$ad->image)}}" class="card-img-top" alt="...">
+                    <img src="{{asset($ad->image)}}" class="card-img-top" alt="...">
                     <div class="verified-sec">
                         @if ($ad->is_verified == 1)
                         <p>Verified <i class="fas fa-check"></i></p>

@@ -47,7 +47,7 @@
                             </h5>
                         </div>
                         <div class="position-relative">
-                            <img src="{{asset('storage/mens/profile_pic'). '/' . $booking->customerDetail->profile_pic}}" class="card-img-top" alt="Profile Picture">
+                            <img src="{{asset($booking->customerDetail->profile_pic)}}" class="card-img-top" alt="Profile Picture">
                         </div>
                         <div class="card-body p-2">
                             <p class="subtext mb-0">

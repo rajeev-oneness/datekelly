@@ -91,11 +91,11 @@
                     </div>
                     <div class="position-relative">
                         @if ((($userType == 1) || $userType == 2) && ($booking->customerDetail->user_type == 3))
-                        <img src="{{asset('storage/mens/profile_pic'). '/' . $booking->customerDetail->profile_pic}}" class="card-img-top" alt="Profile Picture">
+                        <img src="{{asset($booking->customerDetail->profile_pic)}}" class="card-img-top" alt="Profile Picture">
                         @elseif(($userType == 3) && ($booking->userDetail->user_type == 1))
-                        <img src="{{asset('storage/ladies/profile_pic'). '/' . $booking->userDetail->profile_pic}}" class="card-img-top" alt="Profile Picture">
+                        <img src="{{asset($booking->userDetail->profile_pic)}}" class="card-img-top" alt="Profile Picture">
                         @elseif(($userType == 3) && ($booking->userDetail->user_type == 2))
-                        <img src="{{asset('storage/clubs/profile_pic'). '/' . $booking->userDetail->profile_pic}}" class="card-img-top" alt="Profile Picture">
+                        <img src="{{asset($booking->userDetail->profile_pic)}}" class="card-img-top" alt="Profile Picture">
                         @endif
                     </div>
                     <div class="card-body p-2 text-center">

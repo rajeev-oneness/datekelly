@@ -69,7 +69,7 @@
                                         <label class="col-xl-3 col-lg-3 col-form-label text-right">Profile Picture</label>
                                         <div class="col-lg-9 col-xl-6">
                                             <div class="image-input image-input-outline" id="kt_image_1">
-                                                <div class="image-input-wrapper" style="background-image: url({{asset('/storage/mens/profile_pic') .'/'. $men->profile_pic}})"></div>
+                                                <div class="image-input-wrapper" style="background-image: url({{asset($men->profile_pic)}})"></div>
                                                 <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
                                                     <i class="fa fa-pen icon-sm text-muted" title="Add Profile Picture"></i>
                                                     <input type="file" name="profile_pic" accept=".png, .jpg, .jpeg" value="{{old('profile_pic')}}"/>
