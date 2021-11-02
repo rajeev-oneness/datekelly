@@ -25,6 +25,7 @@
                             <option value="4">4</option>
                             <option value="5">5</option>
                         </select>
+                        @error('theme')<span class="text-danger">{{$message}}</span>@enderror
                     </div>
                 </div>
             </div>
@@ -40,11 +41,13 @@
                             <input type="file" id="real-file" hidden="hidden" name="images[]" multiple required>
                             <button type="button" id="custom-button">Select file / files</button>
                         </div>
+                        @error('images')<span class="text-danger">{{$message}}</span>@enderror
                     </div>
                 </div>
                 <div class="form-group mt-4">
                     <label>3) Extra information about your premium pictures : </label>
-                    <textarea class="form-control" rows="3" placeholder="Extra information" name="notes"></textarea>
+                    <textarea class="form-control" rows="3" placeholder="Extra information" name="notes">{{old('notes')}}</textarea>
+                    @error('notes')<span class="text-danger">{{$message}}</span>@enderror
                 </div>
                 <div class="form-group DKCoinblance col-12 col-md-8 p-0">
                     <label>4) Select Youe price DateKelly Coin : </label>
@@ -54,9 +57,10 @@
                         </div>
                         <select class="form-control coinbalance pl-5" name="price" required>
                             @for ($i = 1; $i <= 5; $i++)
-                            <option value="{{$i}}">{{$i}}</option>
+                                <option value="{{$i}}">{{$i}}</option>
                             @endfor
                         </select>
+                        @error('price')<span class="text-danger">{{$message}}</span>@enderror
                         <div class="input-group-prepend">
                             <span class="input-group-text bg-white text-blue datText">DateKelly Coin</span>
                         </div>

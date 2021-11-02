@@ -7,17 +7,12 @@
 @section('content')
 <section class="position-relative">
     <div class="owl-carousel banner-pic">
-        @php
-            $i = 0;
-            $gallery = explode(',', $advertisement->image_gallery->img);
-        @endphp
-        @foreach ($gallery as $key => $img)
-        <div class="item" data-hash="{{$key}}">
-            @php
-                $i++;
-            @endphp
-            <img src="{{asset('storage/advertiseImages').'/'.$img}}">
-          </div>
+        @foreach ($advertisement->advertisement_image as $adImageKey => $adImageValue)
+            @if($adImageValue->type == 'Image')
+                <div class="item" data-hash="{{$adImageKey}}">
+                    <img src="{{asset($adImageValue->img)}}">
+                </div>
+            @endif
         @endforeach
     </div>
     <div class="image-sl-text">
@@ -37,20 +32,21 @@
                     @if ($advertisement->is_verified)
                         <li>Verified <i class="fas fa-check text-green"></i></li>
                     @endif
-                    
                 </ul>
             </div>
         </div>
     </div>
-</section><!--Slider-->
+</section>
 
 <section>
     <div class="container">
         <div class="row m-0 mt-3 mb-5">
             <div class="col-12 col-md-8 p-0 pr-0 pr-md-5 order-12 order-md-1" id="adDetailsSection">
                 <div class="b-img-select">
-                    @foreach ($gallery as $key => $img)
-                        <a class="button secondary url" href="#{{$key}}"><img src="{{asset('storage/advertiseImages').'/'.$img}}"></a>
+                    @foreach ($advertisement->advertisement_image as $adImageKeyTwo => $adImageValueTwo)
+                        @if($adImageValueTwo->type == 'Image')
+                            <a class="button secondary url" href="#{{$adImageKeyTwo}}"><img src="{{asset($adImageValueTwo->img)}}"></a>
+                        @endif
                     @endforeach
                 </div><!--slider-img-tigger-->
 
@@ -94,9 +90,9 @@
                             <li>
                                 <span class="serv-name">{{$item->service_name}}</span>
                                 @if ($item->include == 1)
-                                <span class="serv-type">Included</span>
+                                    <span class="serv-type">Included</span>
                                 @else
-                                <span class="serv-type">&dollar;{{$item->price}}</span>
+                                    <span class="serv-type">&dollar;{{$item->price}}</span>
                                 @endif
                             </li> 
                             @endforeach
@@ -157,15 +153,15 @@
                     <div class="col-12 col-md-11 p-0">
                         <div class="owl-carousel premium-pic">
                             @forelse ($premium_pics as $pics)
-                            <div class="item">
-                                <img src="{{asset($pics->picture)}}">
-                                <div class="unlock">
-                                    <img src="{{asset('front/img/unlock-icon.png')}}">
-                                    <h6>Unlock</h6>
+                                <div class="item">
+                                    <img src="{{asset($pics->picture)}}">
+                                    <div class="unlock">
+                                        <img src="{{asset('front/img/unlock-icon.png')}}">
+                                        <h6>Unlock</h6>
+                                    </div>
                                 </div>
-                            </div>
                             @empty
-                            No Pics!
+                                No Pics!
                             @endforelse
                         </div>
                     </div>
@@ -587,45 +583,44 @@
                 <div class="lady-data bg-light-pink mb-2">
                     <table class="table table-sm table-borderless">
                         <tr>
-                            <td>Sex</td>
+                            <td>Sex: </td>
                             <th>{{$advertisement->sex}}</th>
                         </tr>
                         <tr>
-                            <td>Age</td>
+                            <td>Age: </td>
                             <th>{{$advertisement->age}}</th>
                         </tr>
                         <tr>
-                            <td>Length</td>
+                            <td>Length: </td>
                             <th>{{$advertisement->length}} cm</th>
                         </tr>
                         <tr>
-                            <td>Cup size</td>
+                            <td>Cup size: </td>
                             <th>{{$advertisement->cup_size}}</th>
                         </tr>
                         <tr>
-                            <td>Weight</td>
+                            <td>Weight: </td>
                             <th>{{$advertisement->weight}}kg</th>
                         </tr>
                         <tr>
-                            <td>Body size</td>
+                            <td>Body size: </td>
                             <th>{{$advertisement->body_size}}</th>
                         </tr>
                         <tr>
-                            <td>Descent</td>
+                            <td>Descent: </td>
                             <th>{{$advertisement->descent}}</th>
                         </tr>
                         <tr>
-                            <td>Language</td>
+                            <td>Language: </td>
                             <td><b>
                             @php
                                 $langs = explode(',', $advertisement->language)
                             @endphp
-                            @foreach ($langs as $lang)
-                                @foreach ($languages as $item)
-                                    @if($item->id == $lang)
+
+                            @foreach ($languages as $item)
+                                @if(in_array($item->id,$langs))
                                     {{$item->name}},
-                                    @endif
-                                @endforeach
+                                @endif
                             @endforeach
                             </b></td>
                         </tr>

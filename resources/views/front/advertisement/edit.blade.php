@@ -178,7 +178,7 @@
 			<div class="row">
 	    		@foreach($data->info->advertisement_image as $adImageIndex => $adImageObject)
 		    		@if($adImageObject->type == 'Image')
-						<div class="col-md-3">
+						<div class="col-md-3 imageForDelete">
 							<img src="{{asset($adImageObject->img)}}" class="img-thumbnail">
 							<a href="javascript:void(0)" class="btn btn-sm btn-danger deleteImage" data-details="{{json_encode($adImageObject)}}">X</a>
 						</div>
@@ -196,7 +196,7 @@
             <div class="row">
 	    		@foreach($data->info->advertisement_image as $adImageIndex => $adImageObject)
 		    		@if($adImageObject->type == 'Video')
-						<div class="col-md-3">
+						<div class="col-md-3 imageForDelete">
 							<video class="w-100" autoplay muted controls=""><source src="{{asset($adImageObject->img)}}"></video>
 							<a href="javascript:void(0)" class="btn btn-sm btn-danger deleteImage" data-details="{{json_encode($adImageObject)}}">X</a>
 						</div>
@@ -389,10 +389,29 @@
 	}
 
 	$(document).on('click','.deleteImage',function(){
-		var details = JSON.parse($(this).attr('data-details'));
-		// $.ajax({
-			
-		// });
+		var thisObject = $(this);
+		var details = JSON.parse(thisObject.attr('data-details'));
+		var r = confirm("Are you sure you want to delete");
+		if (r == true) {
+			$.ajax({
+				url : "{{route('advertisement.image.delete')}}",
+				type : 'POST',
+				dataType : 'JSON',
+				data : {
+					_token : '{{csrf_token()}}',
+					advertisement_id : details.advertisement_id,
+					imageId : details.id,
+				},
+				success:function(response){
+					if(response.error == false){
+						thisObject.closest('.imageForDelete').remove();
+					}else{
+						alert(response.message);
+					}
+				}
+			});
+		}
+		
 	});
 </script>
 @stop

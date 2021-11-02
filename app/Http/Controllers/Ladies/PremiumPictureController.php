@@ -41,27 +41,26 @@ class PremiumPictureController extends Controller
      */
     public function store(Request $req)
     {
-        // dd($req->all());
-        // $req->validate([
-        //     'images' => 'mimes:jpeg,jpg,png,svg,webp,mp4',
-        //     'price' => 'numeric',
-        //     'notes' => '',
-        //     'theme' => 'numeric|min:1',
-        // ]);
+        $req->validate([
+            'images' => 'required|array',
+            'images.*' => 'required|image|mimes:jpeg,jpg,png,svg,webp,mp4',
+            'price' => 'required|numeric',
+            'notes' => 'nullable',
+            'theme' => 'required',
+        ]);
         $userId = auth()->guard(get_guard())->user()->id;
-        
-        foreach ($req->images as $key => $value) {
-            // dd($value);
-            $premiumPic = new LadyPremiumPicture();
-            $premiumPic->user_id = $userId;
-            $ext = '.'.$value->getClientOriginalExtension();
-            $fileName = randomGenerator().$userId.$ext;
-            $value->storeAs('premium-pictures', $fileName,'public');
-            $premiumPic->picture = 'storage/premium-pictures/'.$fileName;
-            $premiumPic->price = $req->price;
-            $premiumPic->notes = $req->notes;
-            $premiumPic->theme = $req->theme;
-            $premiumPic->save();
+        // Image upload
+        if(!empty($req->images) && count($req->images) > 0) {
+            foreach ($req->images as $imagekey => $imagevalue) {
+                $imagePath = imageUpload($imagevalue, 'ladyPremiumPicture');
+                $premiumPic = new LadyPremiumPicture();
+                $premiumPic->user_id = $userId;
+                $premiumPic->picture = $imagePath;
+                $premiumPic->price = numberCheck($req->price);
+                $premiumPic->notes = emptyCheck($req->notes);
+                $premiumPic->theme = emptyCheck($req->theme);
+                $premiumPic->save();
+            }
         }
         return redirect()->route('lady.premium.picture.list')->with('Success','Premium Picture Added SuccessFully');
     }
@@ -122,19 +121,13 @@ class PremiumPictureController extends Controller
      */
     public function delete($id)
     {
-        $premiumPic = LadyPremiumPicture::find(base64_decode($id));
-        \File::delete(public_path($premiumPic->picture));
-        $premiumPic->delete();
+        $premiumPic = LadyPremiumPicture::find(base64_decode($id))->delete();
         return redirect()->route('lady.premium.picture.list')->with('Success','Premium Picture Deleted SuccessFully');
     }
     
     public function setDelete()
     {
-        $premiumPic = LadyPremiumPicture::where('user_id', auth()->guard(get_guard())->user()->id)->get();
-        foreach ($premiumPic as $key => $value) {
-            \File::delete(public_path($value->picture));
-            $value->delete();
-        }
+        LadyPremiumPicture::where('user_id', auth()->guard(get_guard())->user()->id)->delete();
         return redirect()->route('lady.premium.picture.list')->with('Success','Premium Picture Deleted SuccessFully');
     }
 }

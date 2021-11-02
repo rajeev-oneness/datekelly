@@ -276,7 +276,6 @@ class AdvertisementController extends Controller
         $lady_id = $ad->get()->pluck('ladies_id')->toArray();
         if($lady_id != 0) {
             $premium_pics = LadyPremiumPicture::where('user_id', $lady_id)->get();
-            // dd($ppp[3]);
         } else {
             $premium_pics = (object)[];
         }

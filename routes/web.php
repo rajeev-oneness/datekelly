@@ -70,6 +70,7 @@ Route::middleware(['user.auth'])->group(function () {
         route::post('update/{adId}', 'AdvertisementController@update')->name('advertisement.update');
         Route::get('delete/{id}', 'AdvertisementController@delete')->name('advertisement.delete');
     });
+    Route::post('advertisement/image_delete','AdvertisementController@deleteAdvertisementImage')->name('advertisement.image.delete');
 
     //reviews
     Route::prefix('reviews')->group(function () {
