@@ -20,7 +20,7 @@
             <div class="row m-0">
                 <ul>
                     <li>
-                    @if ($advertisement->lady)
+                    @if($advertisement->lady)
                         {{$advertisement->lady->name}}
                     @elseif($advertisement->club)
                         {{$advertisement->club->name}}
@@ -389,24 +389,25 @@
                     @csrf
                     <input type="hidden" name="user_id" value="{{$adUser->id}}">
                     <input type="hidden" name="advertisement_id" value="{{$advertisement->id}}">
+                    <input type="hidden" name="bookingForm" value="bookingStart">
                     <div class="row mt-5 m-0 lady_manage_bottom">
                         <div class="search-form col-12 mb-3 p-0">
-                            <h6 class="p-0">Online Booking request - <span class="textpink">
-                                {{$adUser->name}}
-                            </span></h6>
+                            <h6 class="p-0">Online Booking request - 
+                                <span class="textpink">{{$adUser->name}}</span>
+                            </h6>
                         </div>
                         <div class="col-md-2 col-12">
                             <p><b>Short : </b></p>
                         </div>
                         <div class="col-md-3 col-12 custom-ser-text">
                             <div class="custom-control custom-checkbox">
-                                <input type="radio" class="custom-control-input mr-2" id="customCheck1" name="visit_type" value="0" selected>
+                                <input type="radio" class="custom-control-input mr-2" id="customCheck1" name="visit_type" value="0" @if(old('visit_type') == 0){{('checked')}}@endif>
                                 <label class="custom-control-label pl-2" for="customCheck1">Private Visit</label>
                             </div>
                         </div>
                         <div class="col-md-4 col-12 custom-ser-text">
                             <div class="custom-control custom-checkbox">
-                                <input type="radio" class="custom-control-input mr-2" id="customCheck2" name="visit_type" value="1">
+                                <input type="radio" class="custom-control-input mr-2" id="customCheck2" name="visit_type" value="1" @if(old('visit_type') == 1){{('checked')}}@endif>
                                 <label class="custom-control-label pl-2" for="customCheck2">Escort (Lady will visit you)</label>
                             </div>
                         </div>
@@ -416,23 +417,38 @@
                         <table class="table table-sm table-borderless aprovial-table">
                             <tr>
                                 <td>Address Line 1</td>
-                                <td><input class="form-control form-control-sm" type="text" placeholder="Address line 1" name="customer_address_1"></td>
+                                <td>
+                                    <input class="form-control form-control-sm" type="text" placeholder="Address line 1" name="customer_address_1" value="{{old('customer_address_1')}}">
+                                    @error('customer_address_1')<span class="text-danger">{{$message}}</span>@enderror
+                                </td>
                             </tr>
                             <tr>
                                 <td>Address Line 2</td>
-                                <td><input class="form-control form-control-sm" type="text" placeholder="Address line 2" name="customer_address_2"></td>
+                                <td>
+                                    <input class="form-control form-control-sm" type="text" placeholder="Address line 2" name="customer_address_2" value="{{old('customer_address_2')}}">
+                                    @error('customer_address_2')<span class="text-danger">{{$message}}</span>@enderror
+                                </td>
                             </tr>
                             <tr>
                                 <td>City</td>
-                                <td><input class="form-control form-control-sm" type="text" placeholder="City" name="customer_city"></td>
+                                <td>
+                                    <input class="form-control form-control-sm" type="text" placeholder="City" name="customer_city" value="{{old('customer_city')}}">
+                                    @error('customer_city')<span class="text-danger">{{$message}}</span>@enderror
+                                </td>
                             </tr>
                             <tr>
                                 <td>Your Telephone number:</td>
-                                <td><input class="form-control form-control-sm" type="number" placeholder="Telephone number" name="customer_telephone"></td>
+                                <td>
+                                    <input class="form-control form-control-sm" type="number" placeholder="Telephone number" name="customer_telephone" value="{{old('customer_telephone')}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="10">
+                                    @error('customer_telephone')<span class="text-danger">{{$message}}</span>@enderror
+                                </td>
                             </tr>
                             <tr>
                                 <td>Extra information:</td>
-                                <td><input class="form-control form-control-sm" type="text" placeholder="Extra information" name="extra_info"></td>
+                                <td>
+                                    <input class="form-control form-control-sm" type="text" placeholder="Extra information" name="extra_info" value="{{old('extra_info')}}">
+                                    @error('extra_info')<span class="text-danger">{{$message}}</span>@enderror
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="2" class="pt-3 pb-3">
@@ -441,21 +457,28 @@
                             </tr>
                             <tr>
                                 <td>Date:</td>
-                                <th class="textpink"><input type="date" name="date" id="date" class="form-control form-control-sm"></th>
+                                <th class="textpink">
+                                    <input type="date" name="date" id="date" class="form-control form-control-sm" value="{{old('date')}}" min="{{date('Y-m-d',strtotime('+1 day'))}}">
+                                    @error('date')<span class="text-danger">{{$message}}</span>@enderror
+                                </th>
                             </tr>
                             <tr>
                                 <td>Time</td>
-                                <th class="textpink"><input type="time" name="time" id="time" class="form-control form-control-sm"></th>
+                                <th class="textpink">
+                                    <input type="time" name="time" id="time" class="form-control form-control-sm" value="{{old('time')}}">
+                                    @error('time')<span class="text-danger">{{$message}}</span>@enderror
+                                </th>
                             </tr>
                             <tr>
                                 <td>Duration:</td>
                                 <th class="textpink">
-                                    <select name="duration_id" class="form-control form-control-sm" id="">
+                                    <select name="duration_id" class="form-control form-control-sm">
                                         <option value="" hidden>-select duration-</option>
                                         @foreach ($advertisement->service_duration as $item)
-                                        <option value="{{$item->id}}">{{$item->time}} - &dollar; {{$item->price}}</option>
+                                            <option value="{{$item->id}}" @if(old('duration_id') == $item->id){{('selected')}}@endif>{{$item->time}} - &dollar; {{$item->price}}</option>
                                         @endforeach
                                     </select>
+                                    @error('duration_id')<span class="text-danger">{{$message}}</span>@enderror
                                 </th>
                             </tr>
                         </table>
@@ -463,30 +486,33 @@
                     <div class="row m-0 mt-4 lady_manage_bottom">
                         <p class="col-12 p-0 mb-3"><b>Select Service and Extra’s:</b></p>
                         <div class="col-12 col-md-5 p-0">
+                            @php $selectedService = (old('service_id') ?? []); @endphp
                             @foreach ($advertisement->services as $key => $item)
-                            <div class="d-flex">
-                                <div class="custom-ser-text">
-                                    <div class="custom-control form-control-lg custom-checkbox pt-0 pb-0 h-30">
-                                        <input type="checkbox" class="custom-control-input mr-2" id="service{{$key}}" name="service_id[]" value="{{$item->id}}">
-                                        <label class="custom-control-label pl-2 textpink" for="service{{$key}}">{{$item->service_name}}</label>
+                                <div class="d-flex">
+                                    <div class="custom-ser-text">
+                                        <div class="custom-control form-control-lg custom-checkbox pt-0 pb-0 h-30">
+                                            <input type="checkbox" class="custom-control-input mr-2 servicesSelection" id="service{{$key}}" name="service_id[]" data-details="{{json_encode($item)}}" value="{{$item->id}}" @if(in_array($item->id,$selectedService)){{('checked')}}@endif>
+                                            <label class="custom-control-label pl-2 textpink" for="service{{$key}}">{{$item->service_name}}</label>
+                                        </div>
                                     </div>
+                                    @if ($item->include == 1)
+                                        <p class="textpink ml-auto mb-0"><b>Included</b></p>
+                                    @else
+                                        <p class="textpink ml-auto mb-0"><b>{{$item->price}} Coins</b></p>
+                                    @endif
                                 </div>
-                                @if ($item->include == 1)
-                                    <p class="textpink ml-auto mb-0"><b>Included</b></p>
-                                @else
-                                    <p class="textpink ml-auto mb-0"><b>&dollar;{{$item->price}}</b></p>
-                                @endif
-                            </div>
                             @endforeach
                         </div> 
                     </div>
+                    <input type="hidden" name="selectedPrice" id="selectedPriceInput" value="{{(old('selectedPrice') ?? 100)}}">
+                    @error('selectedPrice')<span class="text-danger">{{$message}}</span>@enderror
                     <div class="row m-0 mt-4">
                         <div class="col-12 col-md-7 p-0">
-                            <p>Estimated price based on the duration of the date: <span class="float-right textpink"><b>£100,-</b></span></p>
-                            <p>Extra services selected by Client:<span class="float-right textpink"><b>£100,-</b></span></p>
-                            <p>Extra for Escort: <span class="float-right textpink"><b>£100,-</b></span></p>
-                            <p>Deposit by Client: <span class="float-right textpink"><span class="text-blue">120 DateKelly coins</span> <b>(£30-),</b></span></p>
-                            <p><b>To be paid on the date by Client:</b> <span class="float-right textpink"><b>£220,-</b></span></p>
+                            <!-- <p>Estimated price based on the duration of the date: <span class="float-right textpink"><b>£100,-</b></span></p> -->
+                            <p>Extra services selected by Client:<span class="float-right textpink"><b class="extraSelected">0</b></span></p>
+                            <!-- <p>Extra for Escort: <span class="float-right textpink"><b>£100,-</b></span></p> -->
+                            <!-- <p>Deposit by Client: <span class="float-right textpink"><span class="text-blue"><span class="totalPoints">120</span> DateKelly coins</span> <b>(£30-),</b></span></p> -->
+                            <p><b>To be paid on the date by Client:</b> <span class="float-right textpink"><b><span class="totalPoints">100</span> DateKelly coins</b></span></p>
                         </div>
                     </div>
                     <div class="row m-0 pt-4 pb-4 lady_manage_bottom">
@@ -502,7 +528,7 @@
                             <div class="custom-control form-control-lg custom-checkbox pb-0">
                                 <input type="checkbox" class="custom-control-input mr-2" id="customCheck4" required>
                                 <label class="custom-control-label pl-2" for="customCheck4">
-                                    I agree that DateKelly will take <span class="text-lblue">120 DateKelly coins</span> as a deposit for the Online Booking. Alexandra will receive this deposit at the date. Please give her the code that is sent to your e-mail. By giving the code to Alexandra, you allow Alexandra to claim your 120 DateKelly coins in the deposit.
+                                    I agree that DateKelly will take <span class="text-lblue"><span class="totalPoints">100</span> DateKelly coins</span> as a deposit for the Online Booking. Alexandra will receive this deposit at the date. Please give her the code that is sent to your e-mail. By giving the code to Alexandra, you allow Alexandra to claim your 120 DateKelly coins in the deposit.
                                 </label>
                             </div>
                         </div>
@@ -616,7 +642,6 @@
                             @php
                                 $langs = explode(',', $advertisement->language)
                             @endphp
-
                             @foreach ($languages as $item)
                                 @if(in_array($item->id,$langs))
                                     {{$item->name}},
@@ -630,10 +655,10 @@
                     <div class="lady-data bg-light-pink mb-2">
                         <table class="table table-sm table-borderless">
                             @foreach ($advertisement->service_duration as $item)
-                            <tr>
-                                <td>{{$item->time}}</td>
-                                <td><b>&dollar; {{$item->price}}</b></td>
-                            </tr>
+                                <tr>
+                                    <td>{{$item->time}}</td>
+                                    <td><b>&dollar; {{$item->price}}</b></td>
+                                </tr>
                             @endforeach
                         </table>
                     </div>
@@ -673,6 +698,20 @@
 @section('script')
     
 <script>
+    
+    var extraSelected = 0,totalPoints = 100;
+    $(document).on('click','.servicesSelection',function(){
+        var thisCliked = $(this);
+        var data = JSON.parse(thisCliked.attr('data-details'));
+        console.log(data);
+        if(data.include != 1){
+            extraSelected += parseInt(data.price);
+            totalPoints += parseInt(data.price);
+        }
+        $('#selectedPriceInput').val(totalPoints);
+        $('.totalPoints').html(totalPoints);
+        $('.extraSelected').html(extraSelected);
+    });
 
     function showPremiumPics() {
         $("#premiumPictureList").show();
@@ -684,16 +723,22 @@
             behavior: 'smooth' 
         });
     }
+
     function hidePremiumPics() {
         $("#premiumPictureList").hide();
         $("#adDetailsSection").show();
         $("#bookingSection").hide();
     }
+
+    @if(old('bookingForm'))
+        showBookingSection();
+    @endif
     function showBookingSection() {
         $("#premiumPictureList").hide();
         $("#adDetailsSection").hide();
         $("#bookingSection").show();
     }
+
     $(document).on('click','#messageSendingButton',function(){
         var submitBtn = $(this);
         $('#status').empty();
@@ -738,6 +783,7 @@
             swal('Oops!', 'You need to login/register first', 'error');
         }
     }
+
     function loveChecking() {
         if(customerId != '') {
             $.ajax({
@@ -756,6 +802,7 @@
             })
         }
     }
+
     loveChecking()
 
     //like dislike on review
@@ -773,6 +820,7 @@
             swal('Oops!', 'You need to login/register first', 'error');
         }
     }
+
     function likeDislikeChecking() {
         if(customerId != '') {
             $.ajax({

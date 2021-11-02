@@ -12,28 +12,28 @@
     </div>
     <div class="row m-0 mt-3">
     @forelse ($notConfirmedBookings as $key => $booking)
-        <div class="col-12 col-md-3 mb-3 plr online-book">
+        <div class="col-12 col-md-4 mb-3 plr online-book">
             <div class="card shadow-sm bg-light-{{($userType == 3)? 'pink' : 'blue'}}">
                 <div class="card-header p-2 border-0 text-center">
-                    <h5 class="card-title m-0"><a href="#">
+                    <h5 class="card-title m-0"><a href="{{route('advertisement.detail',base64_encode($booking->advertisement_id))}}">
                         @if (($userType == 1) || ($userType == 2))
-                        {{$booking->customerDetail->name}}
+                            {{$booking->customerDetail->name}}
                         @elseif($userType == 3)
-                        {{$booking->userDetail->name}}
+                            {{$booking->userDetail->name}}
                         @endif
                     </a>
-                        <span class="d-block">{{($booking->visit_type == 0)? 'Private Visit' : 'Escort'}} <small class="d-block">{{$booking->customer_city}}</small></span>
+                    <span class="d-block">{{($booking->visit_type == 0)? 'Private Visit' : 'Escort'}} <small class="d-block">{{$booking->customer_city}}</small></span>
                     </h5>
                 </div>
+
                 <div class="position-relative">
                     @if (($userType == 1) || ($userType == 2))
-                    <img src="{{asset($booking->customerDetail->profile_pic)}}" class="card-img-top" alt="Profile Picture">
+                        <img src="{{asset($booking->customerDetail->profile_pic)}}" class="card-img-top" alt="Profile Picture">
                     @elseif(($userType == 3) && ($booking->userDetail->user_type == 1))
-                    <img src="{{asset($booking->userDetail->profile_pic)}}" class="card-img-top" alt="Profile Picture">
+                        <img src="{{asset($booking->userDetail->profile_pic)}}" class="card-img-top" alt="Profile Picture">
                     @elseif(($userType == 3) && ($booking->userDetail->user_type == 2))
-                    <img src="{{asset($booking->userDetail->profile_pic)}}" class="card-img-top" alt="Profile Picture">
+                        <img src="{{asset($booking->userDetail->profile_pic)}}" class="card-img-top" alt="Profile Picture">
                     @endif
-                    
                 </div>
                 <div class="card-body p-2 text-center">
                     <p class="subtext mb-0">
@@ -61,41 +61,38 @@
     <div class="col-12 mb-3 d-flex">
         <p>
             <span>Your coming Dates :</span> <span class="textpink">{{count($confirmedBookings)}}</span>
-         </p>
-         <a href="javascript:void(0);" class="ml-auto textpink" ><b>View Archieved Online Bookings</b></a>
+        </p>
+        <!-- <a href="javascript:void(0);" class="ml-auto textpink" ><b>View Archieved Online Bookings</b></a> -->
     </div>
     @forelse ($confirmedBookings as $key => $booking)
-        <div class="col-12 col-md-3 mb-3 plr online-book">
+        <div class="col-12 col-md-4 mb-3 plr online-book">
             <div class="card shadow-sm bg-light-{{($userType == 3)? 'pink' : 'blue'}}">
                 <div class="card-header p-2 border-0 text-center">
                     <h5 class="card-title m-0"><a href="#">
                         @if (($userType == 1) || ($userType == 2))
-                        {{$booking->customerDetail->name}}
+                            {{$booking->customerDetail->name}}
                         @elseif($userType == 3)
-                        {{$booking->userDetail->name}}
+                            {{$booking->userDetail->name}}
                         @endif
                     </a>
-                        <span class="d-block">{{($booking->visit_type == 0)? 'Private Visit' : 'Escort'}} <small class="d-block">{{$booking->customer_city}}</small></span>
+                    <span class="d-block">{{($booking->visit_type == 0)? 'Private Visit' : 'Escort'}} <small class="d-block">{{$booking->customer_city}}</small></span>
                     </h5>
                 </div>
                 <div class="position-relative">
                     @if (($userType == 1) || ($userType == 2))
-                    <img src="{{asset($booking->customerDetail->profile_pic)}}" class="card-img-top" alt="Profile Picture">
+                        <img src="{{asset($booking->customerDetail->profile_pic)}}" class="card-img-top" alt="Profile Picture">
                     @elseif(($userType == 3) && ($booking->userDetail->user_type == 1))
-                    <img src="{{asset($booking->userDetail->profile_pic)}}" class="card-img-top" alt="Profile Picture">
+                        <img src="{{asset($booking->userDetail->profile_pic)}}" class="card-img-top" alt="Profile Picture">
                     @elseif(($userType == 3) && ($booking->userDetail->user_type == 2))
-                    <img src="{{asset($booking->userDetail->profile_pic)}}" class="card-img-top" alt="Profile Picture">
+                        <img src="{{asset($booking->userDetail->profile_pic)}}" class="card-img-top" alt="Profile Picture">
                     @endif
                 </div>
                 <div class="card-body p-2 text-center">
                     <p class="subtext mb-0">
                         {{date('d M Y', strtotime($booking->date))}}<br/>
                         {{date('H:i', strtotime($booking->time)).' - '.$booking->serviceDuration->time}} 
-                            <span class="d-block">$250 - </span>
+                        <span class="d-block">$250 - </span>
                     </p>
-                    {{-- <p>
-                        <a href="{{route('booking.manage', ['bookingId' => base64_encode($booking->id)])}}">Manage</a>
-                    </p> --}}
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\User,DB;
 use App\Models\Booking;
 use App\Models\CoinsDetails;
 use App\Models\Transaction;
@@ -13,11 +13,12 @@ class BookingController extends Controller
 {
     public function book(Request $req)
     {
-        // dd($req->all());
-        $guard = get_guard();
-        $user = auth()->guard($guard)->user();
-        $userId = $user->id;
         $req->validate([
+            'bookingForm' => 'required|string|in:bookingStart',
+            'customer_address_1' => 'required|string|max:255',
+            'customer_address_2' => 'nullable|string|max:255',
+            'customer_city' => 'required|string|max:200',
+            'customer_telephone' => 'nullable|string',
             'user_id' => 'required|numeric|min:1',
             'advertisement_id' => 'required|numeric|min:1',
             'visit_type' => 'required|numeric',
@@ -25,42 +26,54 @@ class BookingController extends Controller
             'time' => 'required',
             'duration_id' => 'required|numeric|min:1',
             'service_id' => 'required',
+            'selectedPrice' => 'required|min:1|numeric'
         ]);
+        $guard = get_guard();
+        $user = auth()->guard($guard)->user();
+        $userId = $user->id;
+        DB::beginTransaction();
+        try {
+            if($req->user_id != $user->id){
+                if(totalCoinsCalculate($user->coins) >= $req->selectedPrice) {
+                    $booking = new Booking;
+                    $booking->customer_id = $userId;
+                    $booking->user_id = $req->user_id;
+                    $booking->advertisement_id = $req->advertisement_id;
+                    $booking->visit_type = $req->visit_type;
+                    $booking->customer_address_1 = $req->customer_address_1;
+                    $booking->customer_address_2 = emptyCheck($req->customer_address_2);
+                    $booking->customer_city = $req->customer_city;
+                    $booking->customer_telephone = emptyCheck($req->customer_telephone);
+                    $booking->extra_info = emptyCheck($req->extra_info);
+                    $booking->date = $req->date;
+                    $booking->time = $req->time;
+                    $booking->duration_id = $req->duration_id;
+                    $booking->service_id = !empty($req->service_id) ? implode(",", $req->service_id) : '';
+                    $booking->down_payment = $req->selectedPrice;
+                    $booking->save();
 
-        if(totalCoinsCalculate($user->coins) >= 120) {
-            $booking = new Booking;
-            $booking->customer_id = $userId;
-            $booking->user_id = $req->user_id;
-            $booking->advertisement_id = $req->advertisement_id;
-            $booking->visit_type = $req->visit_type;
-            $booking->customer_address_1 = $req->customer_address_1;
-            $booking->customer_address_2 = $req->customer_address_2;
-            $booking->customer_city = $req->customer_city;
-            $booking->customer_telephone = $req->customer_telephone;
-            $booking->extra_info = $req->extra_info;
-            $booking->date = $req->date;
-            $booking->time = $req->time;
-            $booking->duration_id = $req->duration_id;
-            $booking->service_id = implode(",", $req->service_id);
-            $booking->down_payment = 120;
-            $booking->save();
+                    $transaction = new Transaction;
+                    $transaction->user_id = $userId;
+                    $transaction->amount = $req->selectedPrice;
+                    $transaction->transaction_id = 'trans_'.randomgenerator();
+                    $transaction->save();
 
-            $transaction = new Transaction;
-            $transaction->user_id = $userId;
-            $transaction->amount = 30;
-            $transaction->transaction_id = 'trans_'.randomgenerator();
-            $transaction->save();
-
-            $coinDetail = new CoinsDetails();
-            $coinDetail->user_id = $userId;
-            $coinDetail->coins = -120;
-            $coinDetail->transaction_id = $transaction->id;
-            $coinDetail->remarks = 'User '.$userId.' booked service from'.$req->user_id.' using '.'120'.' coins';
-            $coinDetail->save();
-        } else {
-            return redirect()->route('coins.buy')->with('Error','You do not have enough coins!');
+                    $coinDetail = new CoinsDetails();
+                    $coinDetail->user_id = $userId;
+                    $coinDetail->coins = '-'.$req->selectedPrice;
+                    $coinDetail->transaction_id = $transaction->id;
+                    $coinDetail->remarks = 'User '.$userId.' booked service from '.$req->user_id.' using '.$req->selectedPrice.' coins';
+                    $coinDetail->save();
+                    DB::commit();
+                    return redirect(route('booking.list'))->with('Success','Service booked successfully');
+                }
+                return back()->with('Errors','You do not have enough coins!')->withInput($req->all());
+            }
+            return back()->with('Errors','You can`t book your self!')->withInput($req->all());
+        } catch (Exception $e) {
+            DB::rollback();
+            return back()->with('Errors','Something went wrong please try after some time')->withInput($req->all());
         }
-        return redirect()->route('booking.list')->with('Success','Service booked successfully');
     }
 
     public function list(Request $req)
@@ -71,12 +84,12 @@ class BookingController extends Controller
         $userType = $user->user_type;
         $confirmedBookings = [];$notConfirmedBookings = [];
         if($userType == 2) {
-            $confirmedBookings = Booking::select('*')->with('customerDetail')->where('user_id', $userId)->where('date', '>=', date('Y-m-d'))->where('is_confirmed', 1)->orderBy('created_at', 'DESC')->get();
-            $notConfirmedBookings = Booking::select('*')->with('customerDetail')->where('user_id', $userId)->where('date', '>=', date('Y-m-d'))->where('is_confirmed', 0)->where('is_visited', 0)->orderBy('created_at', 'DESC')->get();
+            $confirmedBookings = Booking::select('*')->with('customerDetail')->where('user_id', $userId)->where('date', '>=', date('Y-m-d'))->where('is_confirmed', 1)->latest()->get();
+            $notConfirmedBookings = Booking::select('*')->with('customerDetail')->where('user_id', $userId)->where('date', '>=', date('Y-m-d'))->where('is_confirmed', 0)->where('is_visited', 0)->latest()->get();
         }
         if($userType == 3) {
-            $confirmedBookings = Booking::with('userDetail')->where('customer_id', $userId)->where('date', '>=', date('Y-m-d'))->where('is_confirmed', 1)->orderBy('created_at', 'DESC')->get();
-            $notConfirmedBookings = Booking::with('userDetail')->where('customer_id', $userId)->where('date', '>=', date('Y-m-d'))->where('is_confirmed', 0)->where('is_visited', 0)->orderBy('created_at', 'DESC')->get();
+            $confirmedBookings = Booking::with('userDetail')->where('customer_id', $userId)->where('date', '>=', date('Y-m-d'))->where('is_confirmed', 1)->latest()->get();
+            $notConfirmedBookings = Booking::with('userDetail')->where('customer_id', $userId)->where('date', '>=', date('Y-m-d'))->where('is_confirmed', 0)->where('is_visited', 0)->latest()->get();
         }
         return view('front.booking.list', compact('confirmedBookings', 'notConfirmedBookings', 'userType'));
     }
@@ -86,7 +99,6 @@ class BookingController extends Controller
         $booking = Booking::where('id', base64_decode($req->bookingId))->with('customerDetail')->first();
         $serviceIds = explode(",", $booking->service_id);
         $services = AdvertisementServices::whereIn('id', $serviceIds)->get();
-        // dd($services);
         return view('front.booking.confirmation', compact('booking', 'services'));
     }
     
