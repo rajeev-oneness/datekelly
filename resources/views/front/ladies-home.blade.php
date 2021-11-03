@@ -11,7 +11,7 @@
         
         <div class="row m-0 women-List">
             @forelse($advertisement as $advert)
-            <div class="col-12 col-md-3 plr" style="cursor: pointer;" onclick="location.href='{{route('advertisement.detail', base64_encode($advert->id))}}'">
+            <div class="col-12 col-md-4 plr" style="cursor: pointer;" onclick="location.href='{{route('advertisement.detail', base64_encode($advert->id))}}'">
                 <div class="card shadow-sm {{($advert->club_id == 0)? 'bg-light-pink' : ''}}">
                     <div class="card-header p-2 border-0">
                         <h5 class="card-title m-0">
