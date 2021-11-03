@@ -183,7 +183,7 @@
                                 @if(($user) && ($user->id != $userId))
                                     <a href="javascript:void(0);" class="p-2" data-toggle="modal" data-target="#addReviewModal">Write a Review</a>
                                 @elseif(empty($user))
-                                    <a href="javascript:void(0);" class="p-2">Login / Registe to add review</a>
+                                    <a href="{{route('user.login')}}" class="p-2">Login / Register to add review</a>
                                 @endif
                                 <span class="bg-pink text-white p-2">
                                     @if ($advertisement->lady)

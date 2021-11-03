@@ -14,24 +14,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 //artisan routes
-Route::get('/migrate', function(){
+Route::get('migrate', function(){
     \Artisan::call('migrate');
+    \Artisan::call('key:generate');
     dd('migrated!');
 });
-Route::get('/migrate/rollback', function(){
+
+Route::get('migrate/rollback', function(){
     \Artisan::call('migrate:rollback --step=1');
     dd('migration rolled 1 step back!');
 });
-Route::get('/config', function(){
+
+Route::get('config', function(){
     \Artisan::call('config:clear');
     \Artisan::call('config:cache');
     \Artisan::call('view:clear');
     \Artisan::call('route:clear');
     dd('Config cache cleared successfully');
-});
-Route::get('/link-storage', function(){
-    \Artisan::call('storage:link');
-    dd('storage linked!');
 });
 
 //front routes
