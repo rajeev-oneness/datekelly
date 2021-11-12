@@ -29,7 +29,7 @@
                             <p> {{$advert->rating}} <i class="fas fa-star"></i></p>
                         </div>    
                         
-                        <div class="price">&dollar; {{$advert->price}}</div>
+                        {{-- <div class="price">&dollar; {{$advert->price}}</div> --}}
                     </div>
                     <div class="card-body p-2">
                       <div class="row m-0">

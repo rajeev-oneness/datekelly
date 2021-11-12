@@ -24,7 +24,7 @@ class BookingController extends Controller
             'visit_type' => 'required|numeric',
             'date' => 'required',
             'time' => 'required',
-            'duration_id' => 'required|numeric|min:1',
+            'duration_id' => 'nullable|numeric|min:1',
             'service_id' => 'required',
             'selectedPrice' => 'required|min:1|numeric'
         ]);
@@ -47,7 +47,7 @@ class BookingController extends Controller
                     $booking->extra_info = emptyCheck($req->extra_info);
                     $booking->date = $req->date;
                     $booking->time = $req->time;
-                    $booking->duration_id = $req->duration_id;
+                    $booking->duration_id = numberCheck($req->duration_id);
                     $booking->service_id = !empty($req->service_id) ? implode(",", $req->service_id) : '';
                     $booking->down_payment = $req->selectedPrice;
                     $booking->save();

@@ -491,7 +491,7 @@
                                 <div class="d-flex">
                                     <div class="custom-ser-text">
                                         <div class="custom-control form-control-lg custom-checkbox pt-0 pb-0 h-30">
-                                            <input type="checkbox" class="custom-control-input mr-2 servicesSelection" id="service{{$key}}" name="service_id[]" data-details="{{json_encode($item)}}" value="{{$item->id}}" @if(in_array($item->id,$selectedService)){{('checked')}}@endif>
+                                            <input type="checkbox" class="custom-control-input mr-2 servicesSelection" id="service{{$key}}" name="service_id[]" data-details="{{json_encode($item)}}" value="{{$item->id}}" @if(in_array($item->id,$selectedService) || $item->include == 1){{('checked')}}@endif>
                                             <label class="custom-control-label pl-2 textpink" for="service{{$key}}">{{$item->service_name}}</label>
                                         </div>
                                     </div>
