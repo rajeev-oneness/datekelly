@@ -11,8 +11,8 @@
     		@csrf
     		<h5>Edit Lady Advertisement</h5><hr>
     		<input type="hidden" name="advertisementId" value="{{$data->info->id}}">
-			<input type="hidden" name="lat" id="selectedLatitude" value="{{$data->indo->lat}}">
-			<input type="hidden" name="lng" id="selectedLongitude" value="{{$data->indo->lng}}">
+			<input type="hidden" name="lat" id="selectedLatitude" value="{{$data->info->lat}}">
+			<input type="hidden" name="lng" id="selectedLongitude" value="{{$data->info->lng}}">
 			<div class="form-group row">
     			<div class="col-lg-6 d-flex flex-column">
                     <label class="" for="country">Country where I work:</label>
@@ -75,6 +75,12 @@
 					<label class="" for="myworkingName">My Working Name:</label>
 					<input type="text" name="my_working_name" maxlength="200" class="form-control @error('my_working_name'){{('is-invalid')}}@enderror" value="{{(old('my_working_name') ?? $data->info->title)}}">
 					@error('my_working_name')<span class="text-danger">{{$message}}</span>@enderror
+				</div>
+
+				<div class="col-lg-6 d-flex flex-column">
+					<label class="" for="advertisement_price">Price in (EURO):</label>
+					<input type="text" name="advertisement_price" maxlength="8" class="form-control @error('advertisement_price'){{('is-invalid')}}@enderror" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="Price In Euro" value="{{(old('advertisement_price') ?? $data->info->price)}}">
+					@error('advertisement_price')<span class="text-danger">{{$message}}</span>@enderror
 				</div>
 			</div>
 

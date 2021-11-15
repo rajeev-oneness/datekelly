@@ -8,15 +8,17 @@
                 <li><a href="{{route('advertisement.category.list', 4)}}">Transsexuals</a></li>
                 <li><a href="{{route('advertisement.category.list', 5)}}">Safe sex</a></li>
                 <li>
-                    <span class="d-flex input-group-sm">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text border-left-rd">City</span>
-                        </div>
-                            <input type="text" class="form-control" value="Amsterdam" placeholder="Type City">
-                        <div class="input-group-append">
-                            <span class="input-group-text border-right-rd"><i class="fas fa-map-marker-alt"></i></span>
-                        </div>
-                    </span>
+                    <form id="submitCityFilterr" action="{{url()->current()}}" method="get">
+                        <span class="d-flex input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text border-left-rd">City</span>
+                            </div>
+                            <input type="text" class="form-control" value="{{request()->search_by_city}}" placeholder="Type City" name="search_by_city">
+                            <div class="input-group-append" onclick="document.getElementById('submitCityFilterr').submit();">
+                                <span class="input-group-text border-right-rd"><i class="fas fa-map-marker-alt"></i></span>
+                            </div>
+                        </span>
+                    </form>
                 </li>
                 <li><a href="{{route('advertisement.category.list', 6)}}">Escort</a></li>
                 <li><a href="{{route('advertisement.category.list', 7)}}">Blowjob with condom</a></li>

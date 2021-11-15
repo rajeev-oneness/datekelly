@@ -71,6 +71,12 @@
 						<input type="text" name="my_working_name" maxlength="200" class="form-control @error('my_working_name'){{('is-invalid')}}@enderror">
 						@error('my_working_name')<span class="text-danger">{{$message}}</span>@enderror
 					</div>
+
+					<div class="col-lg-6 d-flex flex-column">
+						<label class="" for="advertisement_price">Price in (EURO):</label>
+						<input type="text" name="advertisement_price" maxlength="8" class="form-control @error('advertisement_price'){{('is-invalid')}}@enderror" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="Price In Euro" value="{{old('advertisement_price')}}">
+						@error('advertisement_price')<span class="text-danger">{{$message}}</span>@enderror
+					</div>
 				</div>
 
 				<div class="form-group row">

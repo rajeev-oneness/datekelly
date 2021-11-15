@@ -112,6 +112,7 @@ class AdvertisementController extends Controller
             'servicesPrice.*' => 'nullable|string',
             'lat' => 'nullable|string',
             'lng' => 'nullable|string',
+            'advertisement_price' => 'required|min:1|numeric',
         ]);
         DB::beginTransaction();
         try {
@@ -140,6 +141,7 @@ class AdvertisementController extends Controller
             $newAdvertisement->extraprice_for_escort = numberCheck($req->extraprice_for_escort);
             $newAdvertisement->lat = emptyCheck($req->lat);
             $newAdvertisement->lng = emptyCheck($req->lng);
+            $newAdvertisement->price = $req->advertisement_price;
             $newAdvertisement->save();
 
             // Advertisement Services
@@ -372,6 +374,7 @@ class AdvertisementController extends Controller
             'servicesPrice.*' => 'nullable|string',
             'lat' => 'nullable|string',
             'lng' => 'nullable|string',
+            'advertisement_price' => 'required|min:1|numeric',
         ]);
         DB::beginTransaction();
         try {
@@ -400,8 +403,8 @@ class AdvertisementController extends Controller
             $newAdvertisement->extraprice_for_escort = numberCheck($req->extraprice_for_escort);
             $newAdvertisement->lat = emptyCheck($req->lat);
             $newAdvertisement->lng = emptyCheck($req->lng);
+            $newAdvertisement->price = $req->advertisement_price;
             $newAdvertisement->save();
-
             // Advertisement Services
             if(!empty($req->services) && count($req->services) > 0){
                 $advertisementServices = [];

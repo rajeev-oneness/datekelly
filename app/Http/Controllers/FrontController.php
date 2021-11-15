@@ -19,9 +19,22 @@ use App\Models\CupSize,App\Models\BodySize;
 
 class FrontController extends Controller
 {
-    public function ladiesHome()
+    public function ladiesHome(Request $req)
     {
-        $advertisement = Advertisement::where('club_id', 0)->get();
+        $advertisement = Advertisement::where('club_id', 0);
+        if(!empty($req->search_by_city)){
+            $advertisement = $advertisement->where(function($query) use ($req){
+                $query->where('address', 'like', '%' . $req->search_by_city . '%')
+                    ->orWhere('title', 'like', '%' . $req->search_by_city . '%')
+                    ->orWhere('about', 'like', '%' . $req->search_by_city . '%')
+                    ->orWhereHas('city', function ($city) use($req) {
+                        $city->where('name', 'like', '%' . $req->search_by_city . '%');
+                    })->orWhereHas('country',function ($country) use($req) {
+                        $country->where('name', 'like', '%' . $req->search_by_city . '%');
+                    });
+            });
+        }
+        $advertisement = $advertisement->get();
         return view('front.ladies-home', compact('advertisement'));
     }
 

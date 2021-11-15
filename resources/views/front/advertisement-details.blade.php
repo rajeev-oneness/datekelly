@@ -563,10 +563,10 @@
                         <p class="mb-0"><img src="{{asset('front/img/adv_chat-icon.png')}}"> <b>Message</b></p>
                     </div>
                     <div class="col-md-6 col-12 call-adv-r">
-                        <p class="mb-0"><a href="tel:{{$advertisement->phn_no}}"><img src="{{asset('front/img/adv_call-icon.png')}}"> <b>Call Me</b></a></p>
+                        <p class="mb-0"><a href="tel:{{$advertisement->phn_no}}" target="_blank"><img src="{{asset('front/img/adv_call-icon.png')}}"> <b>Call Me</b></a></p>
                     </div>
                     <div class="col-md-6 col-12 call-adv-r border-right-0">
-                        <p class="mb-0"><a href="https://wa.me/{{$advertisement->whatsapp}}"><img src="{{asset('front/img/whatsap_icon.png')}}"> <b>Whatsapp</b> </a></p>
+                        <p class="mb-0"><a href="https://wa.me/{{$advertisement->whatsapp}}" target="_blank"><img src="{{asset('front/img/whatsap_icon.png')}}"> <b>Whatsapp</b> </a></p>
                     </div>
                     <div class="bg-light-pink p-2 my-2 justify-content-center row m-0" onclick="showBookingSection()" style="cursor: pointer;">
                         <div class="col-2"><img src="{{asset('front/img/online_book.png')}}" class="mr-2 pl-4"></div>

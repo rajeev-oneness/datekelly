@@ -25,8 +25,8 @@
                                     <p>Verified <i class="fas fa-check"></i></p>
                                 @endif
                                 <p> {{$advert->rating}} <i class="fas fa-star"></i></p>
-                            </div>    
-                            <div class="price">&dollar; {{$advert->price}}</div>
+                            </div>  
+                            <div class="price">&euro; {{($advert->price != '' ? $advert->price : 0)}}</div>
                         </div>
                         <div class="card-body p-2">
                             <div class="row m-0">
