@@ -46,26 +46,34 @@ class ClubsController extends Controller
     public function store(Request $req)
     {
         $req->validate([
-            'password' => 'required|string|min:8|confirmed',
-            'email' => 'email|unique:users'
+            'name' => 'required|string|max:200',
+            'email' => 'required|string|email|unique:users',
+            'phn_no' => 'required|string',
+            'address' => 'nullable|string|max:230',
+            'country_id' => 'required|min:1|numeric',
+            'city_id' => 'required|min:1|numeric',
+            'website_address' => 'nullable|string',
+            'password' => 'required|string|min:5|confirmed',
         ]);
         $clubs = new User;
         $clubs->user_type = 2;
         $clubs->name = $req->name;
         $clubs->email = $req->email;
-        $clubs->phn_no = $req->phn_no;
-        $clubs->whatsapp_no = $req->whatsapp_no;
+        $clubs->phn_no = $req->phn_no;        
         $clubs->password = Hash::make($req->password);
-        $clubs->about = $req->about;
-        $clubs->age = $req->age;
+        // $clubs->about = $req->about;
+        // $clubs->whatsapp_no = $req->whatsapp_no;
+        // $clubs->age = $req->age;
         $clubs->country_id = $req->country_id;
         $clubs->city_id = $req->city_id;
-        $clubs->address = $req->address;
-        $clubs->website_address = $req->website_address;
+        $clubs->address = emptyCheck($req->address);
+        $clubs->website_address = emptyCheck($req->website_address);
         $clubs->status = 1;
         if ($req->hasFile('profile_pic')) {
             $image = $req->file('profile_pic');
             $clubs->profile_pic = imageUpload($image, 'club');
+        }else{
+            $clubs->profile_pic = 'images/defaultClub.jpg';
         }
         $clubs->save();
         $UserVerification = new UserVerification;
@@ -118,25 +126,40 @@ class ClubsController extends Controller
      */
     public function update(Request $req)
     {
-        $club = User::findOrFail(decrypt($req->id));
-        $club->name = $req->name;
-        $club->phn_no = $req->phn_no;
-        $club->whatsapp_no = $req->whatsapp_no;
-        $club->about = $req->about;
-        $club->age = $req->age;
-        $club->country_id = $req->country_id;
-        $club->city_id = $req->city_id;
-        $club->address = $req->address;
-        $club->website_address = $req->website_address;
+        $clubs = User::findOrFail(decrypt($req->id));
+        $req->validate([
+            'name' => 'required|string|max:200',
+            'email' => 'required|email|unique:users,email,'.$clubs->id,
+            'phn_no' => 'required|string',
+            'address' => 'nullable|string|max:230',
+            'country_id' => 'required|min:1|numeric',
+            'city_id' => 'required|min:1|numeric',
+            'website' => 'nullable|string',
+            'password' => 'nullable|string|min:5|confirmed',
+        ]);
+        $message = 'Profile updated successFully';
+        $clubs->name = $req->name;
+        $clubs->email = $req->email;
+        $clubs->phn_no = $req->phn_no;        
+        if(!empty($req->password)){
+            $clubs->password = Hash::make($req->password);
+            $message = 'Profile and Password updated successfully';
+        }
+        $clubs->country_id = $req->country_id;
+        $clubs->city_id = $req->city_id;
+        $clubs->address = emptyCheck($req->address);
+        $clubs->website_address = emptyCheck($req->website);
         if ($req->hasFile('profile_pic')) {
             $image = $req->file('profile_pic');
-            $club->profile_pic = imageUpload($image, 'club');
+            $clubs->profile_pic = imageUpload($image, 'club');
+        }else{
+            $clubs->profile_pic = 'images/defaultClub.jpg';
         }
-        $club->save();
+        $clubs->save();
         if(get_guard() == 'admin') {
             return redirect()->route('admin.clubs')->with('Success','Club Updated SuccessFully');
         } else {
-            return redirect()->route('user.dashboard')->with('Success','Club Updated SuccessFully');
+            return back()->with('Success',$message);
         }
     }
 

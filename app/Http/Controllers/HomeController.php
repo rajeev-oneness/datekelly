@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User, App\Models\Advertisement;
+
 
 class HomeController extends Controller
 {
@@ -30,4 +32,12 @@ class HomeController extends Controller
             default: return view('home');break;
         }
     }
+
+    /*public function deleteMyAccount(Request $req,$userId)
+    {
+        $user = User::findOrFail($userId);
+        Advertisement::where('ladies_id',$user->id)->orWhere('club_id',$user->id)->delete();
+        $user->delete();
+        return back()->with('Success','Account Deleted SuccessFully');
+    }*/
 }

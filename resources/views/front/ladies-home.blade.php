@@ -16,8 +16,8 @@
                     <div class="card-header p-2 border-0">
                         <h5 class="card-title m-0">
                             <a href="{{route('advertisement.detail', base64_encode($advert->id))}}" style="color: #e91482;">{{$advert->title}}</a>
-                            <span>{{($advert->city)? $advert->city->name : ''}}</span>
                         </h5>
+                        <span class="text-blue">{{($advert->city)? $advert->city->name : ''}}</span>
                     </div>
                     <div class="position-relative">
                         <img src="{{asset($advert->image)}}"  class="card-img-top" alt="...">

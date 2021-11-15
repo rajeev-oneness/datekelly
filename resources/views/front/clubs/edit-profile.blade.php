@@ -2,38 +2,26 @@
 
 @section('dashboard-content')
 <div class="col-12 col-md-9 pl-2 pl-md-5 rightpart">
+    <h4>Update Club</h4>
     <div class="row mb-3 dashboard align-items-center">
     </div>
     <form class="form" method="POST" action="{{route('club.account.update')}}" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="id" value="{{encrypt(auth()->guard(get_guard())->user()->id)}}">
         <div class="form-group row">
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <label>Name:</label>
-                <input type="text" class="form-control" name="name" placeholder="Enter name" value="{{$club->name}}"/>
-                {{-- <span class="form-text text-muted">Please enter your full name</span> --}}
+                <input type="text" class="form-control" name="name" placeholder="Enter name" value="{{$club->name}}" required/>
+                @error('name')<span class="text-danger">{{$message}}</span>@enderror
             </div>
-            <div class="col-lg-4">
-                <label>Phone No:</label>
-                <input type="number" class="form-control" name="phn_no" placeholder="Enter Phone no" value="{{$club->phn_no}}"/>
-                {{-- <span class="form-text text-muted">Please enter your username</span> --}}
-            </div>
-            <div class="col-lg-4">
-                <label>Whtasapp No:</label>
-                <input type="number" class="form-control" name="whatsapp_no" placeholder="Enter whatsapp no" value="{{$club->whatsapp_no}}"/>
-                {{-- <span class="form-text text-muted">Please enter your username</span> --}}
-            </div>
-            <div class="col-lg-4">
-                <label>Age:</label>
-                <input type="number" class="form-control" name="age" placeholder="Enter age" value="{{$club->age}}"/>
-                {{-- <span class="form-text text-muted">Please enter your username</span> --}}
-            </div>
-            <div class="col-lg-4">
-                <label>Address:</label>
+
+            <div class="col-lg-6">
+                <label>Address + House Number:</label>
                 <textarea type="text" class="form-control" name="address" placeholder="Address">{{$club->address}}</textarea>
-                {{-- <span class="form-text text-muted">Please enter your full name</span> --}}
+                @error('address')<span class="text-danger">{{$message}}</span>@enderror
             </div>
-            <div class="col-lg-4">
+
+            <div class="col-lg-6">
                 <label>Country:</label>
                 <select name="country_id" id="country_id" class="form-control">
                     <option value="">Select</option>
@@ -41,30 +29,62 @@
                         <option value="{{$country->id}}" {{($club->country_id == $country->id) ? 'selected' : ''}}>{{$country->name}}</option>
                     @endforeach
                 </select>
-                {{-- <span class="form-text text-muted">Please enter your email</span> --}}
+                @error('country_id')<span class="text-danger">{{$message}}</span>@enderror
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <label>City:</label>
                 <select name="city_id" id="city_id" class="form-control">
                     <option value="{{$club->city->id}}">{{$club->city->name}}</option>
                 </select>
-                {{-- <span class="form-text text-muted">Please enter your username</span> --}}
+                @error('city_id')<span class="text-danger">{{$message}}</span>@enderror
             </div>
-            <div class="col-lg-12">
-                <label>About:</label>
-                <textarea type="text" class="form-control" name="about" placeholder="About">{{$club->about}}</textarea>
-                {{-- <span class="form-text text-muted">Please enter your full name</span> --}}
-            </div>
-            <div class="p-3">
-                <img src="{{asset($club->profile_pic)}}" alt="Profile Pic" width="100">
-            </div>
+
             <div class="col-lg-6">
-                <label>Profile Picture:</label>
+                <label>Email:</label>
+                <input type="text" class="form-control" name="email" placeholder="Enter Phone no" value="{{$club->email}}" required/>
+                @error('email')<span class="text-danger">{{$message}}</span>@enderror
+            </div>
+
+            <div class="col-lg-6">
+                <label>Phone No:</label>
+                <input type="text" class="form-control" name="phn_no" placeholder="Enter Phone no" value="{{$club->phn_no}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required/>
+                @error('phn_no')<span class="text-danger">{{$message}}</span>@enderror
+            </div>
+
+            <div class="col-lg-6">
+                <label>Website:</label>
+                <input type="text" class="form-control" name="website" placeholder="Club Website" value="{{$club->website_address}}"/>
+                @error('website')<span class="text-danger">{{$message}}</span>@enderror
+            </div>
+        </div>
+        
+        <div class="form-group row">
+            
+            <div class="col-lg-6">
+                <label>New Password:</label>
+                <input type="password" class="form-control" name="password" placeholder="Enter password" />
+                @error('password')<span class="form-text text-muted">{{$message}}</span>@enderror
+            </div>
+
+            <div class="col-lg-6">
+                <label>Confirm Password:</label>
+                <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm password" >
+                @error('password_confirmation')<span class="form-text text-muted">{{$message}}</span>@enderror
+            </div>
+
+        </div>
+
+        <div class="form-group row">
+            <div class="p-3">
+                <img src="{{asset($club->profile_pic)}}" alt="Profile Pic" width="200">
+            </div>
+            
+            <div class="col-lg-6">
+                <label>Update picture:</label>
                 <input type="file" class="form-control" name="profile_pic" accept=".png, .jpg, .jpeg"/>
             </div>
             <div class="col-lg-12">
                 <button type="submit" class="btn login-btn float-right">Update</button>
-                {{-- <button type="reset" class="btn btn-secondary">Cancel</button> --}}
             </div>
         </div>
     </form>

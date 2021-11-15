@@ -11,7 +11,7 @@
 	    		@csrf
 	    		<input type="hidden" name="lat" id="selectedLatitude" value="{{old('lat')}}">
 				<input type="hidden" name="lng" id="selectedLongitude" value="{{old('lng')}}">
-	    		<h5>Create Lady Advertisement</h5><hr>
+	    		<h5>Create Advertisement</h5><hr>
 				<div class="form-group row">
 	    			<div class="col-lg-6 d-flex flex-column">
 	                    <label class="" for="country">Country where I work:</label>
@@ -99,7 +99,7 @@
 	    			<div class="col-lg-6 d-flex flex-column">
 	                    <label class="" for="age">Age:</label>
 	                    <select name="age" id="age" class="sumoSelect form-control @error('age'){{('is-invalid')}}@enderror">
-	                    	@for($ageGroup = 12; $ageGroup <= 60; $ageGroup++)
+	                    	@for($ageGroup = 18; $ageGroup <= 60; $ageGroup++)
 		                    	<option value="{{$ageGroup}}" @if(old('age') == $ageGroup){{('selected')}}@endif>{{$ageGroup}} Years</option>
 	                    	@endfor
 	                    </select>
@@ -282,6 +282,7 @@
     	</div>
     </div>
 </div>
+
 @section('sub-script')
 <script type="text/javascript">
 	$('.sumoSelect').SumoSelect({search: true, searchText: 'Select.'});

@@ -9,7 +9,7 @@
     	<div class="col-12">
     	<form action="{{route('advertisement.update',$data->info->id)}}" method="POST" enctype="multipart/form-data" class="w-100">
     		@csrf
-    		<h5>Edit Lady Advertisement</h5><hr>
+    		<h5>Edit Advertisement</h5><hr>
     		<input type="hidden" name="advertisementId" value="{{$data->info->id}}">
 			<input type="hidden" name="lat" id="selectedLatitude" value="{{$data->info->lat}}">
 			<input type="hidden" name="lng" id="selectedLongitude" value="{{$data->info->lng}}">
@@ -104,7 +104,7 @@
     			<div class="col-lg-6 d-flex flex-column">
                     <label class="" for="age">Age:</label>
                     <select name="age" id="age" class="sumoSelect form-control @error('age'){{('is-invalid')}}@enderror">
-                    	@for($ageGroup = 12; $ageGroup <= 60; $ageGroup++)
+                    	@for($ageGroup = 18; $ageGroup <= 60; $ageGroup++)
 	                    	<option value="{{$ageGroup}}" @if((old('age') ?? $data->info->age) == $ageGroup){{('selected')}}@endif>{{$ageGroup}} Years</option>
                     	@endfor
                     </select>

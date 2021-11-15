@@ -21,7 +21,7 @@ class FrontController extends Controller
 {
     public function ladiesHome(Request $req)
     {
-        $advertisement = Advertisement::where('club_id', 0);
+        $advertisement = Advertisement::where('club_id', 0)->where('ladies_id','!=',0);
         if(!empty($req->search_by_city)){
             $advertisement = $advertisement->where(function($query) use ($req){
                 $query->where('address', 'like', '%' . $req->search_by_city . '%')
@@ -40,13 +40,14 @@ class FrontController extends Controller
 
     public function clubAgenciesHome()
     {
-        $advertisements = Advertisement::where('club_id', '!=', 0)->get();
+        $advertisements = Advertisement::where('ladies_id', 0)->where('club_id','!=',0)->get();
         return view('front.club-agencies-home', compact('advertisements'));
     }
 
     public function getReviews()
     {
-        $reviews = AdvertisementReview::where('created_at', '>', date('Y-m-d H:i:s', strtotime('-100 days')))->orderBy('id', 'DESC')->get();
+        $reviews = AdvertisementReview::latest()->get();
+        // $reviews = AdvertisementReview::where('created_at', '>', date('Y-m-d H:i:s', strtotime('-100 days')))->orderBy('id', 'DESC')->get();
         return view('front.reviews', compact('reviews'));
     }
 
