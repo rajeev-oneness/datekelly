@@ -58,6 +58,7 @@ class HomeController extends Controller
                 }
                 LadyPremiumPicture::where('user_id',$user->id)->delete();
                 UserVerification::where('user_id',$user->id)->delete();
+                $user->status = 0;$user->save();
                 $user->delete();
                 DB::commit();
                 return response()->json(['error' => false,'message' => 'Account Deleted Success','data' => $req->all()]);

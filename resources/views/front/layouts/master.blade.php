@@ -122,6 +122,12 @@
             dataType : 'JSON',
             data : {userId : '{{auth()->guard($guard)->user()->id}}',_token:'{{csrf_token()}}'},
             success:function(response){
+                if(response.error == true){
+                    swal('Error',response.message);
+                }else{
+                    swal('Success',response.message);
+                    window.location.href="";
+                }
                 console.log(response);
             }
         });

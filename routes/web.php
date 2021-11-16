@@ -31,7 +31,7 @@ Route::get('/club-agencies', 'FrontController@clubAgenciesHome')->name('club.age
 Route::get('/reviews', 'FrontController@getReviews')->name('reviews.home');
 
 Route::middleware(['user.login'])->group(function () {
-    Route::get('/login-user', 'FrontController@login')->name('user.login');
+Route::get('/login-user', 'FrontController@login')->name('user.login');
 });
 
 //front user rgistration

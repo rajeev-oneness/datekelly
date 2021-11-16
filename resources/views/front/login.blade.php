@@ -21,24 +21,21 @@
                             <div class="form-group row m-0 mb-4">
                                 <label class="col-sm-4">Email / Username</label>
                                 <div class="col-sm-8">
-                                    <input type="email" name="email" class="form-control">
+                                    <input type="email" name="email" class="form-control" value="{{old('email')}}" placeholder="Email">
                                     @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                        <span class="text-danger">{{$message}}</span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="form-group row m-0 mb-4">
                                 <label class="col-sm-4">Password</label>
                                 <div class="col-sm-8">
-                                    <input type="password" name="password" class="form-control" id="inputPassword">
+                                    <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
+                                    @error('password')
+                                        <span class="text-danger">{{$message}}</span>
+                                    @enderror
                                 </div>
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                
                             </div>
                             <div class="form-group row m-0">
                                 <div class="col-sm-9"><a href="">I forgot my password</a></div>
@@ -55,10 +52,10 @@
                     <div class="card-body">
                       <h5 class="card-title">Register</h5>
                       <ul>
-                          <li><a href="">You want to advertise?</a></li>
-                          <li><a href="">You want to give likes?</a></li>
-                          <li><a href="">You want to leave a review?</a></li>
-                          <li><a href="">You want to become a member?</a></li>
+                          <li><a href="javasript:void(0)">You want to advertise?</a></li>
+                          <li><a href="javasript:void(0)">You want to give likes?</a></li>
+                          <li><a href="javasript:void(0)">You want to leave a review?</a></li>
+                          <li><a href="javasript:void(0)">You want to become a member?</a></li>
                       </ul>
                       <a href="{{route('user.register')}}" class="regis-btn">Register for FREE!</a>
                     </div>
