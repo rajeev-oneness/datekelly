@@ -312,7 +312,7 @@
                     @forelse ($premium_pics as $key => $pics)
                         <div class="col-6 col-md-2 plr mb-2 premium-p-t">
                             <div class="card border-0 text-center">
-                                <div class="position-relative overflow-hidden">
+                                <div class="position-relative overflow-hidden unlock-cont">
                                     <img src="{{asset($pics->picture)}}" class="card-img-top" alt="...">
                                     <div class="unlock">
                                         <img src="{{asset('front/img/unlock-icon.png')}}">

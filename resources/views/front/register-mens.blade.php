@@ -19,34 +19,34 @@
                 <div class="col-12">
                     <div class="card-body shadow-sm">
                         <div class="form-group row">
-                            <div class="col-lg-4">
-                                <label>Name:</label>
-                                <input type="text" class="form-control" name="name" placeholder="Enter name" value="{{old('name')}}" required />
+                            <div class="col-lg-12 ">
+                                <label class="mt-3">Name:</label>
+                                <input type="text" class="form-control f-input" name="name" placeholder="Enter name" value="{{old('name')}}" required />
                                 @error('name')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
 
                             <div class="col-lg-4">
-                                <label>Date of Birth:</label>
+                                <label class="mt-3">Date of Birth:</label>
                                 <input type="date" class="form-control" name="dob" value="{{old('dob')}}" required max="{{date('Y-m-d',strtotime('- 18 years'))}}" />
                                 @error('dob')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
 
-                            <div class="col-lg-4">
-                                <label>Email:</label>
-                                <input type="email" class="form-control" name="email" placeholder="Enter email" value="{{old('name')}}" required />
+                            <div class="col-lg-12">
+                                <label class="mt-3">Email:</label>
+                                <input type="email" class="form-control f-input" name="email" placeholder="Enter email" value="{{old('name')}}" required />
                                 @error('email')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
 
                             <div class="col-lg-6">
-                                <label>Password:</label>
+                                <label class="mt-3">Password:</label>
                                 <input type="password" class="form-control" name="password" placeholder="Enter password" required />
                                 @error('password')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
                             <div class="col-lg-6">
-                                <label>Confirm Password:</label>
+                                <label class="mt-3">Confirm Password:</label>
                                 <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm password" required>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 pl-0 py-3">
                                 <span>We will send as email with a registration link to your e-mail address.</span><br>
                                 <span>Please click on the link in the e-mail to finalize the registration</span>
                             </div>

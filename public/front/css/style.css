@@ -867,6 +867,7 @@ input#check:focus + label {
 
 .banner-pic .item img{
   height: 345px !important;
+  object-fit: cover;
 }
 .banner-pic .owl-dots{
   display: none;
@@ -1203,4 +1204,52 @@ input#check:focus + label {
 }
 .h-30{
   height: 30px;
+}
+.option-cont{
+  flex-wrap: wrap;
+
+}
+.option-cont .form-check-input{
+  display: none;
+}
+.option-cont .form-check-inline{
+  width: 180px;
+  margin-bottom: 10px;
+}
+.form-check-label{
+  position: relative;
+  cursor: pointer;
+}
+.form-check-label:before {
+  content:'';
+ -webkit-appearance: none;
+ background-color: transparent;
+ border: 2px solid #ea1482;
+ padding: 7px;
+ display: inline-block;
+ position: relative;
+ vertical-align: middle;
+ cursor: pointer;
+ margin-right: 5px;
+}
+.form-check-input:checked + .form-check-label:after {
+ content: '';
+ display: block;
+ position: absolute;
+ top: 11px;
+ left: 0;
+ width: 17px;
+ height: 70%;
+ background-color: #ea1383;
+ /* border-radius: 50%; */
+ transform: translateY(-50%);
+}
+.unlock-cont{
+  height: 100px;
+}
+.f-input {
+  max-width:336px;
+}
+.mx377{
+  max-width: 377px;
 }

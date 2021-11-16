@@ -20,29 +20,18 @@
                 <div class="col-12 col-md-9  mx-auto">
                     <div class="card-body shadow-sm">
                         <div class="form-group row">
-                            <div class="col-lg-6">
-                                <label>Name:</label>
-                                <input type="text" class="form-control" name="name" placeholder="Enter name" value="{{old('name')}}" required/>
+                            <div class="col-lg-12">
+                                <label class="mt-3">Company Name:</label>
+                                <input type="text" class="form-control mx377" name="name" placeholder="Enter name" value="{{old('name')}}" required/>
                                 @error('name')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
-                            <div class="col-lg-6">
-                                <label>Email:</label>
-                                <input type="email" class="form-control" name="email" placeholder="Enter email" value="{{old('email')}}" required/>
-                                @error('email')<span class="text-danger">{{$message}}</span>@enderror
-                            </div>
-                            <div class="col-lg-6">
-                                <label>Phone No:</label>
-                                <input type="text" class="form-control" name="phn_no" placeholder="Enter Phone no" value="{{old('phn_no')}}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required/>
-                                @error('phn_no')<span class="text-danger">{{$message}}</span>@enderror
-                            </div>
-
-                            <div class="col-lg-6">
-                                <label>Address:</label>
-                                <textarea type="text" class="form-control" name="address" placeholder="Address">{{old('address')}}</textarea>
+                            <div class="col-lg-12">
+                                <label class="mt-3">Address:</label>
+                                <input type="text" class="form-control mx377" name="address" placeholder="Address">{{old('address')}}</input>
                                 @error('address')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
                             <div class="col-lg-6">
-                                <label>Country:</label>
+                                <label class="mt-3">Country:</label>
                                 <select name="country_id" id="country_id" class="form-control" required>
                                     <option value="">Select</option>
                                     @foreach ($countries as $country)
@@ -52,27 +41,37 @@
                                 @error('country_id')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
                             <div class="col-lg-6">
-                                <label>City:</label>
+                                <label class="mt-3">City:</label>
                                 <select name="city_id" id="city_id" class="form-control" required>
                                     <option value="">Select</option>
                                 </select>
                                 @error('city_id')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
+                            <div class="col-lg-12">
+                                <label class="mt-3">Company Website:</label>
+                                <input type="url" class="form-control mx377" name="website_address" placeholder="Enter website" value="{{old('website_address')}}" required />
+                                @error('website_address')<span class="text-danger">{{$message}}</span>@enderror
+                            </div>
+                            <div class="col-lg-12">
+                                <label class="mt-3">Company Phone No:</label>
+                                <input type="text" class="form-control mx377" name="phn_no" placeholder="Enter Phone no" value="{{old('phn_no')}}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required/>
+                                @error('phn_no')<span class="text-danger">{{$message}}</span>@enderror
+                            </div>
+                            <div class="col-lg-12">
+                                <label class="mt-3">Company Email:</label>
+                                <input type="email" class="form-control mx377" name="email" placeholder="Enter email" value="{{old('email')}}" required/>
+                                @error('email')<span class="text-danger">{{$message}}</span>@enderror
+                            </div>
                             <div class="col-lg-6">
-                                <label>Password:</label>
+                                <label class="mt-3">Password:</label>
                                 <input type="password" class="form-control" name="password" placeholder="Enter password" required />
                                 @error('password')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
                             <div class="col-lg-6">
-                                <label>Confirm Password:</label>
+                                <label class="mt-3">Confirm Password:</label>
                                 <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm password" required >
                             </div>
 
-                            <div class="col-lg-8">
-                                <label>Website:</label>
-                                <input type="url" class="form-control" name="website_address" placeholder="Enter website" value="{{old('website_address')}}" required />
-                                @error('website_address')<span class="text-danger">{{$message}}</span>@enderror
-                            </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-lg-6">

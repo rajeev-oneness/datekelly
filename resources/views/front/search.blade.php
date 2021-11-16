@@ -128,7 +128,7 @@
                     <div class="form-group">
                         @php $cupSizeOLD = (old('cup_size') ?? []); @endphp
                         <label class="" for="cup_size">Cup Size:</label>
-                        <div>
+                        <div class="d-flex justify-content-start align-items-center option-cont">
                             @foreach($data->cup_size as $cupIndex => $cupSize)
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" name="cup_size[]" type="checkbox" id="inlineCheckbox{{$cupIndex}}" value="{{$cupSize->size}}" @if(in_array($cupSize->size,$cupSizeOLD)){{('checked')}}@endif>
@@ -140,7 +140,7 @@
                     <div class="form-group">
                         @php $bodySizeOLD = (old('body_size') ?? []); @endphp
                         <label class="" for="body_size">Body Size:</label>
-                        <div>
+                        <div class="d-flex justify-content-start align-items-center option-cont">
                             @foreach($data->body_size as $bodyIndex => $bodySize)
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" name="body_size[]" type="checkbox" id="inlineCheckboxBodySize{{$bodyIndex}}" value="{{$bodySize->size}}" @if(in_array($bodySize->size,$bodySizeOLD)){{('checked')}}@endif>
@@ -153,7 +153,7 @@
                     <div class="form-group">
                         @php $decentOLD = (old('descent') ?? []); @endphp
                         <label class="" for="descent">Descent:</label>
-                        <div>
+                        <div class="d-flex justify-content-start align-items-center option-cont">
                             @foreach($data->descents as $descentIndex => $descentData)
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" name="descent[]" type="checkbox" id="inlineCheckboxDescent{{$descentIndex}}" value="{{$descentData->title}}" @if(in_array($descentData->title,$decentOLD)){{('checked')}}@endif>
@@ -166,7 +166,7 @@
                     <div class="form-group">
                         @php $languageOLD = (old('language') ?? []); @endphp
                         <label class="" for="length">Language:</label>
-                        <div>
+                        <div class="d-flex justify-content-start align-items-center option-cont">
                             @foreach($data->language as $languageIndex => $languageData)
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" name="language[]" type="checkbox" id="inlineCheckboxLanguage{{$languageIndex}}" value="{{$languageData->id}}" @if(in_array($languageData->id,$languageOLD)){{('checked')}}@endif>
@@ -183,7 +183,8 @@
                             <div class="row">
                                 @foreach($data->servicesAndExtra as $indexServices => $services)
                                     <div class="col-md-4">
-                                        <input type="checkbox" name="services[]" value="{{$services->title}}" @if(in_array($services->title,$serviceExtraOLD)){{('checked')}}@endif>&nbsp;{{$services->title}}
+                                        <input class="form-check-input d-none" type="checkbox" name="services[]" value="{{$services->title}}" id="services{{$indexServices}}" @if(in_array($services->title,$serviceExtraOLD)){{('checked')}}@endif>&nbsp;
+                                        <label for="services{{$indexServices}}" class="form-check-label">{{$services->title}}</label>
                                     </div>
                                 @endforeach
                             </div>
