@@ -392,16 +392,17 @@ header .navbar-dark .navbar-nav .active>.nav-link{
 
 .like-section{
   position: absolute;
-  bottom: -32px;
+  bottom: -45px;
   left: 15px;
 }
 .like-section p{
   color:#000;
-  padding: 0px 8px;
+  padding: 6px 8px;
   margin-right: 5px;
-  font-size: 13px;
+  font-size: 20px;
   text-align: center;
-  background:#fdcde6 ;
+  background:#fdcde6;
+  cursor: pointer;
 }
 /*--------Footer-------*/
 
@@ -1252,4 +1253,8 @@ input#check:focus + label {
 }
 .mx377{
   max-width: 377px;
+}
+.lady-card-img{
+  height: 200px;
+  overflow: hidden;
 }

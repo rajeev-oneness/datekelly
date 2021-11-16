@@ -29,9 +29,13 @@
                         <div class="col-lg-12 d-flex flex-column">
                             <label class="" for="myservice">Service:</label>
                             <div class="d-flex">
-                                <input type="checkbox" name="my_service[]" value="private_visit" @if(in_array('private_visit',$myServices)){{('checked')}}@endif><p class="ml-2">Private Visit</p>
+                                <input id="private" class="form-check-input d-none" type="checkbox" name="my_service[]" value="private_visit" @if(in_array('private_visit',$myServices)){{('checked')}}@endif>
+                                <!-- <p class="ml-2">Private Visit</p> -->
+                                <label for="private" class="form-check-label mr-2">Private Visit</label>
                                     &nbsp;
-                                <input type="checkbox" name="my_service[]" value="escort" @if(in_array('escort',$myServices)){{('checked')}}@endif><p class="ml-2">Escort</p>
+                                <input id="escort" class="form-check-input d-none" type="checkbox" name="my_service[]" value="escort" @if(in_array('escort',$myServices)){{('checked')}}@endif>
+                                <!-- <p class="ml-2">Escort</p> -->
+                                <label for="escort" class="form-check-label">Escort</label>
                             </div>
                         </div>
                         @error('my_service')<span class="text-danger">{{$message}}</span>@enderror
@@ -42,9 +46,13 @@
                         <div class="col-lg-12 d-flex flex-column">
                             <label class="" for="sex">Sex:</label>
                             <div class="d-flex">
-                                <input type="checkbox" name="sex[]" value="lady" @if(in_array('lady',$mySex)){{('checked')}}@endif><p class="ml-2">Lady</p>
+                                <input id="lady" class="form-check-input d-none" type="checkbox" name="sex[]" value="lady" @if(in_array('lady',$mySex)){{('checked')}}@endif>
+                                <!-- <p class="ml-2">Lady</p> -->
+                                <label for="lady" class="form-check-label mr-2">Lady</label>
                                     &nbsp;
-                                <input type="checkbox" name="sex[]" value="transsexual_TS" @if(in_array('transsexual_TS',$mySex)){{('checked')}}@endif><p class="ml-2">Transsexual TS</p>
+                                <input id="trans" class="form-check-input d-none" type="checkbox" name="sex[]" value="transsexual_TS" @if(in_array('transsexual_TS',$mySex)){{('checked')}}@endif>
+                                <!-- <p class="ml-2">Transsexual TS</p> -->
+                                <label for="trans" class="form-check-label">Transsexual TS</label>
                             </div>
                         </div>
                         @error('sex')<span class="text-danger">{{$message}}</span>@enderror

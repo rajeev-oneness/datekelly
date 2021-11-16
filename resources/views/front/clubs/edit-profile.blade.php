@@ -83,6 +83,13 @@
                 <label>Update picture:</label>
                 <input type="file" class="form-control" name="profile_pic" accept=".png, .jpg, .jpeg"/>
             </div>
+        </div>
+        <div class="row">
+            
+            <div class="col-12">
+                <a href="javascript:void(0)" class="deleteMyAccount text-danger">Delete my account</a>
+            </div>
+
             <div class="col-lg-12">
                 <button type="submit" class="btn login-btn float-right">Update</button>
             </div>

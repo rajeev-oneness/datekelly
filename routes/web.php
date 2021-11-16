@@ -50,7 +50,7 @@ Route::get('verify/my/account','VerifyAccountController@emailverification')->nam
 //user dashboard
 Route::middleware(['user.auth'])->group(function () {
     Route::get('/user/dashboard', 'FrontController@dashboard')->name('user.dashboard');
-    Route::get('delete/my/{userId}/account','HomeController@deleteMyAccount')->name('user.account.delete');
+    Route::post('delete/my/{userId}/account','HomeController@deleteMyAccount')->name('user.account.delete');
     //advertisements
     Route::prefix('advertisements')->group(function () {
         route::get('list', 'AdvertisementController@index')->name('advertisement.list');

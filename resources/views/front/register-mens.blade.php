@@ -52,20 +52,20 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="form-group row">
                             <div class="col-lg-6">
-                                <input type="checkbox" name="privacy" required>
-                                <span> I agree with the <a href="#" target="_blank">Terms & Condition</a> of datekelly</span>
+                                <input class="form-check-input d-none" type="checkbox" name="privacy" id="tnc" required>
+                                <label class="form-check-label" for="tnc"> I agree with the <a href="{{route('terms.conditions')}}" target="_blank">Terms & Condition</a> of datekelly</label>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <div class="col-lg-6">
-                                <input type="checkbox" name="robot" required>
-                                <span> I am not a robot</span>
+                                <input class="form-check-input d-none" type="checkbox" name="robot" id="robot" required>
+                                <label class="form-check-label" for="robot">I am not a robot</label>
                             </div>
 
-                            <div class="col-lg-2 mt-5 mx-auto">
+                            <div class="col-lg-12 mt-5 text-center">
                                 <button type="submit" class="btn login-btn">Submit</button>
                             </div>
                         </div>

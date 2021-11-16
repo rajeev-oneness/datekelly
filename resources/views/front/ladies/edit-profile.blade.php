@@ -9,42 +9,45 @@
     <form class="form" method="POST" action="{{route('lady.account.update')}}" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="id" value="{{encrypt(auth()->guard(get_guard())->user()->id)}}">
-        <div class="form-group row">
+        <div class="form-group row align-items-center">
             <div class="col-lg-6">
-                <label>Name:</label>
+                <label class="mt-3">Name:</label>
                 <input type="text" class="form-control" name="name" placeholder="Enter name" value="{{$lady->name}}"/>
                 @error('name')<span class="text-danger">{{$message}}</span>@enderror
             </div>
             
             <div class="col-lg-6">
-                <label>Telephone No:</label>
+                <label class="mt-3">Telephone No:</label>
                 <input type="text" class="form-control" name="phn_no" placeholder="Enter Phone no" value="{{$lady->phn_no}}"/>
                 @error('phn_no')<span class="text-danger">{{$message}}</span>@enderror
             </div>
 
             <div class="col-lg-6">
-                <label>Date of Birth:</label>
+                <label class="mt-3">Date of Birth:</label>
                 <input type="date" class="form-control" name="dob" value="{{$lady->dob}}" required max="{{date('Y-m-d',strtotime('- 18 years'))}}" />
                 @error('dob')<span class="text-danger">{{$message}}</span>@enderror
             </div>
+
             <div class="col-lg-6">
-                <label></label>
-                <span>Age: {{date('Y') - date('Y',strtotime($lady->dob))}}</span>
+                <label class="mt-5">&nbsp;</label>
+                <span class="pl-0">Age: {{date('Y') - date('Y',strtotime($lady->dob))}}</span>
             </div>
 
             <div class="col-lg-6">
-                <label>Email:</label>
+                <label class="mt-3">Email:</label>
                 <input type="email" class="form-control" name="email" placeholder="Enter name" value="{{$lady->email}}"/>
                 @error('email')<span class="text-danger">{{$message}}</span>@enderror
             </div>
 
+        </div>
+        <div class="form-group row">
             <div class="col-lg-6">
-                <label>Password:</label>
+                <label class="mt-3">Password:</label>
                 <input type="password" class="form-control" name="password" placeholder="Enter password" />
                 @error('password')<span class="form-text text-muted">{{$message}}</span>@enderror
             </div>
             <div class="col-lg-6">
-                <label>Confirm Password:</label>
+                <label class="mt-3">Confirm Password:</label>
                 <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm password" >
                 @error('password_confirmation')<span class="form-text text-muted">{{$message}}</span>@enderror
             </div>
@@ -56,10 +59,14 @@
             </div>
             
             <div class="col-lg-6">
-                <label>Update Profile Picture:</label>
+                <label class="mt-3">Update Profile Picture:</label>
                 <input type="file" class="form-control" name="profile_pic" accept=".png, .jpg, .jpeg"/>
             </div>
-
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <a href="javascript:void(0)" class="deleteMyAccount text-danger">Delete my account</a>
+            </div>
             <div class="col-lg-12">
                 <button type="submit" class="btn login-btn float-right">Update</button>
             </div>

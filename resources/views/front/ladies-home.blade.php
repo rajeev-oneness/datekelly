@@ -19,7 +19,7 @@
                         </h5>
                         <span class="text-blue">{{($advert->city)? $advert->city->name : ''}}</span>
                     </div>
-                    <div class="position-relative">
+                    <div class="position-relative lady-card-img">
                         <img src="{{asset($advert->image)}}"  class="card-img-top" alt="...">
                         
                         <div class="verified-sec">

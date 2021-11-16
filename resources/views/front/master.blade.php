@@ -31,17 +31,17 @@
             <div class="navbar-collapse collapse justify-content-center" id="collapsingNavbar">
                 <ul class="navbar-nav">
                     <li class="nav-item {{(Route::currentRouteName() == 'ladies.home') ? 'active' : ''}}">
-                        <a class="nav-link" href="{{route('ladies.home')}}">Ladies <img src="{{asset('front/img/gender-icon.png')}}" alt="icon"></a>
+                        <a class="nav-link px-sm-0 px-md-3" href="{{route('ladies.home')}}">Ladies <img src="{{asset('front/img/gender-icon.png')}}" alt="icon"></a>
                     </li>
                     <li class="nav-item {{(Route::currentRouteName() == 'search.home') ? 'active' : ''}}">
-                        <a class="nav-link" href="{{route('search.home')}}">Search <img src="{{asset('front/img/search-icon.png')}}" alt="icon"></a>
+                        <a class="nav-link px-sm-0 px-md-3" href="{{route('search.home')}}">Search <img src="{{asset('front/img/search-icon.png')}}" alt="icon"></a>
                     </li>
                     
                     <li class="nav-item {{(Route::currentRouteName() == 'club.agencies.home') ? 'active' : ''}}">
-                        <a class="nav-link" href="{{route('club.agencies.home')}}">Clubs/Agencies <img src="{{asset('front/img/club-icon.png')}}" alt="icon" class="m-0"></a>
+                        <a class="nav-link px-sm-0 px-md-3" href="{{route('club.agencies.home')}}">Clubs/Agencies <img src="{{asset('front/img/club-icon.png')}}" alt="icon" class="m-0"></a>
                     </li>
                     <li class="nav-item {{(Route::currentRouteName() == 'reviews.home') ? 'active' : ''}}">
-                        <a class="nav-link" href="{{route('reviews.home')}}">Reviews <img src="{{asset('front/img/review-icon.png')}}" alt="icon" class="m-0"></a>
+                        <a class="nav-link px-sm-0 px-md-3" href="{{route('reviews.home')}}">Reviews <img src="{{asset('front/img/review-icon.png')}}" alt="icon" class="m-0"></a>
                     </li>
                 </ul>
             </div>
