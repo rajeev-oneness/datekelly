@@ -3,8 +3,7 @@
 @section('dashboard-content')
 <div class="col-12 col-md-9 pl-2 pl-md-5 rightpart">
     <h4>Update Club</h4>
-    <div class="row mb-3 dashboard align-items-center">
-    </div>
+    <div class="row mb-3 dashboard align-items-center"></div>
     <form class="form" method="POST" action="{{route('club.account.update')}}" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="id" value="{{encrypt(auth()->guard(get_guard())->user()->id)}}">
@@ -84,8 +83,8 @@
                 <input type="file" class="form-control" name="profile_pic" accept=".png, .jpg, .jpeg"/>
             </div>
         </div>
+
         <div class="row">
-            
             <div class="col-12">
                 <a href="javascript:void(0)" class="deleteMyAccount text-danger">Delete my account</a>
             </div>

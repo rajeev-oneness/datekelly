@@ -14,97 +14,52 @@
             <form class="form" method="POST" action="{{route('admin.ladies.update')}}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="id" value="{{encrypt($lady->id)}}">
-                <div class="card-body">
-                    <div class="form-group row">
-                        <div class="col-lg-4">
-                            <label>Name:</label>
-                            <input type="text" class="form-control" name="name" placeholder="Enter name" value="{{$lady->name}}"/>
-                            {{-- <span class="form-text text-muted">Please enter your full name</span> --}}
-                        </div>
-                        <div class="col-lg-4">
-                            <label>Phone No:</label>
-                            <input type="number" class="form-control" name="phn_no" placeholder="Enter Phone no" value="{{$lady->phn_no}}"/>
-                            {{-- <span class="form-text text-muted">Please enter your username</span> --}}
-                        </div>
-                        <div class="col-lg-4">
-                            <label>Whtasapp No:</label>
-                            <input type="number" class="form-control" name="whatsapp_no" placeholder="Enter whatsapp no" value="{{$lady->whatsapp_no}}"/>
-                            {{-- <span class="form-text text-muted">Please enter your username</span> --}}
-                        </div>
-                        <div class="col-lg-4">
-                            <label>Age:</label>
-                            <input type="number" class="form-control" name="age" placeholder="Enter age" value="{{$lady->age}}"/>
-                            {{-- <span class="form-text text-muted">Please enter your username</span> --}}
-                        </div>
-                        <div class="col-lg-4">
-                            <label>Address:</label>
-                            <textarea type="text" class="form-control" name="address" placeholder="Address">{{$lady->address}}</textarea>
-                            {{-- <span class="form-text text-muted">Please enter your full name</span> --}}
-                        </div>
-                        <div class="col-lg-4">
-                            <label>Join Club( Not Mandatory):</label>
-                            <select name="assigned_club" id="assigned_club" class="form-control">
-                                <option value="">Select</option>
-                                @foreach ($clubs as $club)
-                                    <option value="{{$club->id}}" {{($club->id == $lady->assigned_club)? 'selected' : ''}}>{{$club->name}}</option>
-                                @endforeach
-                            </select>
-                            {{-- <span class="form-text text-muted">Please enter your email</span> --}}
-                        </div>
-                        <div class="col-lg-6">
-                            <label>Country:</label>
-                            <select name="country_id" id="country_id" class="form-control">
-                                @foreach ($countries as $country)
-                                    <option value="{{$country->id}}" {{($country->id == $lady->country->id)? 'selected': ''}}>{{$country->name}}</option>
-                                @endforeach
-                            </select>
-                            {{-- <span class="form-text text-muted">Please enter your email</span> --}}
-                        </div>
-                        <div class="col-lg-6">
-                            <label>City:</label>
-                            <select name="city_id" id="city_id" class="form-control">
-                                <option value="{{$lady->city->id}}">{{$lady->city->name}}</option>
-                            </select>
-                            {{-- <span class="form-text text-muted">Please enter your username</span> --}}
-                        </div>
-                        <div class="col-lg-6">
-                            <label>About:</label>
-                            <textarea type="text" class="form-control" name="about" placeholder="About">{{$lady->about}}</textarea>
-                            {{-- <span class="form-text text-muted">Please enter your full name</span> --}}
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="gutter-b example example-compact">
-                                <div class="card-body">
-                                    <div class="form-group row">
-                                        <label class="col-xl-4 col-lg-4 col-form-label text-right">lady Profile Picture</label>
-                                        <div class="col-lg-9 col-xl-6">
-                                            <div class="image-input image-input-outline" id="kt_image_1">
-                                                <div class="image-input-wrapper" style="background-image: url({{asset($lady->profile_pic)}})"></div>
-                                                <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
-                                                    <i class="fa fa-pen icon-sm text-muted" title="Add Profile Picture"></i>
-                                                    <input type="file" name="profile_pic" accept=".png, .jpg, .jpeg" value="{{old('profile_pic')}}"/>
-                                                    <input type="hidden" name="profile_avatar_remove" />
-                                                </label>
-                                                <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
-                                                    <i class="ki ki-bold-close icon-xs text-muted"></i>
-                                                </span>
-                                            </div>
-                                            <span class="form-text text-muted">Allowed file types: png, jpg, jpeg.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="form-group row align-items-center">
+                    <div class="col-lg-6">
+                        <label class="mt-3">Name:</label>
+                        <input type="text" class="form-control" name="name" placeholder="Enter name" value="{{$lady->name}}"/>
+                        @error('name')<span class="text-danger">{{$message}}</span>@enderror
                     </div>
-                    <!-- end: Example Code-->
+                    
+                    <div class="col-lg-6">
+                        <label class="mt-3">Telephone No:</label>
+                        <input type="text" class="form-control" name="phn_no" placeholder="Enter Phone no" value="{{$lady->phn_no}}"/>
+                        @error('phn_no')<span class="text-danger">{{$message}}</span>@enderror
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="mt-3">Date of Birth:</label>
+                        <input type="date" class="form-control" name="dob" value="{{$lady->dob}}" required max="{{date('Y-m-d',strtotime('- 18 years'))}}" />
+                        @error('dob')<span class="text-danger">{{$message}}</span>@enderror
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="mt-5">&nbsp;</label>
+                        <span class="pl-0">Age: {{date('Y') - date('Y',strtotime($lady->dob))}}</span>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="mt-3">Email:</label>
+                        <input type="email" class="form-control" name="email" placeholder="Enter name" value="{{$lady->email}}"/>
+                        @error('email')<span class="text-danger">{{$message}}</span>@enderror
+                    </div>
+
                 </div>
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col-lg-4"></div>
-                        <div class="col-lg-8">
-                            <button type="submit" class="btn btn-color mr-2">Submit</button>
-                            <button type="reset" class="btn btn-secondary">Cancel</button>
-                        </div>
+
+                <div class="form-group row">
+                    <div class="p-3">
+                        <img src="{{asset($lady->profile_pic)}}" alt="Profile Pic" width="200">
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <label class="mt-3">Update Profile Picture:</label>
+                        <input type="file" class="form-control" name="profile_pic" accept=".png, .jpg, .jpeg"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button type="submit" class="btn login-btn float-right">Update</button>
                     </div>
                 </div>
             </form>

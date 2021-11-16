@@ -12,34 +12,18 @@ use Hash;
 
 class ClubsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $clubs = User::where('user_type', 2)->latest()->get();
         return view('admin.clubs.index', compact('clubs'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function add()
     {
         $countries = Country::with('city')->get();
         return view('admin.clubs.add', compact('countries'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $req)
     {
         $req->validate([
@@ -58,9 +42,6 @@ class ClubsController extends Controller
         $clubs->email = $req->email;
         $clubs->phn_no = $req->phn_no;        
         $clubs->password = Hash::make($req->password);
-        // $clubs->about = $req->about;
-        // $clubs->whatsapp_no = $req->whatsapp_no;
-        // $clubs->age = $req->age;
         $clubs->country_id = $req->country_id;
         $clubs->city_id = $req->city_id;
         $clubs->address = emptyCheck($req->address);
@@ -85,28 +66,19 @@ class ClubsController extends Controller
         return redirect()->route('admin.clubs')->with('Success','Club Added SuccessFully');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $club = User::where('id', decrypt($id))->first();
         return view('admin.clubs.details', compact('club'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $countries = Country::all();
+        $countries = Country::get();
         $club = User::where('id', decrypt($id))->with('country', 'city')->first();
+        if($club->city_id != 0 && $club->country_id != 0){
+            $club->cities = City::where('country_id',$club->country_id)->get();
+        }
         if(get_guard() == 'admin') {
             return view('admin.clubs.edit', compact('club', 'countries'));
         } else {
@@ -114,13 +86,6 @@ class ClubsController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $req)
     {
         $clubs = User::findOrFail(decrypt($req->id));
@@ -154,18 +119,12 @@ class ClubsController extends Controller
         }
         $clubs->save();
         if(get_guard() == 'admin') {
-            return redirect()->route('admin.clubs')->with('Success','Club Updated SuccessFully');
+            return redirect()->route('admin.clubs')->with('Success','Club '.$message);
         } else {
             return back()->with('Success',$message);
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function delete($id)
     {
         $club = User::findOrFail(decrypt($id))->delete();

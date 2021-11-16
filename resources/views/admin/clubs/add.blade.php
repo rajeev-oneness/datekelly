@@ -23,7 +23,7 @@
                             </div>
                             <div class="col-lg-12">
                                 <label class="mt-3">Address:</label>
-                                <input type="text" class="form-control mx377" name="address" placeholder="Address">{{old('address')}}</input>
+                                <input type="text" class="form-control mx377" name="address" placeholder="Address" value="{{old('address')}}">
                                 @error('address')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
                             <div class="col-lg-6">

@@ -16,7 +16,7 @@
             
             <div class="col-lg-6">
                 <label class="mt-3">Telephone No:</label>
-                <input type="text" class="form-control" name="phn_no" placeholder="Enter Phone no" value="{{$men->phn_no}}"/>
+                <input type="text" class="form-control" name="phn_no" placeholder="Enter Phone no" value="{{$men->phn_no}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required maxlength="10" />
                 @error('phn_no')<span class="text-danger">{{$message}}</span>@enderror
             </div>
 
@@ -61,6 +61,7 @@
                 <input type="file" class="form-control" name="profile_pic" accept=".png, .jpg, .jpeg"/>
             </div>
         </div>
+
         <div class="row">
             <div class="col-12">
                 <a href="javascript:void(0)" class="deleteMyAccount text-danger">Delete my account</a>
