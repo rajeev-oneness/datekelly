@@ -2,17 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 //artisan routes
 Route::get('migrate', function(){
     \Artisan::call('migrate');
@@ -54,6 +43,10 @@ Route::post('/mens-store', 'MensController@store')->name('mens.store');
 Route::post('/ladies-store', 'LadiesController@store')->name('ladies.store');
 Route::post('/clubs-store', 'ClubsController@store')->name('clubs.store');
 
+//Auth
+Auth::routes(['verify' => true,'register' => false]);
+
+Route::get('verify/my/account','VerifyAccountController@emailverification')->name('verify.user.account');
 //user dashboard
 Route::middleware(['user.auth'])->group(function () {
     Route::get('/user/dashboard', 'FrontController@dashboard')->name('user.dashboard');
@@ -82,7 +75,6 @@ Route::middleware(['user.auth'])->group(function () {
         // route::post('update', 'ReviewController@update')->name('review.update');
         Route::get('delete/{id}', 'ReviewController@delete')->name('review.delete');
     });
-
 
     //messages
     Route::prefix('messages')->group(function () {
@@ -139,9 +131,6 @@ Route::post('count-love', 'AdvertisementController@countLove')->name('count.love
 Route::post('check-like-dislike', 'AdvertisementController@checkLikeDislike')->name('check.like.dislike');
 Route::post('count-like-dislike', 'AdvertisementController@countLikeDislike')->name('count.like.dislike');
 
-//auth
-Auth::routes();
-
 //change password
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/change-password', 'Auth\ChangePasswordController@index')->name('change.password');
@@ -155,10 +144,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['middleware' => 'admin'], function() {
     Route::get('/admin', 'AdminController@index')->name('admin.dashboard');
 });
+
 Route::prefix('admin')->group(function () {
     require 'admin.php';
 });
-
 
 //city and country ajax call
 Route::post('/get-all-countries', 'Admin\CityController@getCountry')->name('get.country');

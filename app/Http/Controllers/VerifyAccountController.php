@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\UserVerification;
+use Illuminate\Foundation\Auth\VerifiesEmails;
 
 class VerifyAccountController extends Controller
 {
+    use VerifiesEmails;
+
     public function index(Request $req)
     {
         $guard = get_guard();
@@ -14,8 +17,16 @@ class VerifyAccountController extends Controller
         $userId = $user->id;
         $userType = $user->user_type;
         $UserVerification = UserVerification::where('user_id', $userId)->first();
-        // dd($UserVerification);
         return view("front.verify_account", compact("UserVerification"));
+    }
+
+    public function emailverification(Request $req)
+    {
+        $user = $req->user();
+        if(!empty($req->resend_email) && $req->resend_email == 'resend'){
+            $this->sendOrResendEmailVerificationLink($req);
+        }
+        return view('auth.user.emailverification',compact('user'));
     }
 
     public function submitImages(Request $req)
