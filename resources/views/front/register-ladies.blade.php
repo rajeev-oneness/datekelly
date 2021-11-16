@@ -23,12 +23,12 @@
                             <div class="col-lg-6">
                                 <label class="mt-3">Name:</label>
                                 <input type="text" class="form-control" name="name" placeholder="Enter name" value="{{old('name')}}"/>
-                                @error('name')<span class="form-text text-muted">{{$message}}</span>@enderror
+                                @error('name')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
                             <div class="col-lg-6">
                                 <label class="mt-3">Phone No:</label>
                                 <input type="text" class="form-control" name="phn_no" placeholder="Enter Phone no" value="{{old('phn_no')}}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
-                                @error('phn_no')<span class="form-text text-muted">{{$message}}</span>@enderror
+                                @error('phn_no')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
                             <div class="col-lg-12">
                                 <label class="mt-3">Date of Birth:</label>
@@ -38,17 +38,17 @@
                             <div class="col-lg-12">
                                 <label class="mt-3">Email:</label>
                                 <input type="email" class="form-control mx377" name="email" placeholder="Enter email" value="{{old('email')}}"/>
-                                @error('email')<span class="form-text text-muted">{{$message}}</span>@enderror
+                                @error('email')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
                             <div class="col-lg-6">
                                 <label class="mt-3">Password:</label>
                                 <input type="password" class="form-control" name="password" placeholder="Enter password" />
-                                @error('password')<span class="form-text text-muted">{{$message}}</span>@enderror
+                                @error('password')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
                             <div class="col-lg-6">
                                 <label class="mt-3">Confirm Password:</label>
                                 <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm password" >
-                                @error('password_confirmation')<span class="form-text text-muted">{{$message}}</span>@enderror
+                                @error('password_confirmation')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
                             <br>
                         </div>

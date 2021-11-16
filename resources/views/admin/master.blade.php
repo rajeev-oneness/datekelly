@@ -700,7 +700,9 @@
             @endif
 
 			$(document).ready( function () {
-                $('#customDataTable').DataTable();
+                $('#customDataTable').DataTable({
+                	order : [],
+                });
             } );
         </script>
 		@yield('script')

@@ -20,7 +20,7 @@ class LadiesController extends Controller
      */
     public function index()
     {
-        $ladies = User::with('country')->where('user_type', 1)->where('status', 1)->orderBy('created_at', 'DESC')->get();
+        $ladies = User::where('user_type', 1)->where('status', 1)->latest()->get();
         return view('admin.ladies.index', compact('ladies'));
     }
 
@@ -31,9 +31,9 @@ class LadiesController extends Controller
      */
     public function add()
     {
-        $clubs = User::where('user_type', 2)->where('status', 1)->get();
-        $countries = Country::with('city')->get();
-        return view('admin.ladies.add', compact('countries', 'clubs'));
+        // $clubs = User::where('user_type', 2)->where('status', 1)->get();
+        // $countries = Country::with('city')->get();
+        return view('admin.ladies.add');
     }
 
     /**
@@ -49,14 +49,7 @@ class LadiesController extends Controller
             'email' => 'required|string|email|unique:users',
             'phn_no' => 'required|numeric',
             'dob' => 'required|date',
-            //'whatsapp_no' => 'required|numeric',
-            //'age' => 'required|numeric|max:80',
-            //'address' => 'required|string',
-            //'assigned_club' => 'nullable|numeric|min:1',
-            //'country_id' => 'required|numeric|min:1',
-            //'city_id' => 'required|numeric|min:1',
             'password' => 'required|string|min:8|confirmed',
-            //'about' => 'required|string',
             'profile_pic' => 'nullable|',
         ]);
         $ladies = new User;
@@ -68,16 +61,6 @@ class LadiesController extends Controller
         $ladies->dob = emptyCheck($req->dob,true);
         $ladies->age = (date('Y') - date('Y',strtotime($ladies->dob)));
         $ladies->status = 1;
-
-        /*if($req->assigned_club != '') {
-            $ladies->assigned_club = $req->assigned_club;
-        }
-        $ladies->whatsapp_no = $req->whatsapp_no;
-        $ladies->about = $req->about;
-        $ladies->age = $req->age;
-        $ladies->country_id = $req->country_id;
-        $ladies->city_id = $req->city_id;
-        $ladies->address = $req->address;*/
         if ($req->hasFile('profile_pic')) {
             $image = $req->file('profile_pic');
             $ladies->profile_pic = imageUpload($image, 'ladies');
@@ -155,23 +138,13 @@ class LadiesController extends Controller
             $lady->password = Hash::make($req->password);
             $message = 'Profile and Password updated successfully';
         }
-        /*$lady->whatsapp_no = $req->whatsapp_no;
-        $lady->about = $req->about;
-        $lady->country_id = $req->country_id;
-        $lady->city_id = $req->city_id;
-        if($req->assigned_club != '') {
-            $lady->assigned_club = $req->assigned_club;
-        } else {
-            $lady->assigned_club = 0;
-        }
-        $lady->address = $req->address;*/
         if ($req->hasFile('profile_pic')) {
             $image = $req->file('profile_pic');
             $lady->profile_pic = imageUpload($image, 'ladies');
         }
         $lady->save();
         if(get_guard() == 'admin') {
-            return redirect()->route('admin.ladies')->with('Success','Lady Updated SuccessFully');
+            return redirect()->route('admin.ladies')->with('Success','Lady '.$message);
         } else {
             return back()->with('Success',$message);
         }

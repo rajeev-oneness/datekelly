@@ -16,9 +16,6 @@
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#kt_tab_pane_1_2">Basic Info</a>
                     </li>
-                    {{-- <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#kt_tab_pane_2_2">Advertisements</a>
-                    </li> --}}
                 </ul>
             </div>
         </div>
@@ -31,40 +28,41 @@
                                 <div class="col-3"><strong>Name</strong></div>
                                 <div class="col-9">{{$men->name}}</div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-3"><strong>Country</strong></div>
-                                <div class="col-9">{{$men->country->name}}</div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-3"><strong>City</strong></div>
-                                <div class="col-9">{{$men->city->name}}</div>
-                            </div>
+
                             <div class="row mb-3">
                                 <div class="col-3"><strong>Email</strong></div>
                                 <div class="col-9">{{$men->email}}</div>
                             </div>
+
                             <div class="row mb-3">
                                 <div class="col-3"><strong>Phone</strong></div>
                                 <div class="col-9">{{$men->phn_no}}</div>
                             </div>
+
                             <div class="row mb-3">
-                                <div class="col-3"><strong>WhatsApp</strong></div>
-                                <div class="col-9">{{$men->whatsapp_no}}</div>
+                                <div class="col-3"><strong>Date of Birth</strong></div>
+                                <div class="col-9">
+                                    @if($men->dob == '0000-00-00')
+                                        {{('N/A')}}
+                                    @else
+                                        {{date('d M, Y',strtotime($men->dob))}}
+                                    @endif
+                                </div>
                             </div>
+
+                            <div class="row mb-3">
+                                <div class="col-3"><strong>Age</strong></div>
+                                <div class="col-9">{{$men->age}}</div>
+                            </div>
+
                         </div>
                         <div class="col-sm-6">
                             <div class="row mb-4">
                                 <img src="{{asset($men->profile_pic)}}" alt="Profile Picture" width="150px">
                             </div>
-                            <div class="row">
-                                <strong>About</strong>
-                                {{$men->about}}
-                            </div>
                         </div>
                     </div>
                 </div>
-                {{-- <div class="tab-pane fade" id="kt_tab_pane_2_2" role="tabpanel">
-                </div> --}}
             </div>
         </div>
     </div>

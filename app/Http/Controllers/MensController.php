@@ -15,34 +15,17 @@ use Hash;
  
 class MensController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $mens = User::with('country')->where('user_type', 3)->where('status', 1)->orderBy('created_at', 'DESC')->get();
+        $mens = User::where('user_type', 3)->latest()->get();
         return view('admin.mens.index', compact('mens'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function add()
     {
-        $countries = Country::with('city')->get();
-        return view('admin.mens.add', compact('countries'));
+        return view('admin.mens.add');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $req)
     {
         $req->validate([
@@ -57,13 +40,7 @@ class MensController extends Controller
         $mens->email = $req->email;
         $mens->dob = emptyCheck($req->dob,true);
         $mens->age = (date('Y') - date('Y',strtotime($mens->dob)));
-        // $mens->phn_no = $req->phn_no;
-        // $mens->whatsapp_no = $req->whatsapp_no;
         $mens->password = Hash::make($req->password);
-        // $mens->about = $req->about;
-        // $mens->country_id = $req->country_id;
-        // $mens->city_id = $req->city_id;
-        // $mens->address = $req->address;
         $mens->status = 1;
         if ($req->hasFile('profile_pic')) {
             $image = $req->file('profile_pic');
@@ -84,24 +61,12 @@ class MensController extends Controller
         return redirect()->route('admin.mens')->with('Success','Men Added SuccessFully');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $men = User::where('id', decrypt($id))->first();
         return view('admin.mens.details', compact('men'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $countries = Country::all();
@@ -113,13 +78,6 @@ class MensController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $req)
     {
         $men = User::findOrFail(decrypt($req->id));
@@ -153,12 +111,6 @@ class MensController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function delete($id)
     {
         $men = User::findOrFail(decrypt($id))->delete();

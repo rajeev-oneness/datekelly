@@ -31,26 +31,44 @@
                                 <div class="col-3"><strong>Name</strong></div>
                                 <div class="col-9">{{$club->name}}</div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-3"><strong>Country</strong></div>
-                                <div class="col-9">{{$club->country->name}}</div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-3"><strong>City</strong></div>
-                                <div class="col-9">{{$club->city->name}}</div>
-                            </div>
+
                             <div class="row mb-3">
                                 <div class="col-3"><strong>Email</strong></div>
                                 <div class="col-9">{{$club->email}}</div>
                             </div>
+
                             <div class="row mb-3">
                                 <div class="col-3"><strong>Phone</strong></div>
                                 <div class="col-9">{{$club->phn_no}}</div>
                             </div>
+                            
                             <div class="row mb-3">
-                                <div class="col-3"><strong>WhatsApp</strong></div>
-                                <div class="col-9">{{$club->whatsapp_no}}</div>
+                                <div class="col-3"><strong>Country</strong></div>
+                                <div class="col-9">
+                                    @if($club->country)
+                                        {{$club->country->name}}
+                                    @else
+                                        {{('N/A')}}
+                                    @endif
+                                </div>
                             </div>
+
+                            <div class="row mb-3">
+                                <div class="col-3"><strong>City</strong></div>
+                                <div class="col-9">
+                                    @if($club->city)
+                                        {{$club->city->name}}
+                                    @else
+                                        {{('N/A')}}
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-3"><strong>Address</strong></div>
+                                <div class="col-9">{{$club->address}}</div>
+                            </div>
+
                             <div class="row">
                                 <div class="col-3"><strong>Website</strong></div>
                                 <div class="col-9">{{$club->website_address}}</div>
@@ -59,10 +77,6 @@
                         <div class="col-sm-6">
                             <div class="row mb-4">
                                 <img src="{{asset($club->profile_pic)}}" alt="Profile Picture" width="150px">
-                            </div>
-                            <div class="row">
-                                <strong>About</strong>
-                                {{$club->about}}
                             </div>
                         </div>
                     </div>

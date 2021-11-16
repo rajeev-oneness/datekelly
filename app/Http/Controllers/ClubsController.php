@@ -19,7 +19,7 @@ class ClubsController extends Controller
      */
     public function index()
     {
-        $clubs = User::with('country')->where('user_type', 2)->where('status', 1)->latest()->get();
+        $clubs = User::where('user_type', 2)->latest()->get();
         return view('admin.clubs.index', compact('clubs'));
     }
 

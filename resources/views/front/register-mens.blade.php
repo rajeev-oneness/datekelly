@@ -27,13 +27,13 @@
 
                             <div class="col-lg-4">
                                 <label class="mt-3">Date of Birth:</label>
-                                <input type="date" class="form-control" name="dob" value="{{old('dob')}}" required max="{{date('Y-m-d',strtotime('- 18 years'))}}" />
+                                <input type="date" class="form-control" name="dob" value="{{old('dob')}}" required max="{{date('Y-m-d',strtotime('- 18 years'))}}" onkeypress="return false;"/>
                                 @error('dob')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
 
                             <div class="col-lg-12">
                                 <label class="mt-3">Email:</label>
-                                <input type="email" class="form-control f-input" name="email" placeholder="Enter email" value="{{old('name')}}" required />
+                                <input type="email" class="form-control f-input" name="email" placeholder="Enter email" value="{{old('email')}}" required />
                                 @error('email')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
 

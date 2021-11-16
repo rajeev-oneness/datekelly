@@ -31,48 +31,37 @@
                                 <div class="col-3"><strong>Name</strong></div>
                                 <div class="col-9">{{$lady->name}}</div>
                             </div>
-                            {{-- <div class="row mb-3">
-                                <div class="col-3"><strong>Assigend Club</strong></div>
-                                <div class="col-9">
-                                    @if ($lady->lady_club)
-                                        {{$lady->lady_club->name}}
-                                    @else
-                                        N/A
-                                    @endif
-                                </div>
-                            </div> --}}
-                            <div class="row mb-3">
-                                <div class="col-3"><strong>Age</strong></div>
-                                <div class="col-9">{{$lady->age}}</div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-3"><strong>Country</strong></div>
-                                <div class="col-9">{{$lady->country->name}}</div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-3"><strong>City</strong></div>
-                                <div class="col-9">{{$lady->city->name}}</div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-3"><strong>Email</strong></div>
-                                <div class="col-9">{{$lady->email}}</div>
-                            </div>
+
                             <div class="row mb-3">
                                 <div class="col-3"><strong>Phone</strong></div>
                                 <div class="col-9">{{$lady->phn_no}}</div>
                             </div>
-                            <div class="row">
-                                <div class="col-3"><strong>WhatsApp</strong></div>
-                                <div class="col-9">{{$lady->whatsapp_no}}</div>
+
+                            <div class="row mb-3">
+                                <div class="col-3"><strong>Date of Birth</strong></div>
+                                <div class="col-9">
+                                    @if($lady->dob == '0000-00-00')
+                                        {{('N/A')}}
+                                    @else
+                                        {{date('d M, Y',strtotime($lady->dob))}}
+                                    @endif
+                                </div>
                             </div>
+
+                            <div class="row mb-3">
+                                <div class="col-3"><strong>Age</strong></div>
+                                <div class="col-9">{{$lady->age}}</div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-3"><strong>Email</strong></div>
+                                <div class="col-9">{{$lady->email}}</div>
+                            </div>
+                        
                         </div>
                         <div class="col-sm-6">
                             <div class="row mb-4">
                                 <img src="{{asset($lady->profile_pic)}}" alt="Profile Picture" width="150px">
-                            </div>
-                            <div class="row">
-                                <strong>About</strong>
-                                {{$lady->about}}
                             </div>
                         </div>
                     </div>
@@ -89,17 +78,17 @@
                             </thead>
                             <tbody>
                                 @forelse ($lady->ladies_ad as $key => $advertisement)
-                                <tr>
-                                    <th scope="row">{{$key+1}}</th>
-                                    <td><a href="{{route('admin.advertisement.show', base64_encode($advertisement->id))}}">{{$advertisement->title}}</a></td>
-                                    <td>{!!($advertisement->is_verified == 1)? "<span class='badge badge-success'>Verified</span>" : "<span class='badge badge-danger'>Not Verified</span>"!!}</td>
-                                </tr>
+                                    <tr>
+                                        <th scope="row">{{$key+1}}</th>
+                                        <td><a href="{{route('admin.advertisement.show', base64_encode($advertisement->id))}}">{{$advertisement->title}}</a></td>
+                                        <td>{!!($advertisement->is_verified == 1)? "<span class='badge badge-success'>Verified</span>" : "<span class='badge badge-danger'>Not Verified</span>"!!}</td>
+                                    </tr>
                                 @empty
-                                <tr>
-                                    <td>N/A</td>
-                                    <td>N/A</td>
-                                    <td>N/A</td>
-                                </tr>
+                                    <tr>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                    </tr>
                                 @endforelse
                             </tbody>
                         </table>
