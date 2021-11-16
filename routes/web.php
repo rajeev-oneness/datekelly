@@ -44,7 +44,8 @@ Route::post('/ladies-store', 'LadiesController@store')->name('ladies.store');
 Route::post('/clubs-store', 'ClubsController@store')->name('clubs.store');
 
 //Auth
-Auth::routes(['verify' => true,'register' => false]);
+Auth::routes(['verify' => true,'register' => false,'logout' => false]);
+Route::any('logout','HomeController@logout')->name('logout');
 
 Route::get('verify/my/account','VerifyAccountController@emailverification')->name('verify.user.account');
 //user dashboard

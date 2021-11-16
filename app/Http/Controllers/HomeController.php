@@ -69,4 +69,11 @@ class HomeController extends Controller
             return response()->json(['error' => true,'message' => 'Something went wrong please try after sometime']);
         }
     }
+
+    public function logout(Request $req)
+    {
+        auth()->guard()->logout();
+        $req->session()->invalidate();
+        return redirect(route('homepage'));
+    }
 }
