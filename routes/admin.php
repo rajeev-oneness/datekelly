@@ -13,7 +13,6 @@
         Route::group(['prefix' => 'services'],function(){
             
         });
-    
         
         //country section
         Route::get('/admin-country', 'Admin\CountryController@index')->name('admin.country');
