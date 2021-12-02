@@ -665,7 +665,7 @@
                 @if(count($advertisement->service_working_days) > 0)
                     <div class="lady-data bg-light-pink mb-2">
                         <h6>Working hours</h6>
-                        <table class="table table-sm table-borderless">
+                        <table class="table table-sm table-borderless py-3 m-0 d-block">
                             @foreach ($advertisement->service_working_days as $workingDays)
                                 <tr>
                                     <td>{{$workingDays->days}}</td>
