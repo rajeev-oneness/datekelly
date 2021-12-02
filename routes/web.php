@@ -165,7 +165,7 @@ Route::get('/about-us', 'FrontController@aboutUs')->name('about.us');
 
 
 //category wise advertisement listing
-Route::get('/advertisement-category/{id}', 'FrontController@adCategoryList')->name('advertisement.category.list');
+Route::get('/advertisement-category/{categoryId}/{categoryName}', 'FrontController@adCategoryList')->name('advertisement.category.list');
 
 //advertisements details
 Route::get('/advertisement/details/{id}', 'AdvertisementController@show')->name('advertisement.detail');

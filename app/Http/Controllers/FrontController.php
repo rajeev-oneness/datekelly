@@ -9,7 +9,7 @@ use App\Models\Contact;
 use App\Models\SiteSetting;
 use App\Models\Advertisement;
 use App\Models\AdvertisementReview;
-use App\Models\BusinessBanner;
+use App\Models\BusinessBanner,App\Models\AdvertisementCategory;
 use App\Models\Conversation,App\Models\AdvertisementServices;
 use App\Models\LadyPremiumPicture,App\Models\Service;
 use App\Models\PremiumPicturePurchase,App\Models\Descent;
@@ -47,14 +47,31 @@ class FrontController extends Controller
     public function getReviews()
     {
         $reviews = AdvertisementReview::latest()->get();
-        // $reviews = AdvertisementReview::where('created_at', '>', date('Y-m-d H:i:s', strtotime('-100 days')))->orderBy('id', 'DESC')->get();
         return view('front.reviews', compact('reviews'));
     }
 
-    public function adCategoryList($id)
+    public function adCategoryList(Request $req,$baseEncodeid,$catName)
     {
-        $advertisements = Advertisement::where('category', $id)->get();
-        return view('front.advertisement-category-list', compact('advertisements'));
+        $id = base64_decode($baseEncodeid);
+        $adCategories = AdvertisementCategory::select('advertisement_id')->where('category_id', $id)->groupBy('advertisement_id')->pluck('advertisement_id')->toArray();
+        if(count($adCategories)){
+            $advertisements = Advertisement::whereIn('id',$adCategories);
+            if(!empty($req->search_by_city)){
+                $advertisements = $advertisements->where(function($query) use ($req){
+                    $query->where('address', 'like', '%' . $req->search_by_city . '%')
+                        ->orWhere('title', 'like', '%' . $req->search_by_city . '%')
+                        ->orWhere('about', 'like', '%' . $req->search_by_city . '%')
+                        ->orWhereHas('city', function ($city) use($req) {
+                            $city->where('name', 'like', '%' . $req->search_by_city . '%');
+                        })->orWhereHas('country',function ($country) use($req) {
+                            $country->where('name', 'like', '%' . $req->search_by_city . '%');
+                        });
+                });
+            }
+            $advertisements = $advertisements->latest()->get();
+            return view('front.advertisement-category-list', compact('advertisements'));
+        }
+        return back()->with('Errors','Oops no data found against the category '.$catName);
     }
 
     public function register()

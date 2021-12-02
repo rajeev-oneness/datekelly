@@ -92,7 +92,7 @@
                                 @if ($item->include == 1)
                                     <span class="serv-type">Included</span>
                                 @else
-                                    <span class="serv-type">&dollar;{{$item->price}}</span>
+                                    <span class="serv-type">&euro; {{$item->price}}</span>
                                 @endif
                             </li> 
                             @endforeach
@@ -475,7 +475,7 @@
                                     <select name="duration_id" class="form-control form-control-sm">
                                         <option value="" hidden>-select duration-</option>
                                         @foreach ($advertisement->service_duration as $item)
-                                            <option value="{{$item->id}}" @if(old('duration_id') == $item->id){{('selected')}}@endif>{{$item->time}} - &dollar; {{$item->price}}</option>
+                                            <option value="{{$item->id}}" @if(old('duration_id') == $item->id){{('selected')}}@endif>{{$item->time}} - &euro; {{$item->price}}</option>
                                         @endforeach
                                     </select>
                                     @error('duration_id')<span class="text-danger">{{$message}}</span>@enderror
@@ -657,7 +657,7 @@
                             @foreach ($advertisement->service_duration as $item)
                                 <tr>
                                     <td>{{$item->time}}</td>
-                                    <td><b>&dollar; {{$item->price}}</b></td>
+                                    <td><b>&euro; {{$item->price}}</b></td>
                                 </tr>
                             @endforeach
                         </table>

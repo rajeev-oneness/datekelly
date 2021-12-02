@@ -264,6 +264,27 @@
                 </div>
             </div>
 
+            <!-- category Listing -->
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label>Category:</label>
+                    <table class="table">
+                    	<tr>
+                    		<th>Add</th>
+                    		<th>Category Name</th>
+                    	</tr>
+                    	@foreach($data->category as $indexCategory => $category)
+	                    	<tr>
+	                    		<td>
+	                    			<input type="checkbox" name="categories[{{$indexCategory}}]" value="{{$category->id}}" @if(in_array($category->id, $data->selectedCategory)){{('checked')}}@endif>
+	                    		</td>
+	                    		<td>{{$category->name}}</td>
+	                    	</tr>
+                    	@endforeach
+                    </table>
+                </div>
+            </div>
+
             <div class="form-group row">
                 <div class="col-sm-12">
                     <label>Services & Extras:</label>

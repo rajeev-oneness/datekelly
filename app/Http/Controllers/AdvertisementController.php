@@ -13,7 +13,7 @@ use App\Models\Language,App\Models\Category,App\Models\Country;
 use App\Models\LadyPremiumPicture,App\Models\PremiumPicturePurchase;
 use App\Models\LoveCount,App\Models\ReviewLikeDislike;
 use App\Models\AdvertisementWorkingDays;
-use App\Models\Service;
+use App\Models\Service, App\Models\AdvertisementCategory;
 
 class AdvertisementController extends Controller
 {
@@ -52,12 +52,13 @@ class AdvertisementController extends Controller
         foreach ($data->countries as $key => $value) {
             $data->firstCountryId = $value->id;break;
         }
-        $data->cup_size = CupSize::select('*')->get();
-        $data->body_size = BodySize::select('*')->get();
-        $data->descents = Descent::select('*')->get();
-        $data->language = Language::select('*')->get();
+        $data->category = Category::select('*')->latest()->get();
+        $data->cup_size = CupSize::select('*')->latest()->get();
+        $data->body_size = BodySize::select('*')->latest()->get();
+        $data->descents = Descent::select('*')->latest()->get();
+        $data->language = Language::select('*')->latest()->get();
         $data->time = ['15 Min', '30 Min','45 Min','1 Hour','2 Hour', '4 Hour', '8 Hour','12 Hour'];
-        $data->servicesAndExtra = Service::select('*')->get();
+        $data->servicesAndExtra = Service::select('*')->latest()->get();
         $data->workingDays = ['Monday','Tuesday','Wednesday','Thrusday','Friday','Saturday','Sunday'];
         return view('front.advertisement.add', compact('data'));
     }
@@ -104,6 +105,8 @@ class AdvertisementController extends Controller
             'images.*' => 'nullable|image',
             'video' => 'nullable|array',
             'video.*' => 'nullable',
+            'categories' => 'nullable|array',
+            'categories.*' => 'required|numeric|min:1',
             'services' => 'nullable|array',
             'services.*' => 'nullable|string',
             'servicesInclude' => 'nullable|array',
@@ -143,6 +146,20 @@ class AdvertisementController extends Controller
             $newAdvertisement->lng = emptyCheck($req->lng);
             $newAdvertisement->price = $req->advertisement_price;
             $newAdvertisement->save();
+
+            // Advertisement Categories
+            if(!empty($req->categories) && count($req->categories) > 0){
+                $advertisementCategory = [];
+                foreach ($req->categories as $keyCate => $valueCate) {
+                    $advertisementCategory[] = [
+                        'advertisement_id' => $newAdvertisement->id,
+                        'category_id' => $valueCate,
+                    ];
+                }
+                if(count($advertisementCategory) > 0){
+                    AdvertisementCategory::insert($advertisementCategory);
+                }
+            }
 
             // Advertisement Services
             if(!empty($req->services) && count($req->services) > 0){
@@ -304,23 +321,18 @@ class AdvertisementController extends Controller
     {
         $data = (object)[];
         $data->info = Advertisement::findOrFail(base64_decode($id));
+        $data->selectedCategory = AdvertisementCategory::select('category_id')->where('advertisement_id',$data->info->id)->groupBy('category_id')->pluck('category_id')->toArray();;
         $data->countries = Country::select('*')->orderBy('name')->get();
         $data->firstCountryId = $data->info->country_id;
-        $data->cup_size = CupSize::select('*')->get();
-        $data->body_size = BodySize::select('*')->get();
-        $data->descents = Descent::select('*')->get();
-        $data->language = Language::select('*')->get();
+        $data->cup_size = CupSize::select('*')->latest()->get();
+        $data->body_size = BodySize::select('*')->latest()->get();
+        $data->descents = Descent::select('*')->latest()->get();
+        $data->category = Category::select('*')->latest()->get();
+        $data->language = Language::select('*')->latest()->get();
         $data->time = ['15 Min', '30 Min','45 Min','1 Hour','2 Hour', '4 Hour', '8 Hour','12 Hour'];
-        $data->servicesAndExtra = Service::select('*')->get();
+        $data->servicesAndExtra = Service::select('*')->latest()->get();
         $data->workingDays = ['Monday','Tuesday','Wednesday','Thrusday','Friday','Saturday','Sunday'];
         return view('front.advertisement.edit', compact('data'));
-        // $languages = Language::all();
-        // $categories = Category::all();
-        // $countries = Country::all();
-        // $advertisement = Advertisement::findOrFail(base64_decode($id));
-        // if(empty(auth()->guard($guard)->user()) || !empty(auth()->guard($guard)->user())) {
-        //     return view('front.advertisement.edit', compact('advertisement','languages','categories','countries'));
-        // }
     }
 
     /**
@@ -366,6 +378,8 @@ class AdvertisementController extends Controller
             'images.*' => 'nullable|image',
             'video' => 'nullable|array',
             'video.*' => 'nullable',
+            'categories' => 'nullable|array',
+            'categories.*' => 'required|numeric|min:1',
             'services' => 'nullable|array',
             'services.*' => 'nullable|string',
             'servicesInclude' => 'nullable|array',
@@ -405,6 +419,22 @@ class AdvertisementController extends Controller
             $newAdvertisement->lng = emptyCheck($req->lng);
             $newAdvertisement->price = $req->advertisement_price;
             $newAdvertisement->save();
+
+            // Advertisement Categories
+            if(!empty($req->categories) && count($req->categories) > 0){
+                $advertisementCategory = [];
+                foreach ($req->categories as $keyCate => $valueCate) {
+                    $advertisementCategory[] = [
+                        'advertisement_id' => $newAdvertisement->id,
+                        'category_id' => $valueCate,
+                    ];
+                }
+                if(count($advertisementCategory) > 0){
+                    AdvertisementCategory::where('advertisement_id',$newAdvertisement->id)->delete();
+                    AdvertisementCategory::insert($advertisementCategory);
+                }
+            }
+
             // Advertisement Services
             if(!empty($req->services) && count($req->services) > 0){
                 $advertisementServices = [];

@@ -14,7 +14,9 @@ class AddNewColumninUseron15Nov2021454PM extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->date('dob');
+            if (!Schema::hasColumn('users', 'dob')){
+                $table->date('dob');    
+            }
         });
     }
 
