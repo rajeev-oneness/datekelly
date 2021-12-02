@@ -181,8 +181,13 @@
                                     <i class="fas fa-heart pt-1 text-danger pr-3"></i>
                                 </div>
                                 <p>
-                                    Reply from <span class="text-danger">
-                                        {{$item->reply_user->name}}
+                                    Reply from
+                                    <span class="text-danger">
+                                        @if($item->reply_user)
+                                            {{$item->reply_user->name}}
+                                        @else
+                                            {{('N/A')}}
+                                        @endif
                                     </span>
                                     <span class="d-block pt-3">
                                         {{$item->reply}}

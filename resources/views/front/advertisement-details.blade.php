@@ -234,52 +234,52 @@
                         </div>
                     </div>
                     @foreach ($reviews as $item)
-                    <div class="card position-relative mb-5 w-100">
-                        <div class="card-header border-0 pt-1 d-flex">
-                            <p>
-                                <span class="text-lblue">{{$item->user_details->name}}</span> review of <span class="textpink">
-                                    @if ($advertisement->lady)
-                                        {{$advertisement->lady->name}}
-                                    @elseif($advertisement->club)
-                                        {{$advertisement->club->name}}
-                                    @endif
-                                </span>
-                                <br>{{date('M Y', strtotime($item->advertisement_details->created_at))}}
-                            </p>
-                            <sapn class="r-review w-50 ml-0">{{$item->rating}}</sapn>
-                        </div>
-                        <div class="card-body pt-0">
-                            <div class="d-flex bodytext mb-3">
-                                <i class="fas fa-plus-circle igreen"></i>
-                                <p>{{$item->positive}}</p>
+                        <div class="card position-relative mb-5 w-100">
+                            <div class="card-header border-0 pt-1 d-flex">
+                                <p>
+                                    <span class="text-lblue">{{$item->user_details->name}}</span> review of <span class="textpink">
+                                        @if ($advertisement->lady)
+                                            {{$advertisement->lady->name}}
+                                        @elseif($advertisement->club)
+                                            {{$advertisement->club->name}}
+                                        @endif
+                                    </span>
+                                    <br>{{date('M Y', strtotime($item->advertisement_details->created_at))}}
+                                </p>
+                                <sapn class="r-review w-50 ml-0">{{$item->rating}}</sapn>
                             </div>
-                            <div class="d-flex bodytext mb-3">
-                                <i class="fas fa-minus-circle ired"></i>
-                                <p>{{$item->negative}}</p>
-                            </div>
-                            <div class="d-flex bg-light-pink p-2 sub-text-review">
-                                <div class="textpink">
-                                    <i class="fas fa-heart pt-1"></i>
+                            <div class="card-body pt-0">
+                                <div class="d-flex bodytext mb-3">
+                                    <i class="fas fa-plus-circle igreen"></i>
+                                    <p>{{$item->positive}}</p>
                                 </div>
-                                @if ($item->reply != '')
-                                    <p>
-                                        Reply from <span class="textpink">
-                                            {{$item->reply_user->name}}
-                                        </span>
-                                        <span class="d-block textpink">
-                                            {{$item->reply}}
-                                        </span>
-                                    </p>
-                                @else
-                                    <p><span class="d-block textpink">No reply by user!</span></p>
-                                @endif
+                                <div class="d-flex bodytext mb-3">
+                                    <i class="fas fa-minus-circle ired"></i>
+                                    <p>{{$item->negative}}</p>
+                                </div>
+                                <div class="d-flex bg-light-pink p-2 sub-text-review">
+                                    <div class="textpink">
+                                        <i class="fas fa-heart pt-1"></i>
+                                    </div>
+                                    @if ($item->reply != '' && $item->reply_user)
+                                        <p>
+                                            Reply from <span class="textpink">
+                                                {{$item->reply_user->name}}
+                                            </span>
+                                            <span class="d-block textpink">
+                                                {{$item->reply}}
+                                            </span>
+                                        </p>
+                                    @else
+                                        <p><span class="d-block textpink">No reply by user!</span></p>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="like-section d-flex">
+                                <p id="reviewLike" data-total="{{$item->likes}}" onclick="likeDislikeCount(this.id)" style="cursor: pointer;">{{$item->likes}} <i class="far fa-thumbs-up"></i></p>
+                                <p id="reviewDislike" data-total="{{$item->dislikes}}" onclick="likeDislikeCount(this.id)" style="cursor: pointer;">{{$item->dislikes}} <i class="far fa-thumbs-down"></i></p>
                             </div>
                         </div>
-                        <div class="like-section d-flex">
-                            <p id="reviewLike" data-total="{{$item->likes}}" onclick="likeDislikeCount(this.id)" style="cursor: pointer;">{{$item->likes}} <i class="far fa-thumbs-up"></i></p>
-                            <p id="reviewDislike" data-total="{{$item->dislikes}}" onclick="likeDislikeCount(this.id)" style="cursor: pointer;">{{$item->dislikes}} <i class="far fa-thumbs-down"></i></p>
-                        </div>
-                    </div>
                     @endforeach
                </div><!--review-row-->
             </div><!--details-left-part-->
