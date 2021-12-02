@@ -6,14 +6,16 @@
 
 @section('content')
 <section class="position-relative">
-    <div class="owl-carousel banner-pic">
-        @foreach ($advertisement->advertisement_image as $adImageKey => $adImageValue)
-            @if($adImageValue->type == 'Image')
-                <div class="item" data-hash="{{$adImageKey}}">
-                    <img src="{{asset($adImageValue->img)}}">
-                </div>
-            @endif
-        @endforeach
+    <div data-toggle="modal" data-target="#imagesSliderModal22">
+        <div class="owl-carousel banner-pic">
+            @foreach ($advertisement->advertisement_image as $adImageKey => $adImageValue)
+                @if($adImageValue->type == 'Image')
+                    <div class="item" data-hash="{{$adImageKey}}">
+                        <img src="{{asset($adImageValue->img)}}">
+                    </div>
+                @endif
+            @endforeach
+        </div>
     </div>
     <div class="image-sl-text">
         <div class="container">
@@ -700,6 +702,27 @@
         </div>
     </div>
 </section><!--advertisement_lady_body-->
+
+
+<!-- Images slider modal  -->
+
+<div class="modal fade" id="imagesSliderModal22" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0">
+      <div class="owl-carousel imagesSliderModal"  data-toggle="modal" data-target="#imagesSliderModal">
+            @foreach ($advertisement->advertisement_image as $adImageKey => $adImageValue)
+                @if($adImageValue->type == 'Image')
+                    <div class="item" data-hash="{{$adImageKey}}">
+                        <img src="{{asset($adImageValue->img)}}">
+                    </div>
+                @endif
+            @endforeach
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

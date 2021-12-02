@@ -98,6 +98,17 @@ $('.banner-pic').owlCarousel({
 	}
 });
 
+
+$('.imagesSliderModal').owlCarousel({
+	loop:true,
+	margin:0,
+	autoplay:false,
+	nav: true,
+	navText: ["<i class='fas fa-chevron-left'></i>", "<i class='fas fa-chevron-right'></i>"],
+	items:1,
+	dots:false
+});
+
 /*----------custom-file----------*/
 
 const realFileBtn = document.getElementById("real-file");
