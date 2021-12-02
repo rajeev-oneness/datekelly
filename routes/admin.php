@@ -11,7 +11,10 @@
 
         // Services
         Route::group(['prefix' => 'services'],function(){
-            
+            Route::get('list','Admin\CrudController@serviceList')->name('admin.service.list');
+            Route::post('store','Admin\CrudController@serviceStore')->name('admin.service.store');
+            Route::post('update','Admin\CrudController@serviceUpdate')->name('admin.service.update');
+            Route::post('delete','Admin\CrudController@serviceDelete')->name('admin.service.delete');
         });
         
         //country section

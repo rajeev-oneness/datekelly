@@ -11,6 +11,17 @@
         }
     }
 
+    function successResponse($msg = '', $data = [], $status = 200)
+    {
+        return response()->json(['error' => false, 'status' => $status, 'message' => $msg, 'data' => $data]);
+    }
+
+    function errorResponse($msg = '', $data = [], $status = 200)
+    {
+        return response()->json(['error' => true, 'status' => 200, 'message' => $msg]);
+        // return response()->json(['error'=>true,'status'=>$status,'message'=>$msg,'data'=>$data]);
+    }
+
     function randomGenerator() {
         return uniqid().''.date('ymdhis').''.uniqid();
     }

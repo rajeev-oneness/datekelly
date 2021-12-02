@@ -161,6 +161,41 @@
 										</ul>
 									</div>
 								</li>
+
+								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+									<a href="javascript:;" class="menu-link menu-toggle">
+										<span class="svg-icon menu-icon">
+											<i class="fas fa-list"></i>
+										</span>
+										<span class="menu-text text-white">Services</span>
+										<i class="menu-arrow"></i>
+									</a>
+									<div class="menu-submenu">
+										<i class="menu-arrow"></i>
+										<ul class="menu-subnav">
+											<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+												<a href="{{route('admin.service.list')}}" class="menu-link menu-toggle">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Manage</span>
+													<i class="menu-arrow"></i>
+												</a>
+											</li>
+											<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+												<a href="{{route('admin.service.list',['form_type'=>'add'])}}" class="menu-link menu-toggle">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Add</span>
+													<i class="menu-arrow"></i>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+
+
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<span class="svg-icon menu-icon">
