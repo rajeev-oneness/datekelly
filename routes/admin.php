@@ -8,6 +8,11 @@
         Route::get('/admin-category-edit/{id}', 'Admin\CategoryController@edit')->name('admin.category.edit');
         Route::post('/admin-category-update', 'Admin\CategoryController@update')->name('admin.category.update');
         Route::get('/admin-category-delete/{id}', 'Admin\CategoryController@delete')->name('admin.category.delete');
+
+        // Services
+        Route::group(['prefix' => 'services'],function(){
+            
+        });
     
         
         //country section

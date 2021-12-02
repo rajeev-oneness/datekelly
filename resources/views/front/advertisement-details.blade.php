@@ -102,69 +102,69 @@
                 
                 <div class="row m-0 mt-5">
                     @if ($advertisement->club)
-                    <div class="row m-0 mt-5">
+                        <!-- <div class="row m-0 mt-5">
+                            <div class="col-12 p-0 mb-4 d-md-flex">
+                                <div class="col-12 col-md-6 text-left p-0">
+                                    <h5>Our Ladies</h5>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3 p-0 ledis-gl">
+                                <div class="card border-0 text-center active">
+                                    <h5 class="card-title mb-3">Kelly</h5>
+                                    <img src="{{asset('front/img/gl-1.jpg')}}" class="card-img-top" alt="...">
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3 p-0 ledis-gl">
+                                <div class="card border-0 text-center active">
+                                    <h5 class="card-title mb-3"> Bella</h5>
+                                    <img src="{{asset('front/img/gl-2.jpg')}}" class="card-img-top" alt="...">
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3 p-0 ledis-gl">
+                                <div class="card border-0 text-center active">
+                                    <h5 class="card-title mb-3">Wendy</h5>
+                                    <img src="{{asset('front/img/gl-3.jpg')}}" class="card-img-top" alt="...">
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3 p-0 ledis-gl">
+                                <div class="card border-0 text-center active">
+                                    <h5 class="card-title mb-3">Amy</h5>
+                                    <img src="{{asset('front/img/gl-4.jpg')}}" class="card-img-top" alt="...">
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3 p-0 ledis-gl">
+                                <div class="card border-0 text-center active">
+                                    <h5 class="card-title mb-3">Gina</h5>
+                                    <img src="{{asset('front/img/gl-5.jpg')}}" class="card-img-top" alt="...">
+                                </div>
+                            </div>
+                        </div> -->
+                    @elseif($advertisement->lady)
                         <div class="col-12 p-0 mb-4 d-md-flex">
                             <div class="col-12 col-md-6 text-left p-0">
-                                <h5>Our Ladies</h5>
+                                <h5>My Premium Pictures</h5>
+                            </div>
+                            <div class="col-12 col-md-5 text-right p-0 mt-md-0 mt-4">
+                                <h6>
+                                    <a href="javascript:void(0);" onclick="showPremiumPics()" class="p-2 textpink">View all({{count($premium_pics)}})</a>
+                                </h6>
                             </div>
                         </div>
-                        <div class="col-6 col-md-3 p-0 ledis-gl">
-                            <div class="card border-0 text-center active">
-                                <h5 class="card-title mb-3">Kelly</h5>
-                                <img src="{{asset('front/img/gl-1.jpg')}}" class="card-img-top" alt="...">
-                            </div>
-                        </div>
-                        <div class="col-6 col-md-3 p-0 ledis-gl">
-                            <div class="card border-0 text-center active">
-                                <h5 class="card-title mb-3"> Bella</h5>
-                                <img src="{{asset('front/img/gl-2.jpg')}}" class="card-img-top" alt="...">
-                            </div>
-                        </div>
-                        <div class="col-6 col-md-3 p-0 ledis-gl">
-                            <div class="card border-0 text-center active">
-                                <h5 class="card-title mb-3">Wendy</h5>
-                                <img src="{{asset('front/img/gl-3.jpg')}}" class="card-img-top" alt="...">
-                            </div>
-                        </div>
-                        <div class="col-6 col-md-3 p-0 ledis-gl">
-                            <div class="card border-0 text-center active">
-                                <h5 class="card-title mb-3">Amy</h5>
-                                <img src="{{asset('front/img/gl-4.jpg')}}" class="card-img-top" alt="...">
-                            </div>
-                        </div>
-                        <div class="col-6 col-md-3 p-0 ledis-gl">
-                            <div class="card border-0 text-center active">
-                                <h5 class="card-title mb-3">Gina</h5>
-                                <img src="{{asset('front/img/gl-5.jpg')}}" class="card-img-top" alt="...">
-                            </div>
-                        </div>
-                    </div>
-                    @elseif($advertisement->lady)
-                    <div class="col-12 p-0 mb-4 d-md-flex">
-                        <div class="col-12 col-md-6 text-left p-0">
-                            <h5>My Premium Pictures</h5>
-                        </div>
-                        <div class="col-12 col-md-5 text-right p-0 mt-md-0 mt-4">
-                            <h6>
-                                <a href="javascript:void(0);" onclick="showPremiumPics()" class="p-2 textpink">View all({{count($premium_pics)}})</a>
-                            </h6>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-11 p-0">
-                        <div class="owl-carousel premium-pic">
-                            @forelse ($premium_pics as $pics)
-                                <div class="item">
-                                    <img src="{{asset($pics->picture)}}">
-                                    <div class="unlock">
-                                        <img src="{{asset('front/img/unlock-icon.png')}}">
-                                        <h6>Unlock</h6>
+                        <div class="col-12 col-md-11 p-0">
+                            <div class="owl-carousel premium-pic">
+                                @forelse ($premium_pics as $pics)
+                                    <div class="item">
+                                        <img src="{{asset($pics->picture)}}">
+                                        <div class="unlock">
+                                            <img src="{{asset('front/img/unlock-icon.png')}}">
+                                            <h6>Unlock</h6>
+                                        </div>
                                     </div>
-                                </div>
-                            @empty
-                                No Pics!
-                            @endforelse
+                                @empty
+                                    No Pics!
+                                @endforelse
+                            </div>
                         </div>
-                    </div>
                     @endif
                 </div><!--picture-slid-->
 
@@ -232,7 +232,7 @@
                         </div>
                     </div>
                     @foreach ($reviews as $item)
-                    <div class="card position-relative mb-5">
+                    <div class="card position-relative mb-5 w-100">
                         <div class="card-header border-0 pt-1 d-flex">
                             <p>
                                 <span class="text-lblue">{{$item->user_details->name}}</span> review of <span class="textpink">
@@ -249,46 +249,33 @@
                         <div class="card-body pt-0">
                             <div class="d-flex bodytext mb-3">
                                 <i class="fas fa-plus-circle igreen"></i>
-                                <p>
-                                    {{$item->positive}}
-                                </p>
+                                <p>{{$item->positive}}</p>
                             </div>
                             <div class="d-flex bodytext mb-3">
                                 <i class="fas fa-minus-circle ired"></i>
-                                <p>
-                                    {{$item->negative}}
-                                </p>
+                                <p>{{$item->negative}}</p>
                             </div>
                             <div class="d-flex bg-light-pink p-2 sub-text-review">
                                 <div class="textpink">
                                     <i class="fas fa-heart pt-1"></i>
                                 </div>
                                 @if ($item->reply != '')
-                                <p>
-                                    Reply from <span class="textpink">
-                                        {{$item->reply_user->name}}
-                                    </span>
-                                    <span class="d-block textpink">
-                                        {{$item->reply}}
-                                    </span>
-                                </p>
+                                    <p>
+                                        Reply from <span class="textpink">
+                                            {{$item->reply_user->name}}
+                                        </span>
+                                        <span class="d-block textpink">
+                                            {{$item->reply}}
+                                        </span>
+                                    </p>
                                 @else
-                                <p>
-                                    <span class="d-block textpink">
-                                        No reply by user!
-                                    </span>
-                                </p>
+                                    <p><span class="d-block textpink">No reply by user!</span></p>
                                 @endif
-                                
                             </div>
                         </div>
                         <div class="like-section d-flex">
-                            <p id="reviewLike" data-total="{{$item->likes}}" onclick="likeDislikeCount(this.id)" style="cursor: pointer;">
-                                {{$item->likes}} <i class="far fa-thumbs-up"></i>
-                            </p>
-                            <p id="reviewDislike" data-total="{{$item->dislikes}}" onclick="likeDislikeCount(this.id)" style="cursor: pointer;">
-                                {{$item->dislikes}} <i class="far fa-thumbs-down"></i>
-                            </p>
+                            <p id="reviewLike" data-total="{{$item->likes}}" onclick="likeDislikeCount(this.id)" style="cursor: pointer;">{{$item->likes}} <i class="far fa-thumbs-up"></i></p>
+                            <p id="reviewDislike" data-total="{{$item->dislikes}}" onclick="likeDislikeCount(this.id)" style="cursor: pointer;">{{$item->dislikes}} <i class="far fa-thumbs-down"></i></p>
                         </div>
                     </div>
                     @endforeach
@@ -547,14 +534,22 @@
             <!--right-part START-->
             <div class="col-12 col-md-3 ml-auto p-0 order-1 order-md-12 mb-4 mb-md-0">
                 <div class="bg-light-pink p-2 mb-2 text-center">
-                    <h6>
-                        {{($advertisement->country)? $advertisement->country->name : ''}}
-                        <small class="d-block"> {{($advertisement->city)? $advertisement->city->name : ''}}</small>
-                    </h6>
+                    @if($advertisement->country && $advertisement->city)
+                        <h6>
+                            {{ $advertisement->country->name }}
+                            <small class="d-block"> {{ $advertisement->city->name }}</small>
+                        </h6>
+                    @endif
                     <p>
-                        <span class="d-block mb-0 mt-3">{{$advertisement->message}}</span>
+                        @if($advertisement->my_service == 'private_visit')
+                            <span class="d-block mb-0 mt-3">You can visit me - <b>Private visit</b></span>
+                        @elseif($advertisement->my_service == 'escort')
+                            <span class="d-block">I will visit you - <b>Escort</b></span>
+                        @endif
                     </p>
                 </div>
+
+
                 <div class="row m-0 bg-light-pink mb-2">
                     <div class="col-md-6 col-12 call-adv-r">
                         <h6>{{$advertisement->phn_no}}</h6>
@@ -577,6 +572,7 @@
                             </h6>
                         </div>
                     </div>
+
                 </div>
                 <!-- Send Message Modal -->
                 <div class="modal fade" id="sendMessageModal" tabindex="-1" role="dialog" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
@@ -658,6 +654,20 @@
                                 <tr>
                                     <td>{{$item->time}}</td>
                                     <td><b>&euro; {{$item->price}}</b></td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
+                @endif
+
+                @if(count($advertisement->service_working_days) > 0)
+                    <div class="lady-data bg-light-pink mb-2">
+                        <h6>Working hours</h6>
+                        <table class="table table-sm table-borderless">
+                            @foreach ($advertisement->service_working_days as $workingDays)
+                                <tr>
+                                    <td>{{$workingDays->days}}</td>
+                                    <td><b>{{date('h:i A',strtotime($workingDays->from))}} to {{date('h:i A',strtotime($workingDays->till))}}</b></td>
                                 </tr>
                             @endforeach
                         </table>
