@@ -730,8 +730,8 @@ class AdvertisementController extends Controller
         $adRev = AdvertisementReview::where('advertisement_id', $req->adId)->first();
         // dd($adrev);
         $total = [
-            'totalLike' => $adRev->likes,
-            'totalDislike' => $adRev->dislikes,
+            'totalLike' => ($adRev ? $adRev->liked : []),
+            'totalDislike' => ($adRev ? $adRev->dislikes : []),
         ];
         if($likeDislikeCount) {
             if(($likeDislikeCount->like == 0) && ($likeDislikeCount->dislike == 1)) {
