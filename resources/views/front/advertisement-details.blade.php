@@ -665,7 +665,7 @@
                 @if(count($advertisement->service_working_days) > 0)
                     <div class="lady-data bg-light-pink mb-2">
                         <h6>Working hours</h6>
-                        <table class="table table-sm table-borderless">
+                        <table class="table table-sm table-borderless pt-3 m-0 d-block">
                             @foreach ($advertisement->service_working_days as $workingDays)
                                 <tr>
                                     <td>{{$workingDays->days}}</td>
@@ -675,7 +675,7 @@
                         </table>
                     </div>
                 @endif
-                <div class="bg-light-pink p-2 pt-3 pb-3">
+                <div class="bg-light-pink lady-data">
                     @if ($advertisement->lady)
                         <p class="mb-0"><b>{{$advertisement->lady->name}}</b> is a member since <br><b>{{date('d M, Y', strtotime($advertisement->lady->created_at))}}</b></p>
                         <p class="mb-0">Views on her profile : &nbsp; <b>{{date('Y') + date('m') + date('d')}}</b></p>

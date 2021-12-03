@@ -745,6 +745,10 @@ input#check:focus + label {
   list-style: none;
   margin: 0;
   padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 25px;
+  justify-content: space-between;
 }
 .service-me li{
   font-size: 14px;
@@ -753,6 +757,7 @@ input#check:focus + label {
   display: flex;
   padding: 3px 0;
   font-family: Arial, sans-serif;
+  justify-content: space-between;
 }
 .service-me li .serv-name{
   width: 210px;
@@ -839,7 +844,7 @@ input#check:focus + label {
   text-align: center;
 }
 .lady-data{
-  padding:10px 30px;
+  padding:20px 30px;
 }
 .lady-data table tr td{
   font-size: 13px;
@@ -847,7 +852,8 @@ input#check:focus + label {
   font-weight: 400;
   text-align: left;
   vertical-align: top;
-  padding: 2px;
+  padding: 2px 10px;
+  padding-left: 0;
 }
 .lady-data table tr th{
   font-size: 18px;
@@ -1274,7 +1280,7 @@ input#check:focus + label {
   align-items: center;
 }
 #imagesSliderModal22 .modal-content .item img{
-  width: unset !important;
+  
   height: 100% !important;
 }
 #imagesSliderModal22 .owl-nav button.owl-next, #imagesSliderModal22 .owl-nav button.owl-prev{
@@ -1294,4 +1300,10 @@ input#check:focus + label {
 }
 #imagesSliderModal22 .owl-nav button.owl-prev{
   left: -15px;
+}
+.aside-menu-wrapper .menu-nav .menu-item-active .menu-link{
+  background-color: #1b1b28 !important;
+}
+table{
+  margin-bottom: 0 !important;
 }
