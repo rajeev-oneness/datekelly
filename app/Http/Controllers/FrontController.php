@@ -74,6 +74,29 @@ class FrontController extends Controller
         return back()->with('Errors','Oops no data found against the category '.$catName);
     }
 
+    public function adServiceList(Request $req,$serviceName)
+    {
+        $adService = AdvertisementServices::select('advertisement_id')->where('service_name', $serviceName)->groupBy('advertisement_id')->pluck('advertisement_id')->toArray();
+        if(count($adService)){
+            $advertisements = Advertisement::whereIn('id',$adService);
+            if(!empty($req->search_by_city)){
+                $advertisements = $advertisements->where(function($query) use ($req){
+                    $query->where('address', 'like', '%' . $req->search_by_city . '%')
+                        ->orWhere('title', 'like', '%' . $req->search_by_city . '%')
+                        ->orWhere('about', 'like', '%' . $req->search_by_city . '%')
+                        ->orWhereHas('city', function ($city) use($req) {
+                            $city->where('name', 'like', '%' . $req->search_by_city . '%');
+                        })->orWhereHas('country',function ($country) use($req) {
+                            $country->where('name', 'like', '%' . $req->search_by_city . '%');
+                        });
+                });
+            }
+            $advertisements = $advertisements->latest('id')->get();
+            return view('front.advertisement-category-list', compact('advertisements'));
+        }
+        return back()->with('Errors','Oops no data found against the category '.$catName);
+    }
+
     public function register()
     {
         return view('front.register');

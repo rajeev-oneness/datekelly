@@ -113,7 +113,7 @@
                             <ul class="service-me">
                                 @foreach ($advertisement->services as $item)
                                 <li>
-                                    <span class="serv-name">{{$item->service_name}}</span>
+                                    <span class="serv-name"><a href="{{route('advertisement.service.list', [$item->service_name])}}">{{$item->service_name}}</a></span>
                                     @if ($item->include == 1)
                                         <span class="serv-type">Included</span>
                                     @else
