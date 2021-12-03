@@ -1260,9 +1260,8 @@ input#check:focus + label {
 .mx377{
   max-width: 377px;
 }
-.lady-card-img{
+img.card-img-top{
   height: 200px;
-  overflow: hidden;
 }
 .modal.show .modal-dialog{
   max-width: 80% !important;
@@ -1281,7 +1280,7 @@ input#check:focus + label {
 }
 #imagesSliderModal22 .modal-content .item img{
   
-  height: 100% !important;
+  height: 95vh !important;
 }
 #imagesSliderModal22 .owl-nav button.owl-next, #imagesSliderModal22 .owl-nav button.owl-prev{
   position: absolute;
