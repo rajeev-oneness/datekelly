@@ -728,7 +728,6 @@ class AdvertisementController extends Controller
     {
         $likeDislikeCount = ReviewLikeDislike::where('from', $req->customerId)->where('to', $req->userId)->where('advertisement_id', $req->adId)->first();
         $adRev = AdvertisementReview::where('advertisement_id', $req->adId)->first();
-        // dd($adrev);
         $total = [
             'totalLike' => ($adRev ? $adRev->liked : []),
             'totalDislike' => ($adRev ? $adRev->dislikes : []),

@@ -34,19 +34,19 @@ class FrontController extends Controller
                     });
             });
         }
-        $advertisement = $advertisement->get();
+        $advertisement = $advertisement->latest('id')->get();
         return view('front.ladies-home', compact('advertisement'));
     }
 
     public function clubAgenciesHome()
     {
-        $advertisements = Advertisement::where('ladies_id', 0)->where('club_id','!=',0)->get();
+        $advertisements = Advertisement::where('ladies_id', 0)->where('club_id','!=',0)->latest('id')->get();
         return view('front.club-agencies-home', compact('advertisements'));
     }
 
     public function getReviews()
     {
-        $reviews = AdvertisementReview::latest()->get();
+        $reviews = AdvertisementReview::latest('id')->get();
         return view('front.reviews', compact('reviews'));
     }
 
@@ -68,7 +68,7 @@ class FrontController extends Controller
                         });
                 });
             }
-            $advertisements = $advertisements->latest()->get();
+            $advertisements = $advertisements->latest('id')->get();
             return view('front.advertisement-category-list', compact('advertisements'));
         }
         return back()->with('Errors','Oops no data found against the category '.$catName);
@@ -112,7 +112,7 @@ class FrontController extends Controller
         $coinBalance = CoinsDetails::where('user_id', $user->id)->sum('coins');
         $coinSpent = CoinsDetails::where('user_id', $user->id)->where('coins', '<', 0)->sum('coins');
         $ads = Advertisement::where('club_id', $user->id)->orWhere('ladies_id', $user->id);
-        $adsId = $ads->pluck('id')->toArray();
+        $adsId = $ads->latest('id')->pluck('id')->toArray();
         $totalReviews = AdvertisementReview::whereIn('advertisement_id', $adsId)->count();
         $rating = AdvertisementReview::whereIn('advertisement_id', $adsId)->avg('rating');
         if(auth()->guard($guard)->user()->user_type == 1) {
@@ -258,7 +258,7 @@ class FrontController extends Controller
         if(!empty($req->distance) && $req->distance > 0){
 
         }
-        $advertisement = $advertisement->latest()->get();
+        $advertisement = $advertisement->latest('id')->get();
         if(count($advertisement) > 0){
             return view('front.search-result',compact('advertisement','req'));
         }
