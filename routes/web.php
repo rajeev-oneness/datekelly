@@ -4,22 +4,18 @@ use Illuminate\Support\Facades\Route;
 
 //artisan routes
 Route::get('migrate', function(){
-    \Artisan::call('migrate');
+    \Artisan::call('config:clear');
+    \Artisan::call('config:cache');
+    \Artisan::call('view:clear');
+    \Artisan::call('route:clear');
     \Artisan::call('key:generate');
-    dd('migrated!');
+    \Artisan::call('migrate');
+    return redirect('/ladies');
 });
 
 Route::get('migrate/rollback', function(){
     \Artisan::call('migrate:rollback --step=1');
     dd('migration rolled 1 step back!');
-});
-
-Route::get('config', function(){
-    \Artisan::call('config:clear');
-    \Artisan::call('config:cache');
-    \Artisan::call('view:clear');
-    \Artisan::call('route:clear');
-    dd('Config cache cleared successfully');
 });
 
 //front routes
@@ -169,5 +165,3 @@ Route::get('/advertisement-category/{categoryId}/{categoryName}', 'FrontControll
 
 //advertisements details
 Route::get('/advertisement/details/{id}', 'AdvertisementController@show')->name('advertisement.detail');
-
-
