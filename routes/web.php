@@ -10,7 +10,7 @@ Route::get('migrate', function(){
     \Artisan::call('route:clear');
     \Artisan::call('key:generate');
     \Artisan::call('migrate');
-    return redirect('/ladies');
+    return 'Migration Done "<a href="/ladies">Go to Home</a>"';
 });
 
 Route::get('migrate/rollback', function(){
