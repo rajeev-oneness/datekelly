@@ -79,28 +79,52 @@
                         </div>
                     </div>
                 </div><!--about-me-->
+                
+                <!-- Category -->
+                @if(count($advertisement->ad_categories) > 0)
+                    <div class="row m-0">
+                        <div class="col-12 p-0 mb-4">
+                            <div class="col-12 col-md-6 text-left p-0">
+                                <h5 class="textpink">My Category</h5>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-5 p-0">
+                            <ul class="service-me">
+                                @foreach ($advertisement->ad_categories as $item)
+                                    @if($adcategory = $item->category)
+                                        <li>
+                                            <span class="serv-name"><a href="{{route('advertisement.category.list', [base64_encode($adcategory->id),$adcategory->name])}}">{{$adcategory->name}}</a></span>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div><br>
+                @endif
 
-                <div class="row m-0">
-                    <div class="col-12 p-0 mb-4">
-                        <div class="col-12 col-md-6 text-left p-0">
-                            <h5 class="textpink">My services & extra’s</h5>
+                @if(count($advertisement->services) > 0)
+                    <div class="row m-0">
+                        <div class="col-12 p-0 mb-4">
+                            <div class="col-12 col-md-6 text-left p-0">
+                                <h5 class="textpink">My services & extra’s</h5>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-5 p-0">
+                            <ul class="service-me">
+                                @foreach ($advertisement->services as $item)
+                                <li>
+                                    <span class="serv-name">{{$item->service_name}}</span>
+                                    @if ($item->include == 1)
+                                        <span class="serv-type">Included</span>
+                                    @else
+                                        <span class="serv-type">&euro; {{$item->price}}</span>
+                                    @endif
+                                </li> 
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
-                    <div class="col-12 col-md-5 p-0">
-                        <ul class="service-me">
-                            @foreach ($advertisement->services as $item)
-                            <li>
-                                <span class="serv-name">{{$item->service_name}}</span>
-                                @if ($item->include == 1)
-                                    <span class="serv-type">Included</span>
-                                @else
-                                    <span class="serv-type">&euro; {{$item->price}}</span>
-                                @endif
-                            </li> 
-                            @endforeach
-                        </ul>
-                    </div>
-                </div><!--my-services-row-->
+                @endif
                 
                 <div class="row m-0 mt-5">
                     @if ($advertisement->club)
