@@ -10,7 +10,7 @@ class CrudController extends Controller
 {
     public function serviceList(Request $req)
     {
-        $service = Service::latest('id')->get();
+        $service = Service::latest('id')->orderBy('popularity')->get();
         return view('admin.service.list',compact('service'));
     }
 
@@ -18,9 +18,11 @@ class CrudController extends Controller
     {
         $req->validate([
             'title' => 'required|max:255|string|unique:services',
+            'popularity' => 'nullable|string|in:0,1'
         ]);
         $newService = new Service();
         $newService->title = $req->title;
+        $newService->popularity = numberCheck($req->popularity);
         $newService->save();
         return redirect(route('admin.service.list'))->with('Success','Service Added Successfully');
     }
@@ -30,10 +32,12 @@ class CrudController extends Controller
         $req->validate([
             'serviceId' => 'required|min:1|numeric',
             'title' => 'required|max:255|string|unique:services,title,'.$req->serviceId,
+            'popularity' => 'nullable|string|in:0,1'
         ]);
-        $newService = Service::findOrFail($req->serviceId);
-        $newService->title = $req->title;
-        $newService->save();
+        $updateService = Service::findOrFail($req->serviceId);
+        $updateService->title = $req->title;
+        $updateService->popularity = numberCheck($req->popularity);
+        $updateService->save();
         return redirect(route('admin.service.list'))->with('Success','Service Updated Successfully');
     }
 

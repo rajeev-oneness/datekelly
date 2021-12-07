@@ -10,6 +10,7 @@
 					<tr>
 						<th> #ID</th>
 						<th> Title</th>
+						<th> Popularity</th>
 						<th> Action</th>
 					</tr>
 				</thead>
@@ -19,7 +20,14 @@
 							<td>#{{$servi->id}}</td>
 							<td>{{$servi->title}}</td>
 							<td>
-								<a href="javascript:void(0)" class="editService" data-id="{{$servi->id}}" data-title="{{$servi->title}}"><i class="fas fa-pen"></i></a>&nbsp;&nbsp;&nbsp;
+								@if($servi->popularity == 1)
+									{{('Yes')}}
+								@else
+									{{('No')}}
+								@endif
+							</td>
+							<td>
+								<a href="javascript:void(0)" class="editService" data-id="{{$servi->id}}" data-title="{{$servi->title}}" data-popular="{{$servi->popularity}}"><i class="fas fa-pen"></i></a>&nbsp;&nbsp;&nbsp;
 								<a href="javascript:void(0)" class="deleteServices" data-id="{{$servi->id}}"><i class="fas fa-trash"></i></a>
 							</td>
 						</tr>
@@ -45,6 +53,18 @@
 	                        <label for="title">Service Name</label>
 	                        <input type="text" name="title" id="title" class="form-control @error('title'){{('is-invalid')}}@enderror" placeholder="Service title" maxlength="255" value="{{old('title')}}" required="">
 	                        @error('title')
+	                            <span class="invalid-feedback" role="alert">
+	                                <strong>{{ $message }}</strong>
+	                            </span>
+	                        @enderror
+	                    </div>
+	                    <div class="form-group">
+	                        <label for="title">Popularity</label>
+	                        <select name="popularity" class="form-control @error('popularity'){{('is-invalid')}}@enderror">
+	                        	<option value="0" @if(old('popularity') == 0){{('selected')}}@endif>No</option>
+	                        	<option value="1" @if(old('popularity') == 1){{('selected')}}@endif>Yes</option>
+	                        </select>
+	                        @error('popularity')
 	                            <span class="invalid-feedback" role="alert">
 	                                <strong>{{ $message }}</strong>
 	                            </span>
@@ -81,6 +101,19 @@
 	                            </span>
 	                        @enderror
 	                    </div>
+
+	                    <div class="form-group">
+	                        <label for="title">Popularity</label>
+	                        <select name="popularity" class="form-control @error('popularity'){{('is-invalid')}}@enderror">
+	                        	<option value="0" @if(old('popularity') == 0){{('selected')}}@endif>No</option>
+	                        	<option value="1" @if(old('popularity') == 1){{('selected')}}@endif>Yes</option>
+	                        </select>
+	                        @error('popularity')
+	                            <span class="invalid-feedback" role="alert">
+	                                <strong>{{ $message }}</strong>
+	                            </span>
+	                        @enderror
+	                    </div>
 	                </div>
 	                <div class="modal-footer">
 	                    <button type="submit" class="btn btn-primary">Update</button>
@@ -101,11 +134,12 @@
 	        });
 
 	        $(document).on('click','.editService',function(){
-	            var id = $(this).attr('data-id'),title = $(this).attr('data-title');
+	            var id = $(this).attr('data-id'),title = $(this).attr('data-title'),popular = $(this).attr('data-popular');
 	            $('.form-control').removeClass('is-invalid');
 	            $('.invalid-feedback').remove();
 	            $('#editServicesModal input[name=serviceId]').val(id);
 	            $('#editServicesModal input[name=title]').val(title);
+	            $('#editServicesModal select[name=popularity]').val(popular);
 	            $('#editServicesModal').modal('show');
 	        });
 
