@@ -68,6 +68,16 @@
         return $data;
     }
 
+    function checkPremiumPurchase($picId,$customerId)
+    {
+        $purchaseCheck = \App\Models\PremiumPicturePurchase::where('customer_id',$customerId)->where('picture_id',$picId)->first();
+        if($purchaseCheck){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     function fileTypeCheck($file)
     {
         return $file->getClientOriginalExtension();
@@ -76,14 +86,29 @@
     function emptyCheck($string, $date = false)
     {
         if ($date) {
-            return !empty($string) ? $string : '0000-00-00';
+            return !empty($string) ? strQuotationCheck($string) : '0000-00-00';
         }
-        return !empty($string) ? $string : '';
+        return !empty($string) ? strQuotationCheck($string) : '';
     }
 
     function numberCheck($number)
     {
         return !empty($number) ? $number : 0;
+    }
+
+    function strQuotationCheck(string $string = "")
+    {
+        $returnString = '';
+        for ($i = 0; $i < strlen($string); $i++) {
+            if ($string[$i] == '"') {
+                $returnString .= '&#34;';
+            } else if ($string[$i] == "'") {
+                $returnString .= '&#39;';
+            } else {
+                $returnString .= $string[$i];
+            }
+        }
+        return $returnString;
     }
 
 ?>

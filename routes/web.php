@@ -109,6 +109,9 @@ Route::middleware(['user.auth'])->group(function () {
         route::post('/submit-verification', 'VerifyAccountController@submitImages')->name('verify.account.submit');
     });
 
+    // Purchase Premium Pictures
+    Route::post('primium_picture/pirchase/picture_check','BookingController@premiumPicturePurchaseCheck')->name('user.premium.purchase_check');
+
     Route::prefix('profile/ladies')->group(function () {
         require 'profile/ladies.php';
     });

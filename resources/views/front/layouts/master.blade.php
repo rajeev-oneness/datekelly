@@ -39,7 +39,7 @@
                         <li><a href="{{route('message.list')}}" class="{{request()->routeIs('message.*')?'active':''}}">Messages</a></li>
                         <li><a href="{{route('review.list')}}" class="{{request()->routeIs('review.*')?'active':''}}">Reviews</a></li>
                         <li><a href="{{route('coins.buy')}}" class="{{request()->routeIs('coins.*')?'active':''}}">Buy DateKelly coins</a></li>
-                        <li><a href="">Received Tips</a></li>
+                        <!-- <li><a href="">Received Tips</a></li> -->
                         <li><a href="{{route('transaction.history')}}" class="{{request()->routeIs('transaction.*')?'active':''}}">My purchases</a></li>
                         <li><a href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

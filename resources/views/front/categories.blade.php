@@ -19,7 +19,7 @@
                     </form>
                 </li>
                 @foreach($services as $index => $ser)
-                    <li><a href="{{route('advertisement.service.list', [base64_encode($ser->id),$ser->title])}}">{{$ser->title}}</a></li>
+                    <li><a href="{{route('advertisement.service.list', [$ser->title])}}">{{$ser->title}}</a></li>
                 @endforeach
             </ul>
         </div>

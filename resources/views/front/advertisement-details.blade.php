@@ -323,14 +323,18 @@
 
                 <div class="row m-0">
                     @forelse ($premium_pics as $key => $pics)
-                        <div class="col-6 col-md-2 plr mb-2 premium-p-t">
+                        <div class="col-6 col-md-2 plr mb-2 premium-p-t" onclick="purchaseCheckPremiumPicture('{{json_encode($pics)}}')">
                             <div class="card border-0 text-center">
                                 <div class="position-relative overflow-hidden unlock-cont">
                                     <img src="{{asset($pics->picture)}}" class="card-img-top" alt="...">
-                                    <div class="unlock">
-                                        <img src="{{asset('front/img/unlock-icon.png')}}">
-                                        <h6>Unlock</h6>
-                                    </div>
+                                    @if($guard == 'web' && $user && checkPremiumPurchase($pics->id,$user->id))
+                                        
+                                    @else
+                                        <div class="unlock">
+                                            <img src="{{asset('front/img/unlock-icon.png')}}">
+                                            <h6>Unlock</h6>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="card-body p-1">
                                     <p class="card-text">
@@ -748,13 +752,86 @@
   </div>
 </div>
 
-
+<!-- Modal -->
+<div class="modal fade" id="premiumPictureModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="" id="premiumPictureImgSRC">
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection
 
 @section('script')
     
 <script>
+    @auth
+        @if($guard = 'web')
+            @php
+                $user = auth()->guard($guard)->user();
+            @endphp
+            
+            var premiumPicClickedData = [];
+            function purchaseCheckPremiumPicture(primuimPics) {
+                premiumPicClickedData = JSON.parse(primuimPics);
+                console.log('premium picture Info',premiumPicClickedData);
+                purchasePrimiumPricture(premiumPicClickedData);
+            }
+
+            function purchasePrimiumPricture(primuimPicsData,price) {
+                $.ajax({
+                    url : "{{route('user.premium.purchase_check')}}",
+                    type : 'POST',
+                    dataType : 'JSON',
+                    data : {
+                        ladiesId : primuimPicsData.user_id,
+                        pictureId : primuimPicsData.id,
+                        customerId : '{{$user->id}}',
+                        price : price,
+                        _token : '{{csrf_token()}}',
+                    },
+                    success:function(response){
+                        if(response.error == false){
+                            if(response.data?.purchase == true){
+                                $('#premiumPictureModalCenter #premiumPictureImgSRC').attr('src','{{asset('')}}'+primuimPicsData.picture);
+                                $('#premiumPictureModalCenter').modal('show');
+                            }else{
+                                var userTotalCoin = {{totalCoinsCalculate($user->coins)}};
+                                if(userTotalCoin >= primuimPicsData.price){
+                                    swal({
+                                        title: "Are you sure?",
+                                        text: "Once purchase, Your point "+primuimPicsData.price+ " will be deducted",
+                                        icon: "warning",
+                                        buttons: true,
+                                        dangerMode: true,
+                                    })
+                                    .then((willDelete) => {
+                                        if (willDelete) {
+                                            purchasePrimiumPricture(premiumPicClickedData,primuimPicsData.price);
+                                        }
+                                    });
+                                }else{
+                                    alert('Please add coin to purchase this picture');
+                                }
+                            }
+                        }else{
+                            alert('Something went wrong please try after sometime');
+                        }
+                    }
+                });
+            }
+        @endif
+    @else
+        function purchasePrimiumPricture(primuimPics); // define the function for eliminate error
+    @endauth
     
     var extraSelected = 0,totalPoints = 100;
     $(document).on('click','.servicesSelection',function(){
