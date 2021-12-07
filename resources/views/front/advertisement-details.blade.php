@@ -773,19 +773,21 @@
 @section('script')
     
 <script>
+
+    var premiumPicClickedData = [];
+    function purchaseCheckPremiumPicture(primuimPics) {
+        premiumPicClickedData = JSON.parse(primuimPics);
+        @auth
+            purchasePrimiumPricture(premiumPicClickedData);
+        @endauth
+    }
+
     @auth
         @if($guard = 'web')
             @php
                 $user = auth()->guard($guard)->user();
             @endphp
             
-            var premiumPicClickedData = [];
-            function purchaseCheckPremiumPicture(primuimPics) {
-                premiumPicClickedData = JSON.parse(primuimPics);
-                console.log('premium picture Info',premiumPicClickedData);
-                purchasePrimiumPricture(premiumPicClickedData);
-            }
-
             function purchasePrimiumPricture(primuimPicsData,price='') {
                 $.ajax({
                     url : "{{route('user.premium.purchase_check')}}",
@@ -829,8 +831,6 @@
                 });
             }
         @endif
-    @else
-        function purchasePrimiumPricture(primuimPics); // define the function for eliminate error
     @endauth
     
     var extraSelected = 0,totalPoints = 100;
