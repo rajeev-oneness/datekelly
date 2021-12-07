@@ -96,9 +96,11 @@ class TransactionController extends Controller
 
     public function buyCoins(Request $req)
     {
-        $rates = CoinsRate::get();
-        $totalCoin = CoinsDetails::where('user_id', auth()->guard(get_guard())->user()->id)->sum('coins');
-        return view('front.buy-coin', compact('rates', 'totalCoin'));
+        $rates = CoinsRate::select('*')->get();
+        $totalCoin = CoinsDetails::where('user_id', auth()->guard(get_guard())->user()->id);
+        $points = $totalCoin->latest('id')->get();
+        $totalCoin = $totalCoin->sum('coins');
+        return view('front.buy-coin', compact('rates', 'totalCoin','points'));
     }
     
     public function purchaseCoins(Request $req)
