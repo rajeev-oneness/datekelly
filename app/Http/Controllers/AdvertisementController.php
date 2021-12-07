@@ -473,6 +473,7 @@ class AdvertisementController extends Controller
                 }
                 if(count($advertisementImages) > 0){
                     $newAdvertisement->image = $anyImage;
+                    $newAdvertisement->save();
                     AdvertisementsImage::insert($advertisementImages);
                 }
             }
