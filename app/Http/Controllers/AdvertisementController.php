@@ -52,7 +52,7 @@ class AdvertisementController extends Controller
         foreach ($data->countries as $key => $value) {
             $data->firstCountryId = $value->id;break;
         }
-        $data->category = Category::select('*')->latest()->get();
+        // $data->category = Category::select('*')->latest()->get();
         $data->cup_size = CupSize::select('*')->latest()->get();
         $data->body_size = BodySize::select('*')->latest()->get();
         $data->descents = Descent::select('*')->latest()->get();
@@ -327,7 +327,7 @@ class AdvertisementController extends Controller
         $data->cup_size = CupSize::select('*')->latest()->get();
         $data->body_size = BodySize::select('*')->latest()->get();
         $data->descents = Descent::select('*')->latest()->get();
-        $data->category = Category::select('*')->latest()->get();
+        // $data->category = Category::select('*')->latest()->get();
         $data->language = Language::select('*')->latest()->get();
         $data->time = ['15 Min', '30 Min','45 Min','1 Hour','2 Hour', '4 Hour', '8 Hour','12 Hour'];
         $data->servicesAndExtra = Service::select('*')->latest()->get();

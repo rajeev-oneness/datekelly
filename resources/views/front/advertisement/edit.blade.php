@@ -264,8 +264,8 @@
                 </div>
             </div>
 
-            <!-- category Listing -->
-            <div class="form-group row">
+            <!-- category Listing -->{{--
+            <!-- <div class="form-group row">
                 <div class="col-sm-12">
                     <label>Category:</label>
                     <table class="table">
@@ -283,7 +283,7 @@
                     	@endforeach
                     </table>
                 </div>
-            </div>
+            </div> -->--}}
 
             <div class="form-group row">
                 <div class="col-sm-12">

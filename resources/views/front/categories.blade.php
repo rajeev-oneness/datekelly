@@ -1,6 +1,6 @@
 @php
-    $categories = \App\Models\Category::select('*')->latest()->get();
-    $count = count($categories);
+    $services = \App\Models\Service::select('*')->where('popularity',1)->latest('id')->get();
+    $count = count($services);
 @endphp
 
 <section class="pt-2 pb-2 shadow-sm">
@@ -18,8 +18,8 @@
                         </span>
                     </form>
                 </li>
-                @foreach($categories as $index => $cat)
-                    <li><a href="{{route('advertisement.category.list', [base64_encode($cat->id),$cat->name])}}">{{$cat->name}}</a></li>
+                @foreach($services as $index => $ser)
+                    <li><a href="{{route('advertisement.service.list', [base64_encode($ser->id),$ser->title])}}">{{$ser->title}}</a></li>
                 @endforeach
             </ul>
         </div>

@@ -81,7 +81,7 @@
                 </div><!--about-me-->
                 
                 <!-- Category -->
-                @if(count($advertisement->ad_categories) > 0)
+                {{-- @if(count($advertisement->ad_categories) > 0)
                     <div class="row m-0">
                         <div class="col-12 p-0 mb-4">
                             <div class="col-12 col-md-6 text-left p-0">
@@ -100,7 +100,7 @@
                             </ul>
                         </div>
                     </div><br>
-                @endif
+                @endif --}}
 
                 @if(count($advertisement->services) > 0)
                     <div class="row m-0">
