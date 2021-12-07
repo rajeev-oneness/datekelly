@@ -129,7 +129,7 @@
                         @if ($item->include == 1)
                         <div class="col-5">Included</div>
                         @else
-                        <div class="col-5">&dollar;{{$item->price}}</div>
+                        <div class="col-5">&euro;{{$item->price}}</div>
                         @endif
                     </div> 
                     @endforeach
@@ -137,7 +137,7 @@
                     @foreach ($advertisement->service_duration as $item)
                     <div class="row mb-3">
                         <div class="col-5"><strong>{{$item->time}}</strong></div>
-                        <div class="col-5"><b>&dollar;{{$item->price}}</b></div>
+                        <div class="col-5"><b>&euro;{{$item->price}}</b></div>
                     </div>
                     @endforeach
                 </div>

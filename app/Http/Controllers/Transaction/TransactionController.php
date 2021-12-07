@@ -90,7 +90,7 @@ class TransactionController extends Controller
 
     public function getUserTransactions(Request $request)
     {
-        $transactions = Transaction::where('user_id', auth()->guard(get_guard())->user()->id)->get();
+        $transactions = Transaction::where('user_id', auth()->guard(get_guard())->user()->id)->latest('id')->get();
         return view('front.purchase.list', compact('transactions'));
     }
 

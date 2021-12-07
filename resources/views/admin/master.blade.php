@@ -738,7 +738,7 @@
                 $('#customDataTable').DataTable({
                 	order : [],
                 });
-            } );
+            });
         </script>
 		@yield('script')
 		<!--end::Page Scripts-->

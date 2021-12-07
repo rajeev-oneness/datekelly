@@ -137,7 +137,9 @@
             });
 
             $(document).ready( function () {
-                $('#customDataTable').DataTable();
+                $('#customDataTable').DataTable({
+                    order : [],
+                });
             });
         </script>
 

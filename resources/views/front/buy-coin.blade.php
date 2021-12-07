@@ -39,7 +39,7 @@
                 @foreach ($rates as $key => $rate)
                 <tr id="coin-{{$key}}" data-id="{{$rate->id}}">
                     <td class="text-center">DateKelly Coins {{$rate->coin}}</td>
-                    <td class="text-center">&dollar; {{$rate->price}}</td>
+                    <td class="text-center">&euro; {{$rate->price}}</td>
                 </tr>
                 @endforeach
             </table>

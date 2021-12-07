@@ -31,7 +31,7 @@
                                 <p> {{$advertisement->rating}} <i class="fas fa-star"></i></p>
                             </div>    
                             
-                            <div class="price">&dollar; {{$advertisement->price}}</div>
+                            <div class="price">&euro; {{$advertisement->price}}</div>
                         </div>
                         <div class="card-body p-2">
                           <div class="row m-0">

@@ -22,7 +22,7 @@
                   <tr>
                     <th scope="row">{{$key+1}}</th>
                     <td>{{$transaction->transaction_id}}</td>
-                    <td>&dollar;{{$transaction->amount}}</td>
+                    <td>&euro;{{$transaction->amount}}</td>
                     <td>{{date('d M, Y - H:i', strtotime($transaction->created_at))}}</td>
                     <td>
                         <a href="{{route('admin.transaction.delete', encrypt($transaction->id))}}" title="delete" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i></a>
