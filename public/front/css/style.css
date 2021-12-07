@@ -437,8 +437,9 @@ footer p{
   color: #ea1482;
 }
 .leftpart .ledies_pic{
-  width: 247.5px;
-  height: 247.5px;
+     width: 100%;
+    height: auto;
+    object-fit: cover;
 }
 .leftpart ul{
   list-style: none;
@@ -455,14 +456,17 @@ footer p{
   padding: 5px 15px;
 }
 .leftpart ul li a:hover{
-  /* background: #ffa8d5; */
-  opacity: 0.75;
-  padding: 5px 25px;
+  background: rgba(255, 255, 255, 0.65);
+    opacity: 0.75;
+    padding: 5px 25px;
+    color: #e91482 !important;
+    font-weight: 500;
 }
 .leftpart ul li .active{
-  /* background: #ffa8d5; */
+  background: rgba(255, 255, 255, 0.65);
   padding: 5px 25px;
   color:#e91482 !important;
+  font-weight: 500;
 }
 .rightpart .dashboard .card{
   height: 190px;
@@ -483,7 +487,7 @@ footer p{
   margin-bottom: 6px;
   padding: 4px 10px;
   font-size: 18px;
-  display: initial;
+    display: inline-block;
 
 }
 .rightpart .dashboard-text h6{
@@ -844,7 +848,7 @@ input#check:focus + label {
   text-align: center;
 }
 .lady-data{
-  padding:20px 30px;
+  padding:20px 20px;
 }
 .lady-data table tr td{
   font-size: 13px;
@@ -852,7 +856,7 @@ input#check:focus + label {
   font-weight: 400;
   text-align: left;
   vertical-align: top;
-  padding: 2px 10px;
+  padding: 5px 10px;
   padding-left: 0;
 }
 .lady-data table tr th{
@@ -886,8 +890,9 @@ input#check:focus + label {
   display: inline-block;
 }
 .b-img-select a img{
-  width: 98px;
-  height: 98px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .image-sl-text{
   position: absolute;
@@ -1261,7 +1266,9 @@ input#check:focus + label {
   max-width: 377px;
 }
 img.card-img-top{
-  height: 200px;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 .modal.show .modal-dialog{
   max-width: 80% !important;
@@ -1277,10 +1284,14 @@ img.card-img-top{
   display: flex;
   justify-content: center;
   align-items: center;
+  height:90vh;
+  overflow:hidden;
+  width:100%;
 }
 #imagesSliderModal22 .modal-content .item img{
-  
-  height: 95vh !important;
+    width:100%;
+    height: 100% !important;
+    object-fit: contain;
 }
 #imagesSliderModal22 .owl-nav button.owl-next, #imagesSliderModal22 .owl-nav button.owl-prev{
   position: absolute;
@@ -1305,4 +1316,38 @@ img.card-img-top{
 }
 table{
   margin-bottom: 0 !important;
+}
+
+.lady-card-img{
+    height: 260px;
+    overflow: hidden;
+}
+.review h6, .review a{
+    font-size:13px;
+}
+.lst_img{
+    height:120px;
+    overflow:hidden;
+}
+.lst_img img{
+    width:100%;
+    height: 100% !important;
+    object-fit: cover;
+}
+.advlist_img{
+    height:200px;
+    overflow:hidden;
+}
+.edit_del{
+    position: absolute;
+    top: 26%;
+    right: 11px;
+    padding: 0;
+    background: #ea1482;
+    color: #fff;
+}
+.edit_del a{
+    color: #fff !important;
+    padding:5px;
+    display: inline-block;
 }
