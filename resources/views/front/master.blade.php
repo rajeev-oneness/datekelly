@@ -19,7 +19,8 @@
     @yield('css')
 </head>
 <body>
-
+    <!-- loader -->
+    <div class="loading-data" style="display:block; color: #fff;">Loading&#8230;</div>
     <header> 
         <nav class="navbar navbar-expand-md navbar-dark bg-pink pb-0 pt-0 shadow-sm">
             <div class="d-flex w-50">
@@ -121,11 +122,19 @@
         <script type="text/javascript" src="{{asset('js/sumoselect.min.js')}}"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script>
-            @if(Session::has('Success'))
-                swal('Success','{{Session::get('Success')}}', 'success');
-            @elseif(Session::has('Errors'))
-                swal('Error','{{Session::get('Errors')}}', 'error');
-            @endif
+            $(document).ready(function() {
+                $('.loading-data').hide();
+                $(document).on('submit', 'form', function() {
+                    $('button').attr('disabled', 'disabled');
+                    $('.loading-data').show();
+                });
+
+                @if(Session::has('Success'))
+                    swal('Success','{{Session::get('Success')}}', 'success');
+                @elseif(Session::has('Errors'))
+                    swal('Error','{{Session::get('Errors')}}', 'error');
+                @endif
+            });
 
             $(document).ready( function () {
                 $('#customDataTable').DataTable();

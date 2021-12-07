@@ -789,6 +789,7 @@
             @endphp
             
             function purchasePrimiumPricture(primuimPicsData,price='') {
+                $('.loading-data').show();
                 $.ajax({
                     url : "{{route('user.premium.purchase_check')}}",
                     type : 'POST',
@@ -827,6 +828,7 @@
                         }else{
                             alert('Something went wrong please try after sometime');
                         }
+                        $('.loading-data').hide();
                     }
                 });
             }
