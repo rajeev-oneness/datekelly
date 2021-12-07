@@ -9,6 +9,7 @@ use App\Models\CoinsDetails;
 use App\Models\Transaction;
 use App\Models\AdvertisementServices;
 use App\Models\PremiumPicturePurchase;
+use App\Models\LadyPremiumPicture;
 use App\Models\AdvertisementServiceDuration;
 class BookingController extends Controller
 {
@@ -128,49 +129,55 @@ class BookingController extends Controller
         $validator = validator()->make($req->all(),$rules);
         if(!$validator->fails()){
             $purchase = true;
-            $purchaseCheck = PremiumPicturePurchase::where('from_user_id',$req->ladiesId)->where('customer_id',$req->customerId)->where('picture_id',$req->pictureId)->first();
-            if(!$purchaseCheck){
-                if(!empty($req->price)){
-                    DB::beginTransaction();
-                    try {
-                        $transaction = new \App\Models\Transaction;
-                            $transaction->user_id = $req->customerId;
-                            $transaction->amount = $req->price;
-                            $transaction->transaction_id = 'trans_'.randomgenerator();
-                        $transaction->save();
-                        /********** Minusing the Customer Point **************/
-                        $coinsMinusCustomer = new \App\Models\CoinsDetails;
-                            $coinsMinusCustomer->user_id = $req->customerId;
-                            $coinsMinusCustomer->coins = '-'.$transaction->amount;
-                            $coinsMinusCustomer->transaction_id = $transaction->id;
-                            $coinsMinusCustomer->remarks = 'You have purchased premium picture';
-                        $coinsMinusCustomer->save();
-                        /********** Adding the Point from Customer to ladies account **************/
-                        $coinsAddedLady = new \App\Models\CoinsDetails;
-                            $coinsAddedLady->user_id = $req->ladiesId;
-                            $coinsAddedLady->coins = $transaction->amount;
-                            $coinsAddedLady->transaction_id = $transaction->id;
-                            $coinsAddedLady->remarks = 'Your Premium Picture Purchased by Customer';
-                        $coinsAddedLady->save();
-                        /*************** Making as Purchased Picture **************/
-                        $premiumPurchase = new PremiumPicturePurchase;
-                            $premiumPurchase->from_user_id = $req->ladiesId;
-                            $premiumPurchase->customer_id = $req->customerId;
-                            $premiumPurchase->picture_id = $req->pictureId;
-                            $premiumPurchase->price = $transaction->amount;
-                        $premiumPurchase->save();
-                        $purchase = true;
-                        DB::commit();
-                    } catch (Exception $e) {
-                        DB::rollback();
-                        return errorResponse('Something went wrong please try after sometime');
+            $picture = LadyPremiumPicture::where('id',$req->pictureId)->first();
+            if($picture){
+                $purchaseCheck = PremiumPicturePurchase::where('from_user_id',$req->ladiesId)->where('customer_id',$req->customerId)->where('picture_id',$req->pictureId)->first();
+                if(!$purchaseCheck){
+                    if(!empty($req->price)){
+                        DB::beginTransaction();
+                        try {
+                            $transaction = new \App\Models\Transaction;
+                                $transaction->user_id = $req->customerId;
+                                $transaction->amount = $req->price;
+                                $transaction->transaction_id = 'trans_'.randomgenerator();
+                            $transaction->save();
+                            /********** Minusing the Customer Point **************/
+                            $coinsMinusCustomer = new \App\Models\CoinsDetails;
+                                $coinsMinusCustomer->user_id = $req->customerId;
+                                $coinsMinusCustomer->coins = '-'.$transaction->amount;
+                                $coinsMinusCustomer->transaction_id = $transaction->id;
+                                $coinsMinusCustomer->remarks = 'You have purchased premium picture';
+                            $coinsMinusCustomer->save();
+                            /********** Adding the Point from Customer to ladies account **************/
+                            $coinsAddedLady = new \App\Models\CoinsDetails;
+                                $coinsAddedLady->user_id = $req->ladiesId;
+                                $coinsAddedLady->coins = $transaction->amount;
+                                $coinsAddedLady->transaction_id = $transaction->id;
+                                $coinsAddedLady->remarks = 'Your Premium Picture Purchased by Customer';
+                            $coinsAddedLady->save();
+                            /*************** Making as Purchased Picture **************/
+                            $premiumPurchase = new PremiumPicturePurchase;
+                                $premiumPurchase->from_user_id = $req->ladiesId;
+                                $premiumPurchase->customer_id = $req->customerId;
+                                $premiumPurchase->picture_id = $req->pictureId;
+                                $premiumPurchase->price = $transaction->amount;
+                            $premiumPurchase->save();
+                            $picture->no_of_purchase += 1;
+                            $picture->save();
+                            $purchase = true;
+                            DB::commit();
+                        } catch (Exception $e) {
+                            DB::rollback();
+                            return errorResponse('Something went wrong please try after sometime');
+                        }
+                    }else{
+                        $purchase = false;
                     }
-                }else{
-                    $purchase = false;
                 }
+                $data['purchase'] = $purchase;
+                return successResponse('Premium Picture',$data);
             }
-            $data['purchase'] = $purchase;
-            return successResponse('Premium Picture',$data);
+            return errorResponse('Invalid Image Clicked');
         }
         return errorResponse($validator->errors()->first());
     }

@@ -179,7 +179,7 @@
                         <div class="col-12 col-md-11 p-0">
                             <div class="owl-carousel premium-pic">
                                 @forelse ($premium_pics as $pics)
-                                    <div class="item">
+                                    <div class="item" onclick="purchaseCheckPremiumPicture('{{json_encode($pics)}}')">
                                         <img src="{{asset($pics->picture)}}">
                                         <div class="unlock">
                                             <img src="{{asset('front/img/unlock-icon.png')}}">
@@ -786,7 +786,7 @@
                 purchasePrimiumPricture(premiumPicClickedData);
             }
 
-            function purchasePrimiumPricture(primuimPicsData,price) {
+            function purchasePrimiumPricture(primuimPicsData,price='') {
                 $.ajax({
                     url : "{{route('user.premium.purchase_check')}}",
                     type : 'POST',
