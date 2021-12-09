@@ -196,10 +196,10 @@
 
                <div class="row m-0 review mt-5">
                    <div class="col-12 p-0 mb-4 d-md-flex">
-                       <div class="col-12 col-md-6 text-left p-0">
+                       <div class="col-12 col-md-5 text-left p-0">
                            <h5>My Reviews</h5>
                        </div>
-                       <div class="col-12 col-md-6 text-left text-md-right p-0 mt-md-0 mt-4">
+                       <div class="col-12 col-md-7 text-left text-md-right p-0 mt-md-0 mt-4">
                            <h6>
                                 @php
                                     $guard = get_guard();

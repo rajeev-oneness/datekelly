@@ -22,4 +22,9 @@ class Booking extends Model
     {
         return $this->belongsTo('App\Models\AdvertisementServiceDuration', 'duration_id', 'id');
     }
+
+    public function advertisement_details()
+    {
+        return $this->belongsTo('App\Models\Advertisement','advertisement_id','id');
+    }
 }

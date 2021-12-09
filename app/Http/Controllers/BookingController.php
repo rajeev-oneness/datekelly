@@ -64,8 +64,16 @@ class BookingController extends Controller
                     $coinDetail->user_id = $userId;
                     $coinDetail->coins = '-'.$req->selectedPrice;
                     $coinDetail->transaction_id = $transaction->id;
-                    $coinDetail->remarks = 'User '.$userId.' booked service from '.$req->user_id.' using '.$req->selectedPrice.' coins';
+                    $coinDetail->remarks = 'You have Booked a Service for '.$req->user_id .' using '. $req->selectedPrice.' coins';
                     $coinDetail->save();
+
+                    $LadycoinDetail = new CoinsDetails();
+                    $LadycoinDetail->user_id = $req->user_id;
+                    $LadycoinDetail->coins = $req->selectedPrice;
+                    $LadycoinDetail->transaction_id = $transaction->id;
+                    $LadycoinDetail->remarks = 'Credited points ' .$req->selectedPrice. ' agains the Advertisement Booking';
+                    $LadycoinDetail->save();
+
                     DB::commit();
                     return redirect(route('booking.list'))->with('Success','Service booked successfully');
                 }
@@ -85,7 +93,7 @@ class BookingController extends Controller
         $userId = $user->id;
         $userType = $user->user_type;
         $confirmedBookings = [];$notConfirmedBookings = [];
-        if($userType == 2) {
+        if($userType == 1) {
             $confirmedBookings = Booking::select('*')->with('customerDetail')->where('user_id', $userId)->where('date', '>=', date('Y-m-d'))->where('is_confirmed', 1)->latest()->get();
             $notConfirmedBookings = Booking::select('*')->with('customerDetail')->where('user_id', $userId)->where('date', '>=', date('Y-m-d'))->where('is_confirmed', 0)->where('is_visited', 0)->latest()->get();
         }

@@ -11,7 +11,7 @@
             <h6 class="mb-3">Earned DateKelly coins:</h6>
             <div class="input-group mb-3">
                 <div class="input-group-prepend ">
-                  <span class="input-group-text bg-dark-blue"><i class="fas fa-donate mr-1"></i> DK </span>
+                  <span class="input-group-text bg-dark-blue text-white"><i class="fas fa-donate mr-1"></i> DK </span>
                 </div>
                 <input type="text" class="form-control coinbalance" readonly value="{{$totalAmount}} DateKelly Coin">
             </div>
@@ -94,7 +94,7 @@
             @forelse ($pictures as $picture)
             <div class="col-6 col-md-3 plr mb-2 premium-p-t">
                 <div class="card border-0 text-center">
-                    <div class="position-relative overflow-hidden">
+                    <div class="position-relative overflow-hidden lst_img">
                         <img src="{{asset($picture->picture)}}" class="card-img-top" alt="...">
                     </div>
                     <div class="card-body p-1">

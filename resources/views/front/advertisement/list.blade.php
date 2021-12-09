@@ -14,7 +14,10 @@
                         <span class="text-blue">{{($ad->city)?$ad->city->name : ''}}</span>
                     </div>
                     <div class="position-relative" onclick="location.href='{{route('advertisement.show', base64_encode($ad->id))}}'">
-                        <img src="{{asset($ad->image)}}" class="card-img-top" alt="...">
+                        <div class="lady-card-img">
+                            <img src="{{asset($ad->image)}}" class="card-img-top" alt="...">
+                        </div>
+                        
                         <div class="verified-sec">
                             @if ($ad->is_verified == 1)
                                 <p>Verified <i class="fas fa-check"></i></p>
