@@ -59,20 +59,15 @@
                         </div>
                         <div class="col-12 col-md-10 p-0 aboutme-text mt-4">
                             <p>
-                                @if ($advertisement->lady)
-                                    {{$advertisement->lady->about}}
-                                @elseif($advertisement->club)
-                                    {{$advertisement->club->about}}
-                                @endif
+                                {{$advertisement->about}}
                             </p>
                             <p>
                                 TEL: {{$advertisement->phn_no}}<br/>
-                                @if ($advertisement->lady)
-                                    {{$advertisement->lady->address}}
-                                @elseif($advertisement->club)
-                                    {{$advertisement->club->address}}
-                                <br/>
-                                {{$advertisement->club->website_address}}
+                                {{$advertisement->address}}
+                                    
+                                @if($advertisement->club)
+                                    {{$advertisement->address}}<br/>
+                                    {{$advertisement->club->website_address}}
                                 @endif
                             </p>
                             
@@ -224,7 +219,7 @@
                     </div>
                     <!-- Modal -->
                     <div class="modal fade" id="addReviewModal" tabindex="-1" role="dialog" aria-labelledby="addReviewModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
+                        <div class="modal-dialog modal-dialog-centered reviewModal" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Add Review</h5>
@@ -235,18 +230,21 @@
                             <div class="modal-body">
                                 <form action="{{route('review.store')}}" method="POST">
                                     @csrf
-                                    <input type="hidden" name="advertisement_id" value="{{$advertisement->id}}">
+                                    <input type="hidden" name="advertisement_id" value="{{$advertisement->id}}" class="d-none">
                                     <label for="">Rating</label><br>
                                     @for ($i = 1; $i <= 10; $i++)
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="rating" id="inlineRadio{{$i}}" value="{{$i}}">
+                                    <div class="form-check form-check-inline mb-2">
+                                        <input class="form-check-input d-none" type="radio" name="rating" id="inlineRadio{{$i}}" value="{{$i}}">
                                         <label class="form-check-label" for="inlineRadio{{$i}}">{{$i}}</label>
                                     </div>
                                     @endfor
-                                    <div>
-                                        <label for="">Positive</label>
+                                    <div class="mb-4 mt-3 positive">
+                                        <label for="" class="mb-3">Positive</label>
                                         <textarea class="form-control" name="positive" id="" cols="100" rows="3" required></textarea>
-                                        <label for="">Negative</label>
+                                    </div>
+                                        
+                                    <div class="mb-4">
+                                        <label for="" class="mb-3">Negative</label>
                                         <textarea class="form-control" name="negative" id="" cols="100" rows="3" required></textarea>
                                     </div>
                             </div>

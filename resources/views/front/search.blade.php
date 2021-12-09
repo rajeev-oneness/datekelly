@@ -66,7 +66,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     <select name="ageFrom" id="ageFrom" class="sumoSelect form-control @error('ageFrom'){{('is-invalid')}}@enderror">
-                                        @for($ageGroup = 15; $ageGroup <= 80; $ageGroup+=5)
+                                        <option value="18" @if(old('ageFrom') == 18){{('selected')}}@endif>{{('18')}} Years</option>
+                                        @for($ageGroup = 20; $ageGroup <= 80; $ageGroup+=5)
                                             <option value="{{$ageGroup}}" @if(old('ageFrom') == $ageGroup){{('selected')}}@endif>{{$ageGroup}} Years</option>
                                         @endfor
                                     </select>
@@ -74,7 +75,7 @@
                                 <div class="col-md-2"> to</div>
                                 <div class="col-md-4">
                                     <select name="ageTo" id="ageTo" class="sumoSelect form-control @error('ageTo'){{('is-invalid')}}@enderror">
-                                        @for($ageGroup = 15; $ageGroup <= 80; $ageGroup+=5)
+                                        @for($ageGroup = 20; $ageGroup <= 80; $ageGroup+=5)
                                             <option value="{{$ageGroup}}" @if(old('ageTo') == $ageGroup){{('selected')}}@elseif($ageGroup == 80){{('selected')}}@endif>{{$ageGroup}} Years</option>
                                         @endfor
                                     </select>

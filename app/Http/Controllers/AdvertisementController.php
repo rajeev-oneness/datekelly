@@ -116,6 +116,7 @@ class AdvertisementController extends Controller
             'lat' => 'nullable|string',
             'lng' => 'nullable|string',
             'advertisement_price' => 'required|min:1|numeric',
+            'port_folio_image' => 'required',
         ]);
         DB::beginTransaction();
         try {
@@ -146,6 +147,12 @@ class AdvertisementController extends Controller
             $newAdvertisement->lng = emptyCheck($req->lng);
             $newAdvertisement->price = $req->advertisement_price;
             $newAdvertisement->save();
+
+            // Port Folio Image Upload
+            if($req->hasFile('port_folio_image')){
+                $image = $req->file('port_folio_image');
+                $newAdvertisement->image = imageUpload($image,'port_folio_image/image');
+            }
 
             // Advertisement Categories
             if(!empty($req->categories) && count($req->categories) > 0){
@@ -186,7 +193,7 @@ class AdvertisementController extends Controller
             
             // Image upload
             if(!empty($req->images) && count($req->images) > 0) {
-                $advertisementImages = [];$anyImage = '';
+                $advertisementImages = [];
                 foreach ($req->images as $imagekey => $imagevalue) {
                     $imagePath = imageUpload($imagevalue, 'ladyAdvertisement');
                     $advertisementImages[] = [
@@ -194,10 +201,8 @@ class AdvertisementController extends Controller
                         'img' => $imagePath,
                         'type' => 'Image',
                     ];
-                    $anyImage = $imagePath;
                 }
                 if(count($advertisementImages) > 0){
-                    $newAdvertisement->image = $anyImage;
                     AdvertisementsImage::insert($advertisementImages);
                 }
             }
@@ -389,6 +394,7 @@ class AdvertisementController extends Controller
             'lat' => 'nullable|string',
             'lng' => 'nullable|string',
             'advertisement_price' => 'required|min:1|numeric',
+            'port_folio_image' => 'nullable',
         ]);
         DB::beginTransaction();
         try {
@@ -418,6 +424,11 @@ class AdvertisementController extends Controller
             $newAdvertisement->lat = emptyCheck($req->lat);
             $newAdvertisement->lng = emptyCheck($req->lng);
             $newAdvertisement->price = $req->advertisement_price;
+            // Port Folio Image Upload
+            if($req->hasFile('port_folio_image')){
+                $image = $req->file('port_folio_image');
+                $newAdvertisement->image = imageUpload($image,'port_folio_image/image');
+            }
             $newAdvertisement->save();
 
             // Advertisement Categories
@@ -461,7 +472,7 @@ class AdvertisementController extends Controller
             
             // Image upload
             if(!empty($req->images) && count($req->images) > 0) {
-                $advertisementImages = [];$anyImage = '';
+                $advertisementImages = [];
                 foreach ($req->images as $imagekey => $imagevalue) {
                     $imagePath = imageUpload($imagevalue, 'ladyAdvertisement');
                     $advertisementImages[] = [
@@ -469,11 +480,8 @@ class AdvertisementController extends Controller
                         'img' => $imagePath,
                         'type' => 'Image',
                     ];
-                    $anyImage = $imagePath;
                 }
                 if(count($advertisementImages) > 0){
-                    $newAdvertisement->image = $anyImage;
-                    $newAdvertisement->save();
                     AdvertisementsImage::insert($advertisementImages);
                 }
             }

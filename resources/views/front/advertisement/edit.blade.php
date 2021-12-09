@@ -193,6 +193,13 @@
 	    		@endforeach
 	    	</div>
 
+			<div class="form-group row">
+                <div class="col-sm-12">
+                    <label>Update Portfolio image:</label>
+                    <input type="file" class="form-control" name="port_folio_image">
+                </div>
+            </div>
+
     		<div class="form-group row">
                 <div class="col-sm-12">
                     <label>Upload More images: (select min. 3 photos)</label>
@@ -211,12 +218,12 @@
 	    		@endforeach
 	    	</div>
 
-            <div class="form-group row">
+            <!-- <div class="form-group row">
                 <div class="col-sm-12">
                     <label>Upload more videos:</label>
                     <input type="file" class="form-control" name="video[]" multiple>
                 </div>
-            </div>
+            </div> -->
 
             <div class="form-group row">
                 <div class="col-sm-12">

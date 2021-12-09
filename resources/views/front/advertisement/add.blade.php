@@ -177,17 +177,24 @@
 
 	    		<div class="form-group row">
 	                <div class="col-sm-12">
-	                    <label>Upload images: (select min. 3 photos)</label>
+	                    <label>Upload Portfolio image:</label>
+	                    <input type="file" class="form-control" name="port_folio_image" required>
+	                </div>
+	            </div>
+
+	    		<div class="form-group row">
+	                <div class="col-sm-12">
+	                    <label>Upload Free images: (select min. 3 photos)</label>
 	                    <input type="file" class="form-control" name="images[]" multiple>
 	                </div>
 	            </div>
 
-	            <div class="form-group row">
+	            <!-- <div class="form-group row">
 	                <div class="col-sm-12">
 	                    <label>Upload videos:</label>
 	                    <input type="file" class="form-control" name="video[]" multiple>
 	                </div>
-	            </div>
+	            </div> -->
 
 	            <div class="form-group row">
 	                <div class="col-sm-12">
@@ -250,6 +257,7 @@
 	                    		<th>Include or Extra Service</th>
 	                    		<th>Extra Price</th>
 	                    	</tr>
+	                    	@php $selectedServicesInclude = (old('servicesInclude') ?? []); @endphp
 	                    	@foreach($data->servicesAndExtra as $indexServices => $services)
 		                    	<tr>
 		                    		<td>
@@ -259,8 +267,8 @@
 		                    		<td>{{$services->title}}</td>
 		                    		<td>
 		                    			<select class="form-control" name="servicesInclude[]" onchange="markAsBlur(this)">
-			                    			<option value="0" @if(old('servicesInclude') && count(old('servicesInclude') > 0) && old('servicesInclude')[$indexServices] == 0){{('selected')}}@endif>Not Include</option>
-			                    			<option value="1" @if(old('servicesInclude') && count(old('servicesInclude') > 0) && old('servicesInclude')[$indexServices] == 1){{('selected')}}@endif>Include</option>
+			                    			<option value="0" @if(in_array(0,$selectedServicesInclude)){{('selected')}}@endif>Not Include</option>
+			                    			<option value="1" @if(in_array(1,$selectedServicesInclude)){{('selected')}}@endif>Include</option>
 			                    		</select>
 			                    	</td>
 		                    		<td>
