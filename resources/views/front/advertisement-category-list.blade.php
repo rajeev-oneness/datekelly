@@ -13,7 +13,7 @@
         
         <div class="row m-0 women-List">
             @forelse ($advertisements as $advert)
-            <div class="col-12 col-md-4 plr" style="cursor: pointer;" onclick="location.href='{{route('advertisement.detail', base64_encode($advert->id))}}'">
+            <div class="col-12 col-md-3 plr" style="cursor: pointer;" onclick="location.href='{{route('advertisement.detail', base64_encode($advert->id))}}'">
                 <div class="card shadow-sm {{($advert->club_id == 0)? 'bg-light-pink' : ''}}">
                     <div class="card-header p-2 border-0">
                         <h5 class="card-title m-0">
@@ -23,7 +23,14 @@
                     </div>
                     <div class="position-relative lady-card-img">
                         <img src="{{asset($advert->image)}}"  class="card-img-top" alt="...">
-                        
+                        <div @if($advert->about !='') class="ld_detail" @endif>
+                            <p class="subtext text-white">
+                                {{$advert->title}} : 
+                                <span class="l_stext">
+                                    {{$advert->about}}
+                                </span>
+                            </p>
+                        </div>
                         <div class="verified-sec">
                             @if ($advert->is_verified == 1)
                                 <p>Verified <i class="fas fa-check"></i></p>
@@ -42,12 +49,6 @@
                             <a href="https://wa.me/{{$advert->whatsapp}}"><img src="{{asset('front/img/whatsap_icon.png')}}"></a>
                         </div>
                       </div>
-                      <p class="subtext">
-                        {{$advert->title}} : 
-                          <span>
-                            {{$advert->message}}
-                          </span>
-                      </p>
                     </div>
                   </div>
             </div> 

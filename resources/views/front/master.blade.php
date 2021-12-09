@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('front/css/owl.theme.default.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('front/css/style.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('front/css/responsive.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('front/css/rajeev-loader.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/sumoselect.min.css')}}">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
     @yield('css')
