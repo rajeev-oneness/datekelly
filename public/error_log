@@ -1,1 +1,20 @@
 [16-Jul-2021 12:15:16 UTC] PHP Fatal error:  Trait 'Illuminate\Database\Eloquent\softDeletes' not found in /home2/dev91jga/public_html/dev/datekelly-new/app/Models/Origin.php on line 9
+[16-Nov-2021 07:48:49 UTC] PHP Fatal error:  Trait 'Carbon\Traits\Difference' not found in /home2/dev91jga/public_html/dev/dateKelly/vendor/nesbot/carbon/src/Carbon/Traits/Date.php on line 529
+[16-Nov-2021 07:56:37 UTC] PHP Fatal error:  Uncaught Error: Interface 'Illuminate\Contracts\Foundation\CachesRoutes' not found in /home2/dev91jga/public_html/dev/dateKelly/vendor/laravel/framework/src/Illuminate/Foundation/Application.php:29
+Stack trace:
+#0 /home2/dev91jga/public_html/dev/dateKelly/vendor/composer/ClassLoader.php(480): include()
+#1 /home2/dev91jga/public_html/dev/dateKelly/vendor/composer/ClassLoader.php(346): Composer\Autoload\includeFile('/home2/dev91jga...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('Illuminate\\Foun...')
+#3 /home2/dev91jga/public_html/dev/dateKelly/bootstrap/app.php(14): spl_autoload_call('Illuminate\\Foun...')
+#4 /home2/dev91jga/public_html/dev/dateKelly/public/index.php(47): require_once('/home2/dev91jga...')
+#5 {main}
+  thrown in /home2/dev91jga/public_html/dev/dateKelly/vendor/laravel/framework/src/Illuminate/Foundation/Application.php on line 29
+[16-Nov-2021 07:56:37 UTC] PHP Fatal error:  Uncaught Error: Interface 'Illuminate\Contracts\Foundation\CachesRoutes' not found in /home2/dev91jga/public_html/dev/dateKelly/vendor/laravel/framework/src/Illuminate/Foundation/Application.php:29
+Stack trace:
+#0 /home2/dev91jga/public_html/dev/dateKelly/vendor/composer/ClassLoader.php(480): include()
+#1 /home2/dev91jga/public_html/dev/dateKelly/vendor/composer/ClassLoader.php(346): Composer\Autoload\includeFile('/home2/dev91jga...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('Illuminate\\Foun...')
+#3 /home2/dev91jga/public_html/dev/dateKelly/bootstrap/app.php(14): spl_autoload_call('Illuminate\\Foun...')
+#4 /home2/dev91jga/public_html/dev/dateKelly/public/index.php(47): require_once('/home2/dev91jga...')
+#5 {main}
+  thrown in /home2/dev91jga/public_html/dev/dateKelly/vendor/laravel/framework/src/Illuminate/Foundation/Application.php on line 29

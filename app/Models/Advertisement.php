@@ -55,4 +55,9 @@ class Advertisement extends Model
     {
         return $this->hasMany('App\Models\AdvertisementWorkingDays','advertisement_id','id');
     }
+
+    public function ad_categories()
+    {
+        return $this->hasMany('App\Models\AdvertisementCategory','advertisement_id','id');
+    }
 }

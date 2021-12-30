@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<section class="pt-5 pb-5">
+<section class="pt-5 pb-5" style="min-height:65vh;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-9">

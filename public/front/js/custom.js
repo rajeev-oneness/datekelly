@@ -77,25 +77,70 @@ $('.banner-pic').owlCarousel({
 	//navText: ["<i class='fas fa-chevron-left'></i>", "<i class='fas fa-chevron-right'></i>"],
 	responsiveClass: true,
 	URLhashListener:true,
-	startPosition: 'URLHash',
+	//startPosition: 'URLHash',
 	smartSpeed: 2500,
 	responsive:{
 		0:{
 			items:1,
 			nav:false,
-			loop:false
 		},
 		600:{
 			items:2,
 			nav:false,
-			loop:false
 		},
 		1000:{
 			items:4,
 			nav:false,
-			loop:false
 		}
 	}
+});
+
+
+/*-----------small-slider--------*/
+
+$('.sm_grl_pic').owlCarousel({
+	loop:false,
+	margin:5,
+	autoplay:false,
+	autoplayTimeout: 5000,
+	//autoplayHoverPause: true,
+	navText: ["<i class='fas fa-chevron-left'></i>", "<i class='fas fa-chevron-right'></i>"],
+	responsiveClass: true,
+	//URLhashListener:true,
+	//startPosition: 'URLHash',
+	smartSpeed: 2500,
+	responsive:{
+		0:{
+			items:1,
+			nav:true,
+		},
+		600:{
+			items:2,
+			nav:true,
+		},
+		1000:{
+			items:6,
+			nav:true,
+		}
+	}
+});
+
+
+$('.imagesSliderModal').owlCarousel({
+	loop:true,
+	margin:0,
+	autoplay:false,
+	nav: true,
+	navText: ["<i class='fas fa-chevron-left'></i>", "<i class='fas fa-chevron-right'></i>"],
+	items:1,
+	dots:false
+});
+
+/*-------lightbox-------*/
+
+$(document).on("click", '[data-toggle="lightbox"]', function(event) {
+  event.preventDefault();
+  $(this).ekkoLightbox();
 });
 
 /*----------custom-file----------*/

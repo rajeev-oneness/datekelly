@@ -20,80 +20,74 @@
                 <div class="col-12 col-md-9  mx-auto">
                     <div class="card-body shadow-sm">
                         <div class="form-group row">
-                            <div class="col-lg-4">
-                                <label>Name:</label>
-                                <input type="text" class="form-control" name="name" placeholder="Enter name" value="{{old('name')}}"/>
-                                {{-- <span class="form-text text-muted">Please enter your full name</span> --}}
+                            <div class="col-lg-12">
+                                <label class="mt-3">Company Name:</label>
+                                <input type="text" class="form-control mx377" name="name" placeholder="Enter name" value="{{old('name')}}" required/>
+                                @error('name')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
-                            <div class="col-lg-4">
-                                <label>Email:</label>
-                                <input type="email" class="form-control" name="email" placeholder="Enter email" value="{{old('email')}}"/>
-                                {{-- <span class="form-text text-muted">Please enter your email</span> --}}
-                            </div>
-                            <div class="col-lg-4">
-                                <label>Phone No:</label>
-                                <input type="number" class="form-control" name="phn_no" placeholder="Enter Phone no" value="{{old('phn_no')}}"/>
-                                {{-- <span class="form-text text-muted">Please enter your username</span> --}}
-                            </div>
-                            <div class="col-lg-4">
-                                <label>Whtasapp No:</label>
-                                <input type="number" class="form-control" name="whatsapp_no" placeholder="Enter whatsapp no" value="{{old('whatsapp_no')}}"/>
-                                {{-- <span class="form-text text-muted">Please enter your username</span> --}}
-                            </div>
-                            <div class="col-lg-4">
-                                <label>Age:</label>
-                                <input type="number" class="form-control" name="age" placeholder="Enter age" value="{{old('age')}}"/>
-                                {{-- <span class="form-text text-muted">Please enter your username</span> --}}
-                            </div>
-                            <div class="col-lg-4">
-                                <label>Address:</label>
-                                <textarea type="text" class="form-control" name="address" placeholder="Address">{{old('address')}}</textarea>
-                                {{-- <span class="form-text text-muted">Please enter your full name</span> --}}
+                            <div class="col-lg-12">
+                                <label class="mt-3">Address:</label>
+                                <input type="text" class="form-control mx377" name="address" placeholder="Address" value="{{old('address')}}">
+                                @error('address')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
                             <div class="col-lg-6">
-                                <label>Country:</label>
-                                <select name="country_id" id="country_id" class="form-control">
+                                <label class="mt-3">Country:</label>
+                                <select name="country_id" id="country_id" class="form-control" required>
                                     <option value="">Select</option>
                                     @foreach ($countries as $country)
                                         <option value="{{$country->id}}">{{$country->name}}</option>
                                     @endforeach
                                 </select>
-                                {{-- <span class="form-text text-muted">Please enter your email</span> --}}
+                                @error('country_id')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
                             <div class="col-lg-6">
-                                <label>City:</label>
-                                <select name="city_id" id="city_id" class="form-control">
+                                <label class="mt-3">City:</label>
+                                <select name="city_id" id="city_id" class="form-control" required>
                                     <option value="">Select</option>
                                 </select>
-                                {{-- <span class="form-text text-muted">Please enter your username</span> --}}
+                                @error('city_id')<span class="text-danger">{{$message}}</span>@enderror
+                            </div>
+                            <div class="col-lg-12">
+                                <label class="mt-3">Company Website:</label>
+                                <input type="url" class="form-control mx377" name="website_address" placeholder="Enter website" value="{{old('website_address')}}" required />
+                                @error('website_address')<span class="text-danger">{{$message}}</span>@enderror
+                            </div>
+                            <div class="col-lg-12">
+                                <label class="mt-3">Company Phone No:</label>
+                                <input type="text" class="form-control mx377" name="phn_no" placeholder="Enter Phone no" value="{{old('phn_no')}}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required/>
+                                @error('phn_no')<span class="text-danger">{{$message}}</span>@enderror
+                            </div>
+                            <div class="col-lg-12">
+                                <label class="mt-3">Company Email:</label>
+                                <input type="email" class="form-control mx377" name="email" placeholder="Enter email" value="{{old('email')}}" required/>
+                                @error('email')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
                             <div class="col-lg-6">
-                                <label>Password:</label>
-                                <input type="password" class="form-control" name="password" placeholder="Enter password" />
-                                {{-- <span class="form-text text-muted">Please enter your full name</span> --}}
+                                <label class="mt-3">Password:</label>
+                                <input type="password" class="form-control" name="password" placeholder="Enter password" required />
+                                @error('password')<span class="text-danger">{{$message}}</span>@enderror
                             </div>
                             <div class="col-lg-6">
-                                <label>Confirm Password:</label>
-                                <input type="text" class="form-control" name="password_confirmation" placeholder="Confirm password" >
-                                {{-- <span class="form-text text-muted">Please enter your email</span> --}}
+                                <label class="mt-3">Confirm Password:</label>
+                                <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm password" required >
                             </div>
-                            <div class="col-lg-4">
-                                <label>About:</label>
-                                <textarea type="text" class="form-control" name="about" placeholder="About">{{old('about')}}</textarea>
-                                {{-- <span class="form-text text-muted">Please enter your full name</span> --}}
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-6">
+                                <input class="form-check-input d-none" type="checkbox" name="privacy" id="tnc" required>
+                                <label class="form-check-label" for="tnc"> I agree with the <a href="{{route('terms.conditions')}}" target="_blank">Terms & Condition</a> of datekelly</label>
                             </div>
-                            <div class="col-lg-4">
-                                <label>Website:</label>
-                                <input type="text" class="form-control" name="website_address" placeholder="Enter website" value="{{old('website_address')}}"/>
-                                {{-- <span class="form-text text-muted">Please enter your username</span> --}}
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-lg-6">
+                                <input class="form-check-input d-none" type="checkbox" name="robot" id="robot" required>
+                                <label class="form-check-label" for="robot">I am not a robot</label>
                             </div>
-                            <div class="col-lg-4">
-                                <label>Profile Picture:</label>
-                                <input type="file" class="form-control" name="profile_pic" accept=".png, .jpg, .jpeg" value="{{old('profile_pic')}}"/>
-                            </div>
+                        </div>
                             <div class="col-lg-2 mt-5 mx-auto">
                                 <button type="submit" class="btn login-btn">Submit</button>
-                                {{-- <button type="reset" class="btn btn-secondary">Cancel</button> --}}
                             </div>
                         </div>
                         <!-- end: Example Code-->

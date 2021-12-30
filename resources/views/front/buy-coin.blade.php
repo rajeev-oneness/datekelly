@@ -1,8 +1,6 @@
 @extends('front.layouts.master')
 
 @section('dashboard-content')
-
-{{-- <div class="col-12 col-md-6 p-0 pl-2 pl-md-5 rightpart advertisment"> --}}
 <div class="col-12 col-md-6 p-0 pl-2 pl-md-5 rightpart">
     <div class="adv-title">
         <h4 class="mb-3">Buy DateKelly Coins</h4>
@@ -39,7 +37,7 @@
                 @foreach ($rates as $key => $rate)
                 <tr id="coin-{{$key}}" data-id="{{$rate->id}}">
                     <td class="text-center">DateKelly Coins {{$rate->coin}}</td>
-                    <td class="text-center">&dollar; {{$rate->price}}</td>
+                    <td class="text-center">&euro; {{$rate->price}}</td>
                 </tr>
                 @endforeach
             </table>
@@ -60,6 +58,28 @@
             <button class="btn btn-upload" onclick="submitForm()">Buy Now</button>
         </div>
     </div>
+
+    @if(count($points) > 0)
+        <h4>Coins Logs</h4>
+        <table class="table" id="customDataTable">
+            <thead>
+                <tr>
+                    <th>#sr No</th>
+                    <th>Point</th>
+                    <th>Remarks</th>
+                </tr>
+                <tbody>
+                    @foreach($points as $index => $po)
+                        <tr>
+                            <td>{{$index + 1}}</td>
+                            <td>{{$po->coins}}</td>
+                            <td>{{$po->remarks}}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </thead>
+        </table>
+    @endif
 </div>
 
 @endsection

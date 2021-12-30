@@ -17,13 +17,11 @@
                     <div class="form-group row">
                         <div class="col-lg-12">
                             <label>Name:</label>
-                            <input type="text" class="form-control" placeholder="Category Name" name="name" required/>
-                            {{-- <span class="form-text text-muted">Please enter your full name</span> --}}
+                            <input type="text" class="form-control" value="{{old('name')}}" placeholder="Category Name" name="name" required/>
                         </div>
                         <div class="col-lg-12">
                             <label>Description:</label>
-                            <textarea type="text" class="form-control" placeholder="Category Description" name="description" required></textarea>
-                            {{-- <span class="form-text text-muted">Please enter your email</span> --}}
+                            <textarea type="text" class="form-control" placeholder="Category Description" name="description" required>{{old('description')}}</textarea>
                         </div>
                     </div>
                 </div>

@@ -8,6 +8,8 @@ use App\Models\Booking;
 use App\Models\CoinsDetails;
 use App\Models\Transaction;
 use App\Models\AdvertisementServices;
+use App\Models\PremiumPicturePurchase;
+use App\Models\LadyPremiumPicture;
 use App\Models\AdvertisementServiceDuration;
 class BookingController extends Controller
 {
@@ -24,7 +26,7 @@ class BookingController extends Controller
             'visit_type' => 'required|numeric',
             'date' => 'required',
             'time' => 'required',
-            'duration_id' => 'required|numeric|min:1',
+            'duration_id' => 'nullable|numeric|min:1',
             'service_id' => 'required',
             'selectedPrice' => 'required|min:1|numeric'
         ]);
@@ -47,7 +49,7 @@ class BookingController extends Controller
                     $booking->extra_info = emptyCheck($req->extra_info);
                     $booking->date = $req->date;
                     $booking->time = $req->time;
-                    $booking->duration_id = $req->duration_id;
+                    $booking->duration_id = numberCheck($req->duration_id);
                     $booking->service_id = !empty($req->service_id) ? implode(",", $req->service_id) : '';
                     $booking->down_payment = $req->selectedPrice;
                     $booking->save();
@@ -62,8 +64,16 @@ class BookingController extends Controller
                     $coinDetail->user_id = $userId;
                     $coinDetail->coins = '-'.$req->selectedPrice;
                     $coinDetail->transaction_id = $transaction->id;
-                    $coinDetail->remarks = 'User '.$userId.' booked service from '.$req->user_id.' using '.$req->selectedPrice.' coins';
+                    $coinDetail->remarks = 'You have Booked a Service for '.$req->user_id .' using '. $req->selectedPrice.' coins';
                     $coinDetail->save();
+
+                    $LadycoinDetail = new CoinsDetails();
+                    $LadycoinDetail->user_id = $req->user_id;
+                    $LadycoinDetail->coins = $req->selectedPrice;
+                    $LadycoinDetail->transaction_id = $transaction->id;
+                    $LadycoinDetail->remarks = 'Credited points ' .$req->selectedPrice. ' agains the Advertisement Booking';
+                    $LadycoinDetail->save();
+
                     DB::commit();
                     return redirect(route('booking.list'))->with('Success','Service booked successfully');
                 }
@@ -83,7 +93,7 @@ class BookingController extends Controller
         $userId = $user->id;
         $userType = $user->user_type;
         $confirmedBookings = [];$notConfirmedBookings = [];
-        if($userType == 2) {
+        if($userType == 1) {
             $confirmedBookings = Booking::select('*')->with('customerDetail')->where('user_id', $userId)->where('date', '>=', date('Y-m-d'))->where('is_confirmed', 1)->latest()->get();
             $notConfirmedBookings = Booking::select('*')->with('customerDetail')->where('user_id', $userId)->where('date', '>=', date('Y-m-d'))->where('is_confirmed', 0)->where('is_visited', 0)->latest()->get();
         }
@@ -114,6 +124,70 @@ class BookingController extends Controller
         $duration = AdvertisementServiceDuration::where('id', $booking->duration_id)->first();
         // dd($services);
         return view('front.booking.manage', compact('booking', 'services', 'userType', 'duration'));
+    }
+
+    public function premiumPicturePurchaseCheck(Request $req)
+    {
+        $rules = [
+            'ladiesId' => 'required|min:1|numeric',
+            'customerId' => 'required|min:1|numeric',
+            'pictureId' => 'required|min:1|numeric',
+            'price' => 'nullable|string',
+        ];
+        $validator = validator()->make($req->all(),$rules);
+        if(!$validator->fails()){
+            $purchase = true;
+            $picture = LadyPremiumPicture::where('id',$req->pictureId)->first();
+            if($picture){
+                $purchaseCheck = PremiumPicturePurchase::where('from_user_id',$req->ladiesId)->where('customer_id',$req->customerId)->where('picture_id',$req->pictureId)->first();
+                if(!$purchaseCheck){
+                    if(!empty($req->price)){
+                        DB::beginTransaction();
+                        try {
+                            $transaction = new \App\Models\Transaction;
+                                $transaction->user_id = $req->customerId;
+                                $transaction->amount = $req->price;
+                                $transaction->transaction_id = 'trans_'.randomgenerator();
+                            $transaction->save();
+                            /********** Minusing the Customer Point **************/
+                            $coinsMinusCustomer = new \App\Models\CoinsDetails;
+                                $coinsMinusCustomer->user_id = $req->customerId;
+                                $coinsMinusCustomer->coins = '-'.$transaction->amount;
+                                $coinsMinusCustomer->transaction_id = $transaction->id;
+                                $coinsMinusCustomer->remarks = 'You have purchased premium picture';
+                            $coinsMinusCustomer->save();
+                            /********** Adding the Point from Customer to ladies account **************/
+                            $coinsAddedLady = new \App\Models\CoinsDetails;
+                                $coinsAddedLady->user_id = $req->ladiesId;
+                                $coinsAddedLady->coins = $transaction->amount;
+                                $coinsAddedLady->transaction_id = $transaction->id;
+                                $coinsAddedLady->remarks = 'Your Premium Picture Purchased by Customer';
+                            $coinsAddedLady->save();
+                            /*************** Making as Purchased Picture **************/
+                            $premiumPurchase = new PremiumPicturePurchase;
+                                $premiumPurchase->from_user_id = $req->ladiesId;
+                                $premiumPurchase->customer_id = $req->customerId;
+                                $premiumPurchase->picture_id = $req->pictureId;
+                                $premiumPurchase->price = $transaction->amount;
+                            $premiumPurchase->save();
+                            $picture->no_of_purchase += 1;
+                            $picture->save();
+                            $purchase = true;
+                            DB::commit();
+                        } catch (Exception $e) {
+                            DB::rollback();
+                            return errorResponse('Something went wrong please try after sometime');
+                        }
+                    }else{
+                        $purchase = false;
+                    }
+                }
+                $data['purchase'] = $purchase;
+                return successResponse('Premium Picture',$data);
+            }
+            return errorResponse('Invalid Image Clicked');
+        }
+        return errorResponse($validator->errors()->first());
     }
 
     public function confirmed(Request $req)

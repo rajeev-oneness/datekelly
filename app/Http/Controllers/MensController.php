@@ -15,56 +15,38 @@ use Hash;
  
 class MensController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $mens = User::with('country')->where('user_type', 3)->where('status', 1)->orderBy('created_at', 'DESC')->get();
+        $mens = User::where('user_type', 3)->latest()->get();
         return view('admin.mens.index', compact('mens'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function add()
     {
-        $countries = Country::with('city')->get();
-        return view('admin.mens.add', compact('countries'));
+        return view('admin.mens.add');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $req)
     {
         $req->validate([
+            'name' => 'required|string|max:200',
             'password' => 'required|string|min:8|confirmed',
-            'email' => 'email|unique:users'
+            'email' => 'required|string|email|unique:users',
+            'dob' => 'required|date',
         ]);
         $mens = new User;
         $mens->user_type = 3;
         $mens->name = $req->name;
         $mens->email = $req->email;
-        $mens->phn_no = $req->phn_no;
-        $mens->whatsapp_no = $req->whatsapp_no;
+        $mens->dob = emptyCheck($req->dob,true);
+        $mens->age = (date('Y') - date('Y',strtotime($mens->dob)));
         $mens->password = Hash::make($req->password);
-        $mens->about = $req->about;
-        $mens->age = $req->age;
-        $mens->country_id = $req->country_id;
-        $mens->city_id = $req->city_id;
-        $mens->address = $req->address;
         $mens->status = 1;
         if ($req->hasFile('profile_pic')) {
             $image = $req->file('profile_pic');
             $mens->profile_pic = imageUpload($image, 'mens');
+        }else{
+            $mens->profile_pic = 'images/default_image.png';
         }
         $mens->save();
         $UserVerification = new UserVerification;
@@ -79,29 +61,16 @@ class MensController extends Controller
         return redirect()->route('admin.mens')->with('Success','Men Added SuccessFully');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $men = User::where('id', decrypt($id))->first();
         return view('admin.mens.details', compact('men'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $countries = Country::all();
-        $men = User::where('id', decrypt($id))->with('country', 'city')->first();
-        // dd($men);
+        $men = User::where('id', decrypt($id))->first();
         if(get_guard() == 'admin') {
             return view('admin.mens.edit', compact('men', 'countries'));
         } else {
@@ -109,42 +78,39 @@ class MensController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $req)
     {
         $men = User::findOrFail(decrypt($req->id));
+        $req->validate([
+            'id' => 'required',
+            'name' => 'required|string|max:200',
+            'phn_no' => 'nullable|numeric',
+            'dob' => 'required|date',
+            'email' => 'required|email|unique:users,email,'.$men->id,
+            'password' => 'nullable|string|min:5|confirmed',
+        ]);
+        $message = 'Profile updated successFully';
+        $men->dob = emptyCheck($req->dob,true);
+        $men->age = (date('Y') - date('Y',strtotime($men->dob)));
         $men->name = $req->name;
         $men->phn_no = $req->phn_no;
-        $men->whatsapp_no = $req->whatsapp_no;
-        $men->about = $req->about;
-        $men->age = $req->age;
-        $men->country_id = $req->country_id;
-        $men->city_id = $req->city_id;
-        $men->address = $req->address;
+        $men->email = $req->email;
+        if(!empty($req->password)){
+            $men->password = Hash::make($req->password);
+            $message = 'Profile and Password updated successfully';
+        }
         if ($req->hasFile('profile_pic')) {
             $image = $req->file('profile_pic');
-            $men->profile_pic = imageUpload($image, 'mens');
+            $men->profile_pic = imageUpload($image, 'men');
         }
         $men->save();
         if(get_guard() == 'admin') {
             return redirect()->route('admin.mens')->with('Success','Men Updated SuccessFully');
         } else {
-            return redirect()->route('user.dashboard')->with('Success','Men Updated SuccessFully');
+            return back()->with('Success',$message);
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function delete($id)
     {
         $men = User::findOrFail(decrypt($id))->delete();

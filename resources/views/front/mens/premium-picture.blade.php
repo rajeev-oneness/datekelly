@@ -4,9 +4,9 @@
 
 <div class="col-12 col-md-7 p-0 pl-2 pl-md-5 rightpart">
     <div class="adv-title">
-        <h4 class="mb-3">Premium Picture</h4>
+        <h4 class="mb-3">Premium Picture ({{count($pictures)}})</h4>
     </div>
-    <div class="row m-0 mt-5 add-pre-pic">
+    <!-- <div class="row m-0 mt-5 add-pre-pic">
         <p>
             <span class="textpink">Lorem Ipsum is simply</span> dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
         </p>
@@ -14,12 +14,12 @@
         <p>
             <span class="textpink">Lorem Ipsum has been</span> the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
         </p>
-    </div>
+    </div> -->
     <div class="row m-0 mt-5 add-pre-pic">
         <div class="col-12 p-0 mb-4 d-md-flex">
             <div class="col-12 col-md-6 text-left p-0">
                 <h6>
-                    Premium Pictures : <span class="textpink">{{count($pictures)}}</span>
+                    <!-- Premium Pictures : <span class="textpink">{{count($pictures)}}</span> -->
                     <small class="form-text text-muted">Click on the premium pictures to download.</small>
                 </h6>
             </div>

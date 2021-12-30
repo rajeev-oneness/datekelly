@@ -29,9 +29,13 @@
                         <div class="col-lg-12 d-flex flex-column">
                             <label class="" for="myservice">Service:</label>
                             <div class="d-flex">
-                                <input type="checkbox" name="my_service[]" value="private_visit" @if(in_array('private_visit',$myServices)){{('checked')}}@endif><p class="ml-2">Private Visit</p>
+                                <input id="private" class="form-check-input d-none" type="checkbox" name="my_service[]" value="private_visit" @if(in_array('private_visit',$myServices)){{('checked')}}@endif>
+                                <!-- <p class="ml-2">Private Visit</p> -->
+                                <label for="private" class="form-check-label mr-2">Private Visit</label>
                                     &nbsp;
-                                <input type="checkbox" name="my_service[]" value="escort" @if(in_array('escort',$myServices)){{('checked')}}@endif><p class="ml-2">Escort</p>
+                                <input id="escort" class="form-check-input d-none" type="checkbox" name="my_service[]" value="escort" @if(in_array('escort',$myServices)){{('checked')}}@endif>
+                                <!-- <p class="ml-2">Escort</p> -->
+                                <label for="escort" class="form-check-label">Escort</label>
                             </div>
                         </div>
                         @error('my_service')<span class="text-danger">{{$message}}</span>@enderror
@@ -42,9 +46,13 @@
                         <div class="col-lg-12 d-flex flex-column">
                             <label class="" for="sex">Sex:</label>
                             <div class="d-flex">
-                                <input type="checkbox" name="sex[]" value="lady" @if(in_array('lady',$mySex)){{('checked')}}@endif><p class="ml-2">Lady</p>
+                                <input id="lady" class="form-check-input d-none" type="checkbox" name="sex[]" value="lady" @if(in_array('lady',$mySex)){{('checked')}}@endif>
+                                <!-- <p class="ml-2">Lady</p> -->
+                                <label for="lady" class="form-check-label mr-2">Lady</label>
                                     &nbsp;
-                                <input type="checkbox" name="sex[]" value="transsexual_TS" @if(in_array('transsexual_TS',$mySex)){{('checked')}}@endif><p class="ml-2">Transsexual TS</p>
+                                <input id="trans" class="form-check-input d-none" type="checkbox" name="sex[]" value="transsexual_TS" @if(in_array('transsexual_TS',$mySex)){{('checked')}}@endif>
+                                <!-- <p class="ml-2">Transsexual TS</p> -->
+                                <label for="trans" class="form-check-label">Transsexual TS</label>
                             </div>
                         </div>
                         @error('sex')<span class="text-danger">{{$message}}</span>@enderror
@@ -58,7 +66,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     <select name="ageFrom" id="ageFrom" class="sumoSelect form-control @error('ageFrom'){{('is-invalid')}}@enderror">
-                                        @for($ageGroup = 15; $ageGroup <= 80; $ageGroup+=5)
+                                        <option value="18" @if(old('ageFrom') == 18){{('selected')}}@endif>{{('18')}} Years</option>
+                                        @for($ageGroup = 20; $ageGroup <= 80; $ageGroup+=5)
                                             <option value="{{$ageGroup}}" @if(old('ageFrom') == $ageGroup){{('selected')}}@endif>{{$ageGroup}} Years</option>
                                         @endfor
                                     </select>
@@ -66,7 +75,7 @@
                                 <div class="col-md-2"> to</div>
                                 <div class="col-md-4">
                                     <select name="ageTo" id="ageTo" class="sumoSelect form-control @error('ageTo'){{('is-invalid')}}@enderror">
-                                        @for($ageGroup = 15; $ageGroup <= 80; $ageGroup+=5)
+                                        @for($ageGroup = 20; $ageGroup <= 80; $ageGroup+=5)
                                             <option value="{{$ageGroup}}" @if(old('ageTo') == $ageGroup){{('selected')}}@elseif($ageGroup == 80){{('selected')}}@endif>{{$ageGroup}} Years</option>
                                         @endfor
                                     </select>
@@ -128,7 +137,7 @@
                     <div class="form-group">
                         @php $cupSizeOLD = (old('cup_size') ?? []); @endphp
                         <label class="" for="cup_size">Cup Size:</label>
-                        <div>
+                        <div class="d-flex justify-content-start align-items-center option-cont">
                             @foreach($data->cup_size as $cupIndex => $cupSize)
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" name="cup_size[]" type="checkbox" id="inlineCheckbox{{$cupIndex}}" value="{{$cupSize->size}}" @if(in_array($cupSize->size,$cupSizeOLD)){{('checked')}}@endif>
@@ -140,7 +149,7 @@
                     <div class="form-group">
                         @php $bodySizeOLD = (old('body_size') ?? []); @endphp
                         <label class="" for="body_size">Body Size:</label>
-                        <div>
+                        <div class="d-flex justify-content-start align-items-center option-cont">
                             @foreach($data->body_size as $bodyIndex => $bodySize)
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" name="body_size[]" type="checkbox" id="inlineCheckboxBodySize{{$bodyIndex}}" value="{{$bodySize->size}}" @if(in_array($bodySize->size,$bodySizeOLD)){{('checked')}}@endif>
@@ -153,7 +162,7 @@
                     <div class="form-group">
                         @php $decentOLD = (old('descent') ?? []); @endphp
                         <label class="" for="descent">Descent:</label>
-                        <div>
+                        <div class="d-flex justify-content-start align-items-center option-cont">
                             @foreach($data->descents as $descentIndex => $descentData)
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" name="descent[]" type="checkbox" id="inlineCheckboxDescent{{$descentIndex}}" value="{{$descentData->title}}" @if(in_array($descentData->title,$decentOLD)){{('checked')}}@endif>
@@ -166,7 +175,7 @@
                     <div class="form-group">
                         @php $languageOLD = (old('language') ?? []); @endphp
                         <label class="" for="length">Language:</label>
-                        <div>
+                        <div class="d-flex justify-content-start align-items-center option-cont">
                             @foreach($data->language as $languageIndex => $languageData)
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" name="language[]" type="checkbox" id="inlineCheckboxLanguage{{$languageIndex}}" value="{{$languageData->id}}" @if(in_array($languageData->id,$languageOLD)){{('checked')}}@endif>
@@ -183,7 +192,8 @@
                             <div class="row">
                                 @foreach($data->servicesAndExtra as $indexServices => $services)
                                     <div class="col-md-4">
-                                        <input type="checkbox" name="services[]" value="{{$services->title}}" @if(in_array($services->title,$serviceExtraOLD)){{('checked')}}@endif>&nbsp;{{$services->title}}
+                                        <input class="form-check-input d-none" type="checkbox" name="services[]" value="{{$services->title}}" id="services{{$indexServices}}" @if(in_array($services->title,$serviceExtraOLD)){{('checked')}}@endif>&nbsp;
+                                        <label for="services{{$indexServices}}" class="form-check-label">{{$services->title}}</label>
                                     </div>
                                 @endforeach
                             </div>

@@ -9,10 +9,10 @@
     	<div class="col-12">
     	<form action="{{route('advertisement.update',$data->info->id)}}" method="POST" enctype="multipart/form-data" class="w-100">
     		@csrf
-    		<h5>Edit Lady Advertisement</h5><hr>
+    		<h5>Edit Advertisement</h5><hr>
     		<input type="hidden" name="advertisementId" value="{{$data->info->id}}">
-			<input type="hidden" name="lat" id="selectedLatitude" value="{{$data->indo->lat}}">
-			<input type="hidden" name="lng" id="selectedLongitude" value="{{$data->indo->lng}}">
+			<input type="hidden" name="lat" id="selectedLatitude" value="{{$data->info->lat}}">
+			<input type="hidden" name="lng" id="selectedLongitude" value="{{$data->info->lng}}">
 			<div class="form-group row">
     			<div class="col-lg-6 d-flex flex-column">
                     <label class="" for="country">Country where I work:</label>
@@ -76,6 +76,12 @@
 					<input type="text" name="my_working_name" maxlength="200" class="form-control @error('my_working_name'){{('is-invalid')}}@enderror" value="{{(old('my_working_name') ?? $data->info->title)}}">
 					@error('my_working_name')<span class="text-danger">{{$message}}</span>@enderror
 				</div>
+
+				<div class="col-lg-6 d-flex flex-column">
+					<label class="" for="advertisement_price">Price in (EURO):</label>
+					<input type="text" name="advertisement_price" maxlength="8" class="form-control @error('advertisement_price'){{('is-invalid')}}@enderror" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="Price In Euro" value="{{(old('advertisement_price') ?? $data->info->price)}}">
+					@error('advertisement_price')<span class="text-danger">{{$message}}</span>@enderror
+				</div>
 			</div>
 
 			<div class="form-group row">
@@ -98,7 +104,7 @@
     			<div class="col-lg-6 d-flex flex-column">
                     <label class="" for="age">Age:</label>
                     <select name="age" id="age" class="sumoSelect form-control @error('age'){{('is-invalid')}}@enderror">
-                    	@for($ageGroup = 12; $ageGroup <= 60; $ageGroup++)
+                    	@for($ageGroup = 18; $ageGroup <= 60; $ageGroup++)
 	                    	<option value="{{$ageGroup}}" @if((old('age') ?? $data->info->age) == $ageGroup){{('selected')}}@endif>{{$ageGroup}} Years</option>
                     	@endfor
                     </select>
@@ -187,6 +193,13 @@
 	    		@endforeach
 	    	</div>
 
+			<div class="form-group row">
+                <div class="col-sm-12">
+                    <label>Update Portfolio image:</label>
+                    <input type="file" class="form-control" name="port_folio_image">
+                </div>
+            </div>
+
     		<div class="form-group row">
                 <div class="col-sm-12">
                     <label>Upload More images: (select min. 3 photos)</label>
@@ -205,12 +218,12 @@
 	    		@endforeach
 	    	</div>
 
-            <div class="form-group row">
+            <!-- <div class="form-group row">
                 <div class="col-sm-12">
                     <label>Upload more videos:</label>
                     <input type="file" class="form-control" name="video[]" multiple>
                 </div>
-            </div>
+            </div> -->
 
             <div class="form-group row">
                 <div class="col-sm-12">
@@ -257,6 +270,27 @@
 					</table>
                 </div>
             </div>
+
+            <!-- category Listing -->{{--
+            <!-- <div class="form-group row">
+                <div class="col-sm-12">
+                    <label>Category:</label>
+                    <table class="table">
+                    	<tr>
+                    		<th>Add</th>
+                    		<th>Category Name</th>
+                    	</tr>
+                    	@foreach($data->category as $indexCategory => $category)
+	                    	<tr>
+	                    		<td>
+	                    			<input type="checkbox" name="categories[{{$indexCategory}}]" value="{{$category->id}}" @if(in_array($category->id, $data->selectedCategory)){{('checked')}}@endif>
+	                    		</td>
+	                    		<td>{{$category->name}}</td>
+	                    	</tr>
+                    	@endforeach
+                    </table>
+                </div>
+            </div> -->--}}
 
             <div class="form-group row">
                 <div class="col-sm-12">

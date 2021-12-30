@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Auth;
 
 class UserAuth
 {
@@ -18,7 +19,11 @@ class UserAuth
     {
         $guard = get_guard();
         if($guard == 'web'){
-            return $next($request);
+            if(Auth::user()->email_verified_at != '' || Auth::user()->email_verified_at != NULL){
+                return $next($request);
+            }else{
+                return redirect(route('verify.user.account'));
+            }
         }
         return redirect(route('user.login'));
     }

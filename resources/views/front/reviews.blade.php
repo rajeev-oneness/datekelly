@@ -18,7 +18,8 @@
                     <div class="card position-relative mb-5">
                         <div class="card-header border-0 pt-1 d-flex">
                             <p>
-                                <span class="text-lblue">{{$item->user_details->name}}</span> review of <span class="textpink">{{$item->advertisement_details->title}}
+                                <span class="text-lblue">{{$item->user_details->name}}</span> review of <span class="textpink">
+                                    <a href="{{route('advertisement.detail',[base64_encode($item->advertisement_id)])}}">{{$item->advertisement_details->title}}</a>
                                 </span>
                                 <br>{{date('M Y', strtotime($item->advertisement_details->created_at))}}
                             </p>

@@ -14,12 +14,14 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('front/css/owl.theme.default.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('front/css/style.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('front/css/responsive.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('front/css/rajeev-loader.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/sumoselect.min.css')}}">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
     @yield('css')
 </head>
 <body>
-
+    <!-- loader -->
+    <div class="loading-data" style="display:block; color: #fff;">Loading&#8230;</div>
     <header> 
         <nav class="navbar navbar-expand-md navbar-dark bg-pink pb-0 pt-0 shadow-sm">
             <div class="d-flex w-50">
@@ -31,17 +33,17 @@
             <div class="navbar-collapse collapse justify-content-center" id="collapsingNavbar">
                 <ul class="navbar-nav">
                     <li class="nav-item {{(Route::currentRouteName() == 'ladies.home') ? 'active' : ''}}">
-                        <a class="nav-link" href="{{route('ladies.home')}}">Ladies <img src="{{asset('front/img/gender-icon.png')}}" alt="icon"></a>
+                        <a class="nav-link px-sm-0 px-md-3" href="{{route('ladies.home')}}">Ladies <img src="{{asset('front/img/gender-icon.png')}}" alt="icon"></a>
                     </li>
                     <li class="nav-item {{(Route::currentRouteName() == 'search.home') ? 'active' : ''}}">
-                        <a class="nav-link" href="{{route('search.home')}}">Search <img src="{{asset('front/img/search-icon.png')}}" alt="icon"></a>
+                        <a class="nav-link px-sm-0 px-md-3" href="{{route('search.home')}}">Search <img src="{{asset('front/img/search-icon.png')}}" alt="icon"></a>
                     </li>
                     
                     <li class="nav-item {{(Route::currentRouteName() == 'club.agencies.home') ? 'active' : ''}}">
-                        <a class="nav-link" href="{{route('club.agencies.home')}}">Clubs/Agencies <img src="{{asset('front/img/club-icon.png')}}" alt="icon" class="m-0"></a>
+                        <a class="nav-link px-sm-0 px-md-3" href="{{route('club.agencies.home')}}">Clubs/Agencies <img src="{{asset('front/img/club-icon.png')}}" alt="icon" class="m-0"></a>
                     </li>
                     <li class="nav-item {{(Route::currentRouteName() == 'reviews.home') ? 'active' : ''}}">
-                        <a class="nav-link" href="{{route('reviews.home')}}">Reviews <img src="{{asset('front/img/review-icon.png')}}" alt="icon" class="m-0"></a>
+                        <a class="nav-link px-sm-0 px-md-3" href="{{route('reviews.home')}}">Reviews <img src="{{asset('front/img/review-icon.png')}}" alt="icon" class="m-0"></a>
                     </li>
                 </ul>
             </div>
@@ -116,19 +118,30 @@
 		<script type="text/javascript" src="{{asset('front/js/bootstrap.min.js')}}"></script>
 		<script type="text/javascript" src="{{asset('front/js/owl.carousel.min.js')}}"></script>
 		<script type="text/javascript" src="{{asset('front/js/aos.js')}}"></script>
+		<script type="text/javascript" src="{{asset('front/js/lightbox.min.js')}}"></script>
 		<script type="text/javascript" src="{{asset('front/js/custom.js')}}"></script>
         <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
         <script type="text/javascript" src="{{asset('js/sumoselect.min.js')}}"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script>
-            @if(Session::has('Success'))
-                swal('Success','{{Session::get('Success')}}', 'success');
-            @elseif(Session::has('Errors'))
-                swal('Error','{{Session::get('Errors')}}', 'error');
-            @endif
+            $(document).ready(function() {
+                $('.loading-data').hide();
+                $(document).on('submit', 'form', function() {
+                    $('button').attr('disabled', 'disabled');
+                    $('.loading-data').show();
+                });
+
+                @if(Session::has('Success'))
+                    swal('Success','{{Session::get('Success')}}', 'success');
+                @elseif(Session::has('Errors'))
+                    swal('Error','{{Session::get('Errors')}}', 'error');
+                @endif
+            });
 
             $(document).ready( function () {
-                $('#customDataTable').DataTable();
+                $('#customDataTable').DataTable({
+                    order : [],
+                });
             });
         </script>
 

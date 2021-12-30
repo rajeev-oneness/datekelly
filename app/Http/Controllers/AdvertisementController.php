@@ -13,7 +13,7 @@ use App\Models\Language,App\Models\Category,App\Models\Country;
 use App\Models\LadyPremiumPicture,App\Models\PremiumPicturePurchase;
 use App\Models\LoveCount,App\Models\ReviewLikeDislike;
 use App\Models\AdvertisementWorkingDays;
-use App\Models\Service;
+use App\Models\Service, App\Models\AdvertisementCategory;
 
 class AdvertisementController extends Controller
 {
@@ -52,12 +52,13 @@ class AdvertisementController extends Controller
         foreach ($data->countries as $key => $value) {
             $data->firstCountryId = $value->id;break;
         }
-        $data->cup_size = CupSize::select('*')->get();
-        $data->body_size = BodySize::select('*')->get();
-        $data->descents = Descent::select('*')->get();
-        $data->language = Language::select('*')->get();
+        // $data->category = Category::select('*')->latest()->get();
+        $data->cup_size = CupSize::select('*')->latest()->get();
+        $data->body_size = BodySize::select('*')->latest()->get();
+        $data->descents = Descent::select('*')->latest()->get();
+        $data->language = Language::select('*')->latest()->get();
         $data->time = ['15 Min', '30 Min','45 Min','1 Hour','2 Hour', '4 Hour', '8 Hour','12 Hour'];
-        $data->servicesAndExtra = Service::select('*')->get();
+        $data->servicesAndExtra = Service::select('*')->latest()->get();
         $data->workingDays = ['Monday','Tuesday','Wednesday','Thrusday','Friday','Saturday','Sunday'];
         return view('front.advertisement.add', compact('data'));
     }
@@ -104,6 +105,8 @@ class AdvertisementController extends Controller
             'images.*' => 'nullable|image',
             'video' => 'nullable|array',
             'video.*' => 'nullable',
+            'categories' => 'nullable|array',
+            'categories.*' => 'required|numeric|min:1',
             'services' => 'nullable|array',
             'services.*' => 'nullable|string',
             'servicesInclude' => 'nullable|array',
@@ -112,6 +115,8 @@ class AdvertisementController extends Controller
             'servicesPrice.*' => 'nullable|string',
             'lat' => 'nullable|string',
             'lng' => 'nullable|string',
+            'advertisement_price' => 'required|min:1|numeric',
+            'port_folio_image' => 'required',
         ]);
         DB::beginTransaction();
         try {
@@ -140,7 +145,28 @@ class AdvertisementController extends Controller
             $newAdvertisement->extraprice_for_escort = numberCheck($req->extraprice_for_escort);
             $newAdvertisement->lat = emptyCheck($req->lat);
             $newAdvertisement->lng = emptyCheck($req->lng);
+            $newAdvertisement->price = $req->advertisement_price;
             $newAdvertisement->save();
+
+            // Port Folio Image Upload
+            if($req->hasFile('port_folio_image')){
+                $image = $req->file('port_folio_image');
+                $newAdvertisement->image = imageUpload($image,'port_folio_image/image');
+            }
+
+            // Advertisement Categories
+            if(!empty($req->categories) && count($req->categories) > 0){
+                $advertisementCategory = [];
+                foreach ($req->categories as $keyCate => $valueCate) {
+                    $advertisementCategory[] = [
+                        'advertisement_id' => $newAdvertisement->id,
+                        'category_id' => $valueCate,
+                    ];
+                }
+                if(count($advertisementCategory) > 0){
+                    AdvertisementCategory::insert($advertisementCategory);
+                }
+            }
 
             // Advertisement Services
             if(!empty($req->services) && count($req->services) > 0){
@@ -167,7 +193,7 @@ class AdvertisementController extends Controller
             
             // Image upload
             if(!empty($req->images) && count($req->images) > 0) {
-                $advertisementImages = [];$anyImage = '';
+                $advertisementImages = [];
                 foreach ($req->images as $imagekey => $imagevalue) {
                     $imagePath = imageUpload($imagevalue, 'ladyAdvertisement');
                     $advertisementImages[] = [
@@ -175,10 +201,8 @@ class AdvertisementController extends Controller
                         'img' => $imagePath,
                         'type' => 'Image',
                     ];
-                    $anyImage = $imagePath;
                 }
                 if(count($advertisementImages) > 0){
-                    $newAdvertisement->image = $anyImage;
                     AdvertisementsImage::insert($advertisementImages);
                 }
             }
@@ -278,6 +302,8 @@ class AdvertisementController extends Controller
         $reviews = AdvertisementReview::where('advertisement_id', base64_decode($id))->get();
         $ad = Advertisement::where('id', base64_decode($id));
         $advertisement = $ad->first();
+        $ourLadies = Advertisement::where([['ladies_id', 0], ['club_id', $advertisement->club_id]])->get();
+        // dd($ourLadies);
         $lady_id = $ad->get()->pluck('ladies_id')->toArray();
         if($lady_id != 0) {
             $premium_pics = LadyPremiumPicture::where('user_id', $lady_id)->get();
@@ -285,10 +311,10 @@ class AdvertisementController extends Controller
             $premium_pics = (object)[];
         }
         if(!empty(auth()->guard($guard)->user()) && auth()->guard($guard)->user()->is_admin_access == 1) {
-            return view('admin.advertisement.details', compact('advertisement','languages','reviews', 'premium_pics'));
+            return view('admin.advertisement.details', compact('advertisement','languages','reviews', 'premium_pics', 'ourLadies'));
         }
         if(empty(auth()->guard($guard)->user()) || !empty(auth()->guard($guard)->user())) {
-            return view('front.advertisement-details', compact('advertisement','languages','reviews', 'premium_pics'));
+            return view('front.advertisement-details', compact('advertisement','languages','reviews', 'premium_pics', 'ourLadies'));
         }
     }
 
@@ -302,23 +328,18 @@ class AdvertisementController extends Controller
     {
         $data = (object)[];
         $data->info = Advertisement::findOrFail(base64_decode($id));
+        $data->selectedCategory = AdvertisementCategory::select('category_id')->where('advertisement_id',$data->info->id)->groupBy('category_id')->pluck('category_id')->toArray();;
         $data->countries = Country::select('*')->orderBy('name')->get();
         $data->firstCountryId = $data->info->country_id;
-        $data->cup_size = CupSize::select('*')->get();
-        $data->body_size = BodySize::select('*')->get();
-        $data->descents = Descent::select('*')->get();
-        $data->language = Language::select('*')->get();
+        $data->cup_size = CupSize::select('*')->latest()->get();
+        $data->body_size = BodySize::select('*')->latest()->get();
+        $data->descents = Descent::select('*')->latest()->get();
+        // $data->category = Category::select('*')->latest()->get();
+        $data->language = Language::select('*')->latest()->get();
         $data->time = ['15 Min', '30 Min','45 Min','1 Hour','2 Hour', '4 Hour', '8 Hour','12 Hour'];
-        $data->servicesAndExtra = Service::select('*')->get();
+        $data->servicesAndExtra = Service::select('*')->latest()->get();
         $data->workingDays = ['Monday','Tuesday','Wednesday','Thrusday','Friday','Saturday','Sunday'];
         return view('front.advertisement.edit', compact('data'));
-        // $languages = Language::all();
-        // $categories = Category::all();
-        // $countries = Country::all();
-        // $advertisement = Advertisement::findOrFail(base64_decode($id));
-        // if(empty(auth()->guard($guard)->user()) || !empty(auth()->guard($guard)->user())) {
-        //     return view('front.advertisement.edit', compact('advertisement','languages','categories','countries'));
-        // }
     }
 
     /**
@@ -364,6 +385,8 @@ class AdvertisementController extends Controller
             'images.*' => 'nullable|image',
             'video' => 'nullable|array',
             'video.*' => 'nullable',
+            'categories' => 'nullable|array',
+            'categories.*' => 'required|numeric|min:1',
             'services' => 'nullable|array',
             'services.*' => 'nullable|string',
             'servicesInclude' => 'nullable|array',
@@ -372,6 +395,8 @@ class AdvertisementController extends Controller
             'servicesPrice.*' => 'nullable|string',
             'lat' => 'nullable|string',
             'lng' => 'nullable|string',
+            'advertisement_price' => 'required|min:1|numeric',
+            'port_folio_image' => 'nullable',
         ]);
         DB::beginTransaction();
         try {
@@ -400,7 +425,28 @@ class AdvertisementController extends Controller
             $newAdvertisement->extraprice_for_escort = numberCheck($req->extraprice_for_escort);
             $newAdvertisement->lat = emptyCheck($req->lat);
             $newAdvertisement->lng = emptyCheck($req->lng);
+            $newAdvertisement->price = $req->advertisement_price;
+            // Port Folio Image Upload
+            if($req->hasFile('port_folio_image')){
+                $image = $req->file('port_folio_image');
+                $newAdvertisement->image = imageUpload($image,'port_folio_image/image');
+            }
             $newAdvertisement->save();
+
+            // Advertisement Categories
+            if(!empty($req->categories) && count($req->categories) > 0){
+                $advertisementCategory = [];
+                foreach ($req->categories as $keyCate => $valueCate) {
+                    $advertisementCategory[] = [
+                        'advertisement_id' => $newAdvertisement->id,
+                        'category_id' => $valueCate,
+                    ];
+                }
+                if(count($advertisementCategory) > 0){
+                    AdvertisementCategory::where('advertisement_id',$newAdvertisement->id)->delete();
+                    AdvertisementCategory::insert($advertisementCategory);
+                }
+            }
 
             // Advertisement Services
             if(!empty($req->services) && count($req->services) > 0){
@@ -428,7 +474,7 @@ class AdvertisementController extends Controller
             
             // Image upload
             if(!empty($req->images) && count($req->images) > 0) {
-                $advertisementImages = [];$anyImage = '';
+                $advertisementImages = [];
                 foreach ($req->images as $imagekey => $imagevalue) {
                     $imagePath = imageUpload($imagevalue, 'ladyAdvertisement');
                     $advertisementImages[] = [
@@ -436,10 +482,8 @@ class AdvertisementController extends Controller
                         'img' => $imagePath,
                         'type' => 'Image',
                     ];
-                    $anyImage = $imagePath;
                 }
                 if(count($advertisementImages) > 0){
-                    $newAdvertisement->image = $anyImage;
                     AdvertisementsImage::insert($advertisementImages);
                 }
             }
@@ -671,6 +715,7 @@ class AdvertisementController extends Controller
 
     public function countLove(Request $req)
     {
+        // dd($req->all());
         $loveCount = LoveCount::where('from', $req->customerId)->where('to', $req->userId)->where('advertisement_id', $req->adId)->first();
         $ad = Advertisement::find($req->adId);
         if($loveCount) {
@@ -695,10 +740,9 @@ class AdvertisementController extends Controller
     {
         $likeDislikeCount = ReviewLikeDislike::where('from', $req->customerId)->where('to', $req->userId)->where('advertisement_id', $req->adId)->first();
         $adRev = AdvertisementReview::where('advertisement_id', $req->adId)->first();
-        // dd($adrev);
         $total = [
-            'totalLike' => $adRev->likes,
-            'totalDislike' => $adRev->dislikes,
+            'totalLike' => ($adRev ? $adRev->liked : []),
+            'totalDislike' => ($adRev ? $adRev->dislikes : []),
         ];
         if($likeDislikeCount) {
             if(($likeDislikeCount->like == 0) && ($likeDislikeCount->dislike == 1)) {
@@ -778,5 +822,36 @@ class AdvertisementController extends Controller
             $adRev->save(); 
             return response()->json(['error' => false, 'like' => $adRev->likes , 'dislike' => $adRev->dislikes]);
         }
+    }
+
+    public function clubDetail($id)
+    {
+        // dd(base64_decode($id));
+        $languages = Language::all();
+        $data = User::findOrFail(base64_decode($id));
+        $advertisement = Advertisement::where('user_type', 2)->where('club_id', base64_decode($id))->first();
+        // dd($advertisement);
+        $ourLadies = Advertisement::where([['ladies_id', 0], ['club_id', base64_decode($id)], ['user_type', 0]])->get();
+        return view('front.club-details', compact('data', 'ourLadies', 'advertisement', 'languages'));
+
+        // $guard = get_guard();
+        // $languages = Language::all();
+        // $reviews = AdvertisementReview::where('advertisement_id', base64_decode($id))->get();
+        // $ad = Advertisement::where('id', base64_decode($id));
+        // $advertisement = $ad->first();
+        // $ourLadies = Advertisement::where([['ladies_id', 0], ['club_id', $advertisement->club_id]])->get();
+        // // dd($ourLadies);
+        // $lady_id = $ad->get()->pluck('ladies_id')->toArray();
+        // if($lady_id != 0) {
+        //     $premium_pics = LadyPremiumPicture::where('user_id', $lady_id)->get();
+        // } else {
+        //     $premium_pics = (object)[];
+        // }
+        // if(!empty(auth()->guard($guard)->user()) && auth()->guard($guard)->user()->is_admin_access == 1) {
+        //     return view('admin.advertisement.details', compact('advertisement','languages','reviews', 'premium_pics', 'ourLadies'));
+        // }
+        // if(empty(auth()->guard($guard)->user()) || !empty(auth()->guard($guard)->user())) {
+        //     return view('front.advertisement-details', compact('advertisement','languages','reviews', 'premium_pics', 'ourLadies'));
+        // }
     }
 }

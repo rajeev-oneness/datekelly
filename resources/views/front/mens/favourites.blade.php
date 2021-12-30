@@ -28,7 +28,7 @@
                         <h2>{{$ad->rating}}</h2>
                         <div class="mt-1 text-center bg-pink w-40"><img src="{{asset('front/img/camera_icon.png')}}"></div>
                     </div>
-                    <div class="price">&dollar; {{$ad->price}}</div>
+                    <div class="price">&euro; {{$ad->price}}</div>
                 </div>
                 <div class="card-body p-2">
                   <div class="row m-0">

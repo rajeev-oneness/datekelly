@@ -285,9 +285,7 @@ header .navbar-dark .navbar-nav .active>.nav-link{
   color:#ea1482;
 }
 .women-List .card-title span{
-  text-align: right;
   font-size: 10px;
-  float: right;
   padding-top: 5px;
   color: #7d7c7c;
 }
@@ -309,12 +307,19 @@ header .navbar-dark .navbar-nav .active>.nav-link{
   vertical-align: middle;
 }
 .women-List .subtext{
-  font-size: 13px;
-  font-weight: 500 !important;
+  font-size: 14px;
+  font-weight: 600 !important;
   color: #000;
 }
 .women-List .subtext span{
   color:#ea1482;
+}
+.women-List .card-title span {
+  text-align: right;
+  font-size: 10px;
+  float: right;
+  padding-top: 5px;
+  color: #7d7c7c;
 }
 .verified-sec{
   position: absolute;
@@ -392,16 +397,17 @@ header .navbar-dark .navbar-nav .active>.nav-link{
 
 .like-section{
   position: absolute;
-  bottom: -32px;
+  bottom: -45px;
   left: 15px;
 }
 .like-section p{
   color:#000;
-  padding: 0px 8px;
+  padding: 6px 8px;
   margin-right: 5px;
-  font-size: 13px;
+  font-size: 20px;
   text-align: center;
-  background:#fdcde6 ;
+  background:#fdcde6;
+  cursor: pointer;
 }
 /*--------Footer-------*/
 
@@ -436,8 +442,9 @@ footer p{
   color: #ea1482;
 }
 .leftpart .ledies_pic{
-  width: 247.5px;
-  height: 247.5px;
+     width: 100%;
+    height: auto;
+    object-fit: cover;
 }
 .leftpart ul{
   list-style: none;
@@ -454,14 +461,17 @@ footer p{
   padding: 5px 15px;
 }
 .leftpart ul li a:hover{
-  /* background: #ffa8d5; */
-  opacity: 0.75;
-  padding: 5px 25px;
+  background: rgba(255, 255, 255, 0.65);
+    opacity: 0.75;
+    padding: 5px 25px;
+    color: #e91482 !important;
+    font-weight: 500;
 }
 .leftpart ul li .active{
-  /* background: #ffa8d5; */
+  background: rgba(255, 255, 255, 0.65);
   padding: 5px 25px;
   color:#e91482 !important;
+  font-weight: 500;
 }
 .rightpart .dashboard .card{
   height: 190px;
@@ -482,7 +492,7 @@ footer p{
   margin-bottom: 6px;
   padding: 4px 10px;
   font-size: 18px;
-  display: initial;
+    display: inline-block;
 
 }
 .rightpart .dashboard-text h6{
@@ -744,6 +754,10 @@ input#check:focus + label {
   list-style: none;
   margin: 0;
   padding: 0;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 25px;
 }
 .service-me li{
   font-size: 14px;
@@ -753,12 +767,48 @@ input#check:focus + label {
   padding: 3px 0;
   font-family: Arial, sans-serif;
 }
+.service-me li a {
+  color: inherit;
+}
 .service-me li .serv-name{
   width: 210px;
 }
 .service-me li .serv-type{
   padding-left: 30px;
+  white-space: nowrap;
 }
+
+/* .service-me{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 25px;
+  justify-content: space-between;
+}
+.service-me li{
+  font-size: 14px;
+  font-weight: 400;
+  color:#ea1482;
+  display: flex;
+  padding: 3px 0;
+  font-family: Arial, sans-serif;
+  justify-content: space-between;
+  border-bottom: 1px solid #efefef;
+} .service-me li:last-child{
+    border-bottom: 0;
+}
+.serv-name a{
+    color:#2a2a2a;
+    font-size: 14px;
+    font-weight: 400;
+} .service-me li .serv-name{
+  width: 210px;
+}
+.service-me li .serv-type{
+  padding-left: 30px;
+} */
 .aboutme-text p{
   font-size: 14px;
   line-height: 20px;
@@ -838,7 +888,7 @@ input#check:focus + label {
   text-align: center;
 }
 .lady-data{
-  padding:10px 30px;
+  padding:20px 20px;
 }
 .lady-data table tr td{
   font-size: 13px;
@@ -846,7 +896,8 @@ input#check:focus + label {
   font-weight: 400;
   text-align: left;
   vertical-align: top;
-  padding: 2px;
+  padding: 5px 10px;
+  padding-left: 0;
 }
 .lady-data table tr th{
   font-size: 18px;
@@ -867,6 +918,7 @@ input#check:focus + label {
 
 .banner-pic .item img{
   height: 345px !important;
+  object-fit: cover;
 }
 .banner-pic .owl-dots{
   display: none;
@@ -878,8 +930,9 @@ input#check:focus + label {
   display: inline-block;
 }
 .b-img-select a img{
-  width: 98px;
-  height: 98px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .image-sl-text{
   position: absolute;
@@ -1203,4 +1256,208 @@ input#check:focus + label {
 }
 .h-30{
   height: 30px;
+}
+.option-cont{
+  flex-wrap: wrap;
+
+}
+.option-cont .form-check-input{
+  display: none;
+}
+.option-cont .form-check-inline{
+  width: 180px;
+  margin-bottom: 10px;
+}
+.form-check-label{
+  position: relative;
+  cursor: pointer;
+}
+.form-check-label:before {
+  content:'';
+ -webkit-appearance: none;
+ background-color: transparent;
+ border: 2px solid #ea1482;
+ padding: 7px;
+ display: inline-block;
+ position: relative;
+ vertical-align: middle;
+ cursor: pointer;
+ margin-right: 5px;
+}
+.form-check-input:checked + .form-check-label:after {
+ content: '';
+ display: block;
+ position: absolute;
+ top: 11px;
+ left: 0;
+ width: 17px;
+ height: 75%;
+ background-color: #ea1383;
+ /* border-radius: 50%; */
+ transform: translateY(-50%);
+}
+.unlock-cont{
+  height: 100px;
+}
+.f-input {
+  max-width:336px;
+}
+.mx377{
+  max-width: 377px;
+}
+img.card-img-top{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.modal.show .modal-dialog{
+  max-width: 80% !important;
+  min-height: 90% !important;
+  justify-content: center;
+}
+#imagesSliderModal22 .modal-content{
+  max-width: 100%;
+  background: none;
+  border: 0;
+}
+#imagesSliderModal22 .modal-content .item{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:90vh;
+  overflow:hidden;
+  width:100%;
+}
+#imagesSliderModal22 .modal-content .item img{
+    width:100%;
+    height: 100% !important;
+    object-fit: contain;
+}
+#imagesSliderModal22 .owl-nav button.owl-next, #imagesSliderModal22 .owl-nav button.owl-prev{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  color: red;
+  width: 50px;
+  height: 50px;
+  background-color: #fff;
+  border-radius: 50%;
+
+}
+#imagesSliderModal22 .owl-nav button.owl-next{
+  right: -15px;
+}
+#imagesSliderModal22 .owl-nav button.owl-prev{
+  left: -15px;
+}
+.aside-menu-wrapper .menu-nav .menu-item-active .menu-link{
+  background-color: #1b1b28 !important;
+}
+table{
+  margin-bottom: 0 !important;
+}
+
+.lady-card-img{
+    height: 260px;
+    overflow: hidden;
+}
+.review h6, .review a{
+    font-size:13px;
+}
+.lst_img{
+    height:120px;
+    overflow:hidden;
+}
+.lst_img img{
+    width:100%;
+    height: 100% !important;
+    object-fit: cover;
+}
+.advlist_img{
+    height:200px;
+    overflow:hidden;
+}
+.edit_del{
+    position: absolute;
+    top: 26%;
+    right: 11px;
+    padding: 0;
+    background: #ea1482;
+    color: #fff;
+}
+.edit_del a{
+    color: #fff !important;
+    padding:5px;
+    display: inline-block;
+}
+
+.l_stext{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 5;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-height: 23px;
+    color:#fff !important;
+    font-weight:400;
+    font-size:14px;
+}
+.ld_detail{
+    background:rgba(0, 0, 0, 0.75);
+    position: absolute;
+    left:0;
+    height:100%;
+    width:100%;
+    bottom:-500px;
+    transition: all 0.5s ease-out;
+    padding:15px;
+    padding-top:20%;
+}
+.women-List .card:hover .ld_detail{
+  bottom:0;
+}
+.modal-open .modal {
+    background: rgba(0,0,0, 0.91);
+}
+.reviewModal{
+    width: 500px !important;
+}
+
+.positive .form-control {
+    border-radius: 0;
+    background: #e1fdcd;
+    border-color: #e1fdcd !important;
+}
+.img_scroll{
+    white-space: nowrap;
+	overflow-x: auto;
+	overflow-y: hidden;
+	-webkit-overflow-scrolling: touch;
+}
+.img_scroll li{
+    display: inline-block;
+	box-sizing: border-box;
+}
+
+.sm_grl_pic .owl-next{
+  position: absolute;
+  top: 26%;
+  right: -3%;
+  font-size: 20px;
+  
+}
+.sm_grl_pic .owl-next i{
+    color:#ea1482;
+}
+.sm_grl_pic .owl-prev{
+  position: absolute;
+  top: 26%;
+  left: -3%;
+  font-size: 20px;
+  color:#ea1482;
+  display:none;
+}
+.sm_grl_pic .owl-prev i{
+    color:#ea1482;
 }

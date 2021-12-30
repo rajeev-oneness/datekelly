@@ -1,6 +1,12 @@
 @extends('front.layouts.master')
 @section('dashboard-content')
 
+<style>
+.form-check .form-check-input {
+	display: none;
+}
+</style>
+
 <div class="col-12 col-md-9 pl-2 pl-md-5 rightpart">
     <div class="row mb-3 dashboard align-items-center">
         <div class="col-12"><a href="{{route('advertisement.list')}}" class="login-btn float-right">Back <i class="fas fa-step-backward"></i></a></div>
@@ -11,7 +17,7 @@
 	    		@csrf
 	    		<input type="hidden" name="lat" id="selectedLatitude" value="{{old('lat')}}">
 				<input type="hidden" name="lng" id="selectedLongitude" value="{{old('lng')}}">
-	    		<h5>Create Lady Advertisement</h5><hr>
+	    		<h5>Create Advertisement</h5><hr>
 				<div class="form-group row">
 	    			<div class="col-lg-6 d-flex flex-column">
 	                    <label class="" for="country">Country where I work:</label>
@@ -68,8 +74,14 @@
 				<div class="form-group row">
 					<div class="col-lg-6 d-flex flex-column">
 						<label class="" for="myworkingName">My Working Name:</label>
-						<input type="text" name="my_working_name" maxlength="200" class="form-control @error('my_working_name'){{('is-invalid')}}@enderror">
+						<input type="text" name="my_working_name" maxlength="200" class="form-control @error('my_working_name'){{('is-invalid')}}@enderror" value="{{old('my_working_name')}}">
 						@error('my_working_name')<span class="text-danger">{{$message}}</span>@enderror
+					</div>
+
+					<div class="col-lg-6 d-flex flex-column">
+						<label class="" for="advertisement_price">Price in (EURO):</label>
+						<input type="text" name="advertisement_price" maxlength="8" class="form-control @error('advertisement_price'){{('is-invalid')}}@enderror" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="Price In Euro" value="{{old('advertisement_price')}}">
+						@error('advertisement_price')<span class="text-danger">{{$message}}</span>@enderror
 					</div>
 				</div>
 
@@ -93,7 +105,7 @@
 	    			<div class="col-lg-6 d-flex flex-column">
 	                    <label class="" for="age">Age:</label>
 	                    <select name="age" id="age" class="sumoSelect form-control @error('age'){{('is-invalid')}}@enderror">
-	                    	@for($ageGroup = 12; $ageGroup <= 60; $ageGroup++)
+	                    	@for($ageGroup = 18; $ageGroup <= 60; $ageGroup++)
 		                    	<option value="{{$ageGroup}}" @if(old('age') == $ageGroup){{('selected')}}@endif>{{$ageGroup}} Years</option>
 	                    	@endfor
 	                    </select>
@@ -104,7 +116,7 @@
 	    		<div class="form-group row">
 	    			<div class="col-lg-6 d-flex flex-column">
 	                    <label class="" for="length">Length (In CM):</label>
-	                    <input type="text" name="length" class="form-control @error('length'){{('is-invalid')}}@enderror" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="{{old('length')}}" placeholder="Length in CM" maxlength="4">
+	                    <input type="text" name="length" class="form-control @error('length'){{('is-invalid')}}@enderror" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="{{old('length')}}" placeholder="Length in CM" maxlength="4" value="{{old('length')}}">
 	                    @error('length')<span class="text-danger">{{$message}}</span>@enderror
 	                </div>
 	                <div class="col-lg-6 d-flex flex-column">
@@ -119,7 +131,7 @@
 					<div>
 						@foreach($data->cup_size as $cupIndex => $cupSize)
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="cup_size" type="radio" id="inlineCheckbox{{$cupIndex}}" value="{{$cupSize->size}}">
+								<input class="form-check-input" name="cup_size" type="radio" id="inlineCheckbox{{$cupIndex}}" value="{{$cupSize->size}}" @if(old('cup_size')==$cupSize->size){{('checked')}}@endif>
 								<label class="form-check-label" for="inlineCheckbox{{$cupIndex}}">{{$cupSize->size}}</label>
 							</div>
 						@endforeach
@@ -130,7 +142,7 @@
 					<div>
 						@foreach($data->body_size as $bodyIndex => $bodySize)
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="body_size" type="radio" id="inlineCheckboxBodySize{{$bodyIndex}}" value="{{$bodySize->size}}">
+								<input class="form-check-input" name="body_size" type="radio" id="inlineCheckboxBodySize{{$bodyIndex}}" value="{{$bodySize->size}}" @if(old('body_size')==$bodySize->size){{('checked')}}@endif>
 								<label class="form-check-label" for="inlineCheckboxBodySize{{$bodyIndex}}">{{$bodySize->size}}</label>
 							</div>
 						@endforeach
@@ -142,7 +154,7 @@
 					<div>
 						@foreach($data->descents as $descentIndex => $descentData)
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="descent" type="radio" id="inlineCheckboxDescent{{$descentIndex}}" value="{{$descentData->title}}">
+								<input class="form-check-input" name="descent" type="radio" id="inlineCheckboxDescent{{$descentIndex}}" value="{{$descentData->title}}" @if(old('descent') == $descentData->title){{('checked')}}@endif>
 								<label class="form-check-label" for="inlineCheckboxDescent{{$descentIndex}}">{{$descentData->title}}</label>
 							</div>
 						@endforeach
@@ -154,7 +166,7 @@
 					<div>
 						@foreach($data->language as $languageIndex => $languageData)
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="language[]" type="checkbox" id="inlineCheckboxLanguage{{$languageIndex}}" value="{{$languageData->id}}">
+								<input class="form-check-input" name="language[]" type="checkbox" id="inlineCheckboxLanguage{{$languageIndex}}" value="{{$languageData->id}}" @if(old('language') && in_array($languageData->id,old('language'))){{('checked')}}@endif>
 								<label class="form-check-label" for="inlineCheckboxLanguage{{$languageIndex}}">{{$languageData->name}}</label>
 							</div>
 						@endforeach
@@ -171,17 +183,24 @@
 
 	    		<div class="form-group row">
 	                <div class="col-sm-12">
-	                    <label>Upload images: (select min. 3 photos)</label>
+	                    <label>Upload Portfolio image:</label>
+	                    <input type="file" class="form-control" name="port_folio_image" required>
+	                </div>
+	            </div>
+
+	    		<div class="form-group row">
+	                <div class="col-sm-12">
+	                    <label>Upload Free images: (select min. 3 photos)</label>
 	                    <input type="file" class="form-control" name="images[]" multiple>
 	                </div>
 	            </div>
 
-	            <div class="form-group row">
+	            <!-- <div class="form-group row">
 	                <div class="col-sm-12">
 	                    <label>Upload videos:</label>
 	                    <input type="file" class="form-control" name="video[]" multiple>
 	                </div>
-	            </div>
+	            </div> -->
 
 	            <div class="form-group row">
 	                <div class="col-sm-12">
@@ -192,12 +211,12 @@
 								<td>
 									<select class="form-control" name="time[]">
 										@foreach($data->time as $timeIndex => $timeData)
-											<option value="{{$timeData}}">{{$timeData}}</option>
+											<option value="{{$timeData}}" @if(old('time') && in_array($timeData,old('time'))){{('selected')}}@endif>{{$timeData}}</option>
 										@endforeach	
 									</select>
 								</td>
 								<td>Price: &nbsp;</td>
-								<td><input type="text" name="price[]" class="form-control" placeholder="Price in €" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="3"></td>
+								<td><input type="text" name="price[]" class="form-control" placeholder="Price in €" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="3" value="{{old('price') ? old('price')[0] : ''}}"></td>
 								<td><a class="btn btn-sm btn-success actionTimebtn addNewTime">+</a></td>
 							</tr>
 						</table>
@@ -213,6 +232,27 @@
 	                </div>
 	            </div>
 
+	            <!-- category Listing -->{{--
+	            <!-- <div class="form-group row">
+	                <div class="col-sm-12">
+	                    <label>Category:</label>
+	                    <table class="table">
+	                    	<tr>
+	                    		<th>Add</th>
+	                    		<th>Category Name</th>
+	                    	</tr>
+	                    	@foreach($data->category as $indexCategory => $category)
+		                    	<tr>
+		                    		<td>
+		                    			<input type="checkbox" name="categories[{{$indexCategory}}]" value="{{$category->id}}">
+		                    		</td>
+		                    		<td>{{$category->name}}</td>
+		                    	</tr>
+	                    	@endforeach
+	                    </table>
+	                </div>
+	            </div> -->--}}
+
 	            <div class="form-group row">
 	                <div class="col-sm-12">
 	                    <label>Services & Extras:</label>
@@ -223,21 +263,22 @@
 	                    		<th>Include or Extra Service</th>
 	                    		<th>Extra Price</th>
 	                    	</tr>
+	                    	@php $selectedServicesInclude = (old('servicesInclude') ?? []); @endphp
 	                    	@foreach($data->servicesAndExtra as $indexServices => $services)
 		                    	<tr>
 		                    		<td>
 		                    			<input type="hidden" name="services[{{$indexServices}}]" value="">
-		                    			<input type="checkbox" name="services[{{$indexServices}}]" value="{{$services->title}}">
+		                    			<input type="checkbox" name="services[{{$indexServices}}]" value="{{$services->title}}" @if(old('services') && in_array($services->title,old('services'))){{('checked')}}@endif>
 		                    		</td>
 		                    		<td>{{$services->title}}</td>
 		                    		<td>
 		                    			<select class="form-control" name="servicesInclude[]" onchange="markAsBlur(this)">
-			                    			<option value="0">Not Include</option>
-			                    			<option value="1">Include</option>
+			                    			<option value="0" @if(in_array(0,$selectedServicesInclude)){{('selected')}}@endif>Not Include</option>
+			                    			<option value="1" @if(in_array(1,$selectedServicesInclude)){{('selected')}}@endif>Include</option>
 			                    		</select>
 			                    	</td>
 		                    		<td>
-		                    			<input type="text" name="servicesPrice[]" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="Price" maxlength="3">
+		                    			<input type="text" name="servicesPrice[]" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="Price" maxlength="3" value="{{old('servicesPrice') ? old('servicesPrice')[$indexServices] : ''}}">
 		                    		</td>
 		                    	</tr>
 	                    	@endforeach
@@ -252,11 +293,11 @@
 	                    	@foreach($data->workingDays as $indexWorking => $workingDays)
 		                    	<tr>
 		                    		<td>
-		                    			<input type="checkbox" name="workingDays[]" value="{{$workingDays}}">
+		                    			<input type="checkbox" name="workingDays[]" value="{{$workingDays}}" @if(old('workingDays') && count(old('workingDays') > 0) && in_array($workingDays,old('workingDays'))){{('checked')}}@endif>
 		                    			{{$workingDays}}
 		                    		</td>
-		                    		<td>From : <input type="time" name="workingTimeFrom[]" class="form-control"></td>
-		                    		<td>Till : <input type="time" name="workingTimeTill[]" class="form-control"></td>
+		                    		<td>From : <input type="time" name="workingTimeFrom[]" class="form-control" value="{{old('workingTimeFrom') ? old('workingTimeFrom')[$indexWorking]: ''}}"></td>
+		                    		<td>Till : <input type="time" name="workingTimeTill[]" class="form-control" value="{{old('workingTimeTill') ? old('workingTimeTill')[$indexWorking] : ''}}"></td>
 		                    	</tr>
 	                    	@endforeach
 	                    </table>
@@ -276,6 +317,7 @@
     	</div>
     </div>
 </div>
+
 @section('sub-script')
 <script type="text/javascript">
 	$('.sumoSelect').SumoSelect({search: true, searchText: 'Select.'});

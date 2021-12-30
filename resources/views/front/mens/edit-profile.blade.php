@@ -7,64 +7,68 @@
     <form class="form" method="POST" action="{{route('men.account.update')}}" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="id" value="{{encrypt(auth()->guard(get_guard())->user()->id)}}">
-        <div class="form-group row">
-            <div class="col-lg-4">
-                <label>Name:</label>
+        <div class="form-group row align-items-center">
+            <div class="col-lg-6">
+                <label class="mt-3">Name:</label>
                 <input type="text" class="form-control" name="name" placeholder="Enter name" value="{{$men->name}}"/>
-                {{-- <span class="form-text text-muted">Please enter your full name</span> --}}
+                @error('name')<span class="text-danger">{{$message}}</span>@enderror
             </div>
-            <div class="col-lg-4">
-                <label>Phone No:</label>
-                <input type="number" class="form-control" name="phn_no" placeholder="Enter Phone no" value="{{$men->phn_no}}"/>
-                {{-- <span class="form-text text-muted">Please enter your username</span> --}}
+            
+            <div class="col-lg-6">
+                <label class="mt-3">Telephone No:</label>
+                <input type="text" class="form-control" name="phn_no" placeholder="Enter Phone no" value="{{$men->phn_no}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required maxlength="10" />
+                @error('phn_no')<span class="text-danger">{{$message}}</span>@enderror
             </div>
-            <div class="col-lg-4">
-                <label>Whtasapp No:</label>
-                <input type="number" class="form-control" name="whatsapp_no" placeholder="Enter whatsapp no" value="{{$men->whatsapp_no}}"/>
-                {{-- <span class="form-text text-muted">Please enter your username</span> --}}
+
+            <div class="col-lg-6">
+                <label class="mt-3">Date of Birth:</label>
+                <input type="date" class="form-control" name="dob" value="{{$men->dob}}" required max="{{date('Y-m-d',strtotime('- 18 years'))}}" />
+                @error('dob')<span class="text-danger">{{$message}}</span>@enderror
             </div>
-            <div class="col-lg-4">
-                <label>Age:</label>
-                <input type="number" class="form-control" name="age" placeholder="Enter age" value="{{$men->age}}"/>
-                {{-- <span class="form-text text-muted">Please enter your username</span> --}}
+
+            <div class="col-lg-6">
+                <label class="mt-5">&nbsp;</label>
+                <span class="pl-0">Age: {{date('Y') - date('Y',strtotime($men->dob))}}</span>
             </div>
-            <div class="col-lg-4">
-                <label>Address:</label>
-                <textarea type="text" class="form-control" name="address" placeholder="Address">{{$men->address}}</textarea>
-                {{-- <span class="form-text text-muted">Please enter your full name</span> --}}
+
+            <div class="col-lg-6">
+                <label class="mt-3">Email:</label>
+                <input type="email" class="form-control" name="email" placeholder="Enter name" value="{{$men->email}}"/>
+                @error('email')<span class="text-danger">{{$message}}</span>@enderror
             </div>
-            <div class="col-lg-4">
-                <label>Country:</label>
-                <select name="country_id" id="country_id" class="form-control">
-                    <option value="">Select</option>
-                    @foreach ($countries as $country)
-                        <option value="{{$country->id}}" {{($men->country_id == $country->id) ? 'selected' : ''}}>{{$country->name}}</option>
-                    @endforeach
-                </select>
-                {{-- <span class="form-text text-muted">Please enter your email</span> --}}
-            </div>
-            <div class="col-lg-4">
-                <label>City:</label>
-                <select name="city_id" id="city_id" class="form-control">
-                    <option value="{{$men->city->id}}">{{$men->city->name}}</option>
-                </select>
-                {{-- <span class="form-text text-muted">Please enter your username</span> --}}
-            </div>
-            <div class="col-lg-12">
-                <label>About:</label>
-                <textarea type="text" class="form-control" name="about" placeholder="About">{{$men->about}}</textarea>
-                {{-- <span class="form-text text-muted">Please enter your full name</span> --}}
-            </div>
-            <div class="p-3">
-                <img src="{{asset($men->profile_pic)}}" alt="Profile Pic" width="100">
+        </div>
+
+        <div class="form-group row">
+            <div class="col-lg-6">
+                <label class="mt-3">New Password:</label>
+                <input type="password" class="form-control" name="password" placeholder="Enter password" />
+                @error('password')<span class="form-text text-muted">{{$message}}</span>@enderror
             </div>
             <div class="col-lg-6">
-                <label>Profile Picture:</label>
+                <label class="mt-3">Confirm Password:</label>
+                <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm password" >
+                @error('password_confirmation')<span class="form-text text-muted">{{$message}}</span>@enderror
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="p-3">
+                <img src="{{asset($men->profile_pic)}}" alt="Profile Pic" width="200">
+            </div>
+            
+            <div class="col-lg-6">
+                <label class="mt-3">Update Profile Picture:</label>
                 <input type="file" class="form-control" name="profile_pic" accept=".png, .jpg, .jpeg"/>
             </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <a href="javascript:void(0)" class="deleteMyAccount text-danger">Delete my account</a>
+            </div>
+            
             <div class="col-lg-12">
                 <button type="submit" class="btn login-btn float-right">Update</button>
-                {{-- <button type="reset" class="btn btn-secondary">Cancel</button> --}}
             </div>
         </div>
     </form>

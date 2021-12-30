@@ -9,7 +9,7 @@ use App\Models\Contact;
 use App\Models\SiteSetting;
 use App\Models\Advertisement;
 use App\Models\AdvertisementReview;
-use App\Models\BusinessBanner;
+use App\Models\BusinessBanner,App\Models\AdvertisementCategory;
 use App\Models\Conversation,App\Models\AdvertisementServices;
 use App\Models\LadyPremiumPicture,App\Models\Service;
 use App\Models\PremiumPicturePurchase,App\Models\Descent;
@@ -19,28 +19,86 @@ use App\Models\CupSize,App\Models\BodySize;
 
 class FrontController extends Controller
 {
-    public function ladiesHome()
+    public function ladiesHome(Request $req)
     {
-        $advertisement = Advertisement::where('club_id', 0)->get();
+        $advertisement = Advertisement::where('club_id', 0)->where('ladies_id','!=',0);
+        if(!empty($req->search_by_city)){
+            $advertisement = $advertisement->where(function($query) use ($req){
+                $query->where('address', 'like', '%' . $req->search_by_city . '%')
+                    ->orWhere('title', 'like', '%' . $req->search_by_city . '%')
+                    ->orWhere('about', 'like', '%' . $req->search_by_city . '%')
+                    ->orWhereHas('city', function ($city) use($req) {
+                        $city->where('name', 'like', '%' . $req->search_by_city . '%');
+                    })->orWhereHas('country',function ($country) use($req) {
+                        $country->where('name', 'like', '%' . $req->search_by_city . '%');
+                    });
+            });
+        }
+        $advertisement = $advertisement->latest('id')->get();
         return view('front.ladies-home', compact('advertisement'));
     }
 
     public function clubAgenciesHome()
     {
-        $advertisements = Advertisement::where('club_id', '!=', 0)->get();
-        return view('front.club-agencies-home', compact('advertisements'));
+        // $advertisements = Advertisement::latest('id')->get();
+        $clubs = User::where('user_type', 2)->latest('id')->get();
+        // $advertisements = Advertisement::where('ladies_id', 0)->where('club_id','!=',0)->latest('id')->get();
+        // dd($advertisements);
+        return view('front.club-agencies-home', compact('clubs'));
+        // return view('front.club-agencies-home', compact('advertisements', 'clubs'));
     }
 
     public function getReviews()
     {
-        $reviews = AdvertisementReview::where('created_at', '>', date('Y-m-d H:i:s', strtotime('-100 days')))->orderBy('id', 'DESC')->get();
+        $reviews = AdvertisementReview::latest('id')->get();
         return view('front.reviews', compact('reviews'));
     }
 
-    public function adCategoryList($id)
+    public function adCategoryList(Request $req,$baseEncodeid,$catName)
     {
-        $advertisements = Advertisement::where('category', $id)->get();
-        return view('front.advertisement-category-list', compact('advertisements'));
+        $id = base64_decode($baseEncodeid);
+        $adCategories = AdvertisementCategory::select('advertisement_id')->where('category_id', $id)->groupBy('advertisement_id')->pluck('advertisement_id')->toArray();
+        if(count($adCategories)){
+            $advertisements = Advertisement::whereIn('id',$adCategories);
+            if(!empty($req->search_by_city)){
+                $advertisements = $advertisements->where(function($query) use ($req){
+                    $query->where('address', 'like', '%' . $req->search_by_city . '%')
+                        ->orWhere('title', 'like', '%' . $req->search_by_city . '%')
+                        ->orWhere('about', 'like', '%' . $req->search_by_city . '%')
+                        ->orWhereHas('city', function ($city) use($req) {
+                            $city->where('name', 'like', '%' . $req->search_by_city . '%');
+                        })->orWhereHas('country',function ($country) use($req) {
+                            $country->where('name', 'like', '%' . $req->search_by_city . '%');
+                        });
+                });
+            }
+            $advertisements = $advertisements->latest('id')->get();
+            return view('front.advertisement-category-list', compact('advertisements'));
+        }
+        return back()->with('Errors','Oops no data found against the category '.$catName);
+    }
+
+    public function adServiceList(Request $req,$serviceName)
+    {
+        $adService = AdvertisementServices::select('advertisement_id')->where('service_name', $serviceName)->groupBy('advertisement_id')->pluck('advertisement_id')->toArray();
+        if(count($adService)){
+            $advertisements = Advertisement::whereIn('id',$adService);
+            if(!empty($req->search_by_city)){
+                $advertisements = $advertisements->where(function($query) use ($req){
+                    $query->where('address', 'like', '%' . $req->search_by_city . '%')
+                        ->orWhere('title', 'like', '%' . $req->search_by_city . '%')
+                        ->orWhere('about', 'like', '%' . $req->search_by_city . '%')
+                        ->orWhereHas('city', function ($city) use($req) {
+                            $city->where('name', 'like', '%' . $req->search_by_city . '%');
+                        })->orWhereHas('country',function ($country) use($req) {
+                            $country->where('name', 'like', '%' . $req->search_by_city . '%');
+                        });
+                });
+            }
+            $advertisements = $advertisements->latest('id')->get();
+            return view('front.advertisement-category-list', compact('advertisements'));
+        }
+        return back()->with('Errors','Oops no data found against the category '.$serviceName);
     }
 
     public function register()
@@ -81,7 +139,7 @@ class FrontController extends Controller
         $coinBalance = CoinsDetails::where('user_id', $user->id)->sum('coins');
         $coinSpent = CoinsDetails::where('user_id', $user->id)->where('coins', '<', 0)->sum('coins');
         $ads = Advertisement::where('club_id', $user->id)->orWhere('ladies_id', $user->id);
-        $adsId = $ads->pluck('id')->toArray();
+        $adsId = $ads->latest('id')->pluck('id')->toArray();
         $totalReviews = AdvertisementReview::whereIn('advertisement_id', $adsId)->count();
         $rating = AdvertisementReview::whereIn('advertisement_id', $adsId)->avg('rating');
         if(auth()->guard($guard)->user()->user_type == 1) {
@@ -227,7 +285,7 @@ class FrontController extends Controller
         if(!empty($req->distance) && $req->distance > 0){
 
         }
-        $advertisement = $advertisement->latest()->get();
+        $advertisement = $advertisement->latest('id')->get();
         if(count($advertisement) > 0){
             return view('front.search-result',compact('advertisement','req'));
         }

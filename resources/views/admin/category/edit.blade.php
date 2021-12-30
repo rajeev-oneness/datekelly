@@ -20,12 +20,10 @@
                         <div class="col-lg-12">
                             <label>Name:</label>
                             <input type="text" class="form-control" placeholder="Category Name" name="name" value="{{$category->name}}" required/>
-                            {{-- <span class="form-text text-muted">Please enter your full name</span> --}}
                         </div>
                         <div class="col-lg-12">
                             <label>Description:</label>
                             <textarea type="text" class="form-control" placeholder="Category Description" name="description" required>{{$category->description}}</textarea>
-                            {{-- <span class="form-text text-muted">Please enter your email</span> --}}
                         </div>
                     </div>
                 </div>

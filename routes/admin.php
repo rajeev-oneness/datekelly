@@ -8,7 +8,14 @@
         Route::get('/admin-category-edit/{id}', 'Admin\CategoryController@edit')->name('admin.category.edit');
         Route::post('/admin-category-update', 'Admin\CategoryController@update')->name('admin.category.update');
         Route::get('/admin-category-delete/{id}', 'Admin\CategoryController@delete')->name('admin.category.delete');
-    
+
+        // Services
+        Route::group(['prefix' => 'services'],function(){
+            Route::get('list','Admin\CrudController@serviceList')->name('admin.service.list');
+            Route::post('store','Admin\CrudController@serviceStore')->name('admin.service.store');
+            Route::post('update','Admin\CrudController@serviceUpdate')->name('admin.service.update');
+            Route::post('delete','Admin\CrudController@serviceDelete')->name('admin.service.delete');
+        });
         
         //country section
         Route::get('/admin-country', 'Admin\CountryController@index')->name('admin.country');

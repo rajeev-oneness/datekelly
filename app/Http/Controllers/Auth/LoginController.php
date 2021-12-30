@@ -59,17 +59,16 @@ class LoginController extends Controller
             $guard = 'admin';
         }
         if($user){
-            // if($user->status == 1){
+            if($user->status == 1){
                 if(Hash::check($req->password,$user->password)){
                     auth()->guard($guard)->login($user);
-                    return redirect('/home');
-                    // return redirect()->intended('/home');
+                    return redirect()->intended('/home');
                 }else{
                     $errors['password'] = 'you have entered wrong password';
                 }
-            // }else{
-            //     $errors['email'] = 'this account has been blocked';
-            // }
+            }else{
+                $errors['email'] = 'this account has been blocked';
+            }
         }
         else{
             $errors['email'] = 'this email is not register with us';
