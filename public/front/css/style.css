@@ -766,6 +766,7 @@ input#check:focus + label {
   display: flex;
   padding: 3px 0;
   font-family: Arial, sans-serif;
+  justify-content: space-between;
 }
 .service-me li a {
   color: inherit;
