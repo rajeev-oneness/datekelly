@@ -43,7 +43,6 @@ class FrontController extends Controller
         // $advertisements = Advertisement::latest('id')->get();
         $clubs = User::where('user_type', 2)->latest('id')->get();
         // $advertisements = Advertisement::where('ladies_id', 0)->where('club_id','!=',0)->latest('id')->get();
-        // dd($advertisements);
         return view('front.club-agencies-home', compact('clubs'));
         // return view('front.club-agencies-home', compact('advertisements', 'clubs'));
     }

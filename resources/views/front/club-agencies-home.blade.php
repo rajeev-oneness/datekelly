@@ -72,7 +72,7 @@
                         <div class="card-body p-2">
                         <div class="row m-0">
                             <div class="col-6 col-md-6 text-md-left text-left p-0">
-                                <p class="loves"><i class="fas fa-heart"></i> &nbsp; {{$club->no_of_loves}} Loves</p>
+                                <p class="loves"><i class="fas fa-heart"></i> &nbsp; {{($club->clubDetails) ? (($club->clubDetails->no_of_loves > 1) ? $club->clubDetails->no_of_loves.' Loves' : $club->clubDetails->no_of_loves.' Love') : ''}}</p>
                             </div>
                             <div class="col-6 col-md-6 text-md-right text-right p-0 contacticon">
                                 <a href="tel:{{($club->country)? '+'.$club->country->phone_code : ''}}{{$club->phn_no}}"><img src="{{asset('front/img/call-icon.png')}}"></a>
@@ -81,7 +81,7 @@
                         </div>
                         <p class="subtext">
                             {{$club->name}} : 
-                            {{-- <span>{{$club->message}}</span> --}}
+                            <span>{{wordsLimit($club->about, 10)}}</span>
                         </p>
                         </div>
                     </div>

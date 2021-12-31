@@ -129,7 +129,123 @@
 
 
                 {{-- REVIEWS --}}
+                <div class="row m-0 review mt-5">
+                   <div class="col-12 p-0 mb-4 d-md-flex">
+                       <div class="col-12 col-md-4 text-left p-0">
+                           <h5>Our Reviews</h5>
+                       </div>
+                       <div class="col-12 col-md-8 text-left text-md-right p-0 mt-md-0 mt-4">
+                           <h6>
+                                {{-- @php
+                                    $guard = get_guard();
+                                    $user = auth()->guard($guard)->user();
+                                    $userId = ($advertisement->lady)? $advertisement->lady->id : $advertisement->club->id;
+                                @endphp --}}
 
+                                @php
+                                $guard = get_guard();
+                                $user = auth()->guard($guard)->user();
+                                $userId = $data->id;
+                                @endphp
+
+                                @if(($user) && ($user->id != $userId))
+                                    <a href="javascript:void(0);" class="p-2" data-toggle="modal" data-target="#addReviewModal">Write a Review</a>
+                                @elseif(empty($user))
+                                    <a href="{{route('user.login')}}" class="p-2">Login / Register to add review</a>
+                                @endif
+
+                                <span class="bg-pink text-white p-2">
+                                    {{$data->name}}
+                                </span>
+                                <span class="bg-pink text-white p-2">{{$advertisement ? $advertisement->rating : ''}} <i class="fas fa-star"></i></span>
+                            </h6>
+                        </div>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="addReviewModal" tabindex="-1" role="dialog" aria-labelledby="addReviewModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered reviewModal" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Add Review</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{route('review.store')}}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="advertisement_id" value="{{$advertisement ? $advertisement->id : ''}}" class="d-none">
+                                    <label for="">Rating</label><br>
+                                    @for ($i = 1; $i <= 10; $i++)
+                                    <div class="form-check form-check-inline mb-2">
+                                        <input class="form-check-input d-none" type="radio" name="rating" id="inlineRadio{{$i}}" value="{{$i}}">
+                                        <label class="form-check-label" for="inlineRadio{{$i}}">{{$i}}</label>
+                                    </div>
+                                    @endfor
+                                    <div class="mb-4 mt-3 positive">
+                                        <label for="" class="mb-3">Positive</label>
+                                        <textarea class="form-control" name="positive" id="" cols="100" rows="3" required></textarea>
+                                    </div>
+                                        
+                                    <div class="mb-4">
+                                        <label for="" class="mb-3">Negative</label>
+                                        <textarea class="form-control" name="negative" id="" cols="100" rows="3" required></textarea>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                    <button type="submit" class="login-btn">Add Review</button>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    @foreach ($reviews as $item)
+                        <div class="card position-relative mb-5 w-100">
+                            <div class="card-header border-0 pt-1 d-flex">
+                                <p>
+                                    <span class="text-lblue">{{$item->user_details->name}}</span> review of <span class="textpink">
+                                        {{$data->name}}
+                                    </span>
+                                    <br>{{date('M Y', strtotime($item->advertisement_details->created_at))}}
+                                </p>
+                                <span class="r-review w-50 ml-0">{{$item->rating}}</span>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="d-flex bodytext mb-3">
+                                    <i class="fas fa-plus-circle igreen"></i>
+                                    <p>{{$item->positive}}</p>
+                                </div>
+                                <div class="d-flex bodytext mb-3">
+                                    <i class="fas fa-minus-circle ired"></i>
+                                    <p>{{$item->negative}}</p>
+                                </div>
+                                <div class="d-flex bg-light-pink p-2 sub-text-review">
+                                    <div class="textpink">
+                                        <i class="fas fa-heart pt-1"></i>
+                                    </div>
+                                    @if ($item->reply != '' && $item->reply_user)
+                                        <p>
+                                            Reply from <span class="textpink">
+                                                {{$item->reply_user->name}}
+                                            </span>
+                                            <span class="d-block textpink">
+                                                {{$item->reply}}
+                                            </span>
+                                        </p>
+                                    @else
+                                        <p><span class="d-block textpink">No reply by user!</span></p>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="like-section d-flex">
+                                <p id="reviewLike" data-total="{{$item->likes}}" onclick="likeDislikeCount(this.id)" style="cursor: pointer;">{{$item->likes}} <i class="far fa-thumbs-up"></i></p>
+                                <p id="reviewDislike" data-total="{{$item->dislikes}}" onclick="likeDislikeCount(this.id)" style="cursor: pointer;">{{$item->dislikes}} <i class="far fa-thumbs-down"></i></p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
 
             </div><!--details-left-part-->
 
@@ -253,11 +369,11 @@
                                 </button>
                             </div>
 
-                            @php
+                            {{-- @php
                                 $guard = get_guard();
                                 $user = auth()->guard($guard)->user();
                                 $userId = $data->id;
-                            @endphp
+                            @endphp --}}
 
                             @if (($guard == 'web') && ($userId != auth()->guard($guard)->user()->id))
                                 <div class="modal-body">
@@ -306,23 +422,28 @@
 
 <!-- Images slider modal  -->
 
-{{-- <div class="modal fade" id="imagesSliderModal22" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="imagesSliderModal22" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body p-0">
       <div class="owl-carousel imagesSliderModal"  data-toggle="modal" data-target="#imagesSliderModal">
-            @foreach ($data->advertisement_image as $adImageKey => $adImageValue)
+            <div class="item" data-hash="0">
+                <img src="{{asset($data->profile_pic)}}">
+            </div>
+            @if($advertisement != null)
+            @foreach ($advertisement->advertisement_image as $adImageKey => $adImageValue)
                 @if($adImageValue->type == 'Image')
-                    <div class="item" data-hash="{{$adImageKey}}">
+                    <div class="item" data-hash="{{$adImageKey + 1}}">
                         <img src="{{asset($adImageValue->img)}}">
                     </div>
                 @endif
             @endforeach
+            @endif
         </div>
       </div>
     </div>
   </div>
-</div> --}}
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="premiumPictureModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

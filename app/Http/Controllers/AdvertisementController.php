@@ -826,13 +826,12 @@ class AdvertisementController extends Controller
 
     public function clubDetail($id)
     {
-        // dd(base64_decode($id));
         $languages = Language::all();
         $data = User::findOrFail(base64_decode($id));
         $advertisement = Advertisement::where('user_type', 2)->where('club_id', base64_decode($id))->first();
-        // dd($advertisement);
         $ourLadies = Advertisement::where([['ladies_id', 0], ['club_id', base64_decode($id)], ['user_type', 0]])->get();
-        return view('front.club-details', compact('data', 'ourLadies', 'advertisement', 'languages'));
+        $reviews = AdvertisementReview::where('advertisement_id', base64_decode($id))->get();
+        return view('front.club-details', compact('data', 'ourLadies', 'advertisement', 'languages', 'reviews'));
 
         // $guard = get_guard();
         // $languages = Language::all();
