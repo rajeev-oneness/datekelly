@@ -4,7 +4,7 @@
 <div class="col-12 col-md-9 pl-2 pl-md-5 rightpart review">
     <div>
         <h4 class="mb-3">Reviews</h4>
-        <p>You have <span class="textpink">1</span> unreplied review</p>
+        {{-- <p>You have <span class="textpink">1</span> unreplied review</p> --}}
     </div>
     @foreach ($reviews as $review)
     <div class="card position-relative mb-5">

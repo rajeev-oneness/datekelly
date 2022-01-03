@@ -22,10 +22,19 @@
                 </tr>
                 </thead>
                 <tbody>
+                {{-- {{dd($reviews);}} --}}
                 @foreach ($reviews as $key => $review)
                 <tr>
                     <th scope="row">{{$key+1}}</th>
-                    <td><a href="{{route('advertisement.show', base64_encode($review->advertisement_details->id))}}">{{$review->advertisement_details->title}}</a></td>
+                    <td>
+                        @if($review->advertisement_details->title != null)
+                            {{-- model adverstisement --}}
+                            <a href="{{route('advertisement.show', base64_encode($review->advertisement_details->id))}}">{{$review->advertisement_details->title}}</a>
+                        @else
+                            {{-- club details --}}
+                            <a href="{{route('club.detail', base64_encode($review->club_details->club->id))}}">{{$review->club_details->club->name}}</a>
+                        @endif
+                    </td>
                     <td>{{substr($review->positive, 0,25).'...'}}</td>
                     <td>{{substr($review->negative, 0,25).'...'}}</td>
                     <td>{{substr($review->reply, 0,25).'...'}}</td>

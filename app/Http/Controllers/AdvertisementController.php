@@ -734,16 +734,21 @@ class AdvertisementController extends Controller
             return response()->json(['error' => false, 'message' => 'Loved']);
         }
     }
-    
+
     //review like dislike section
     public function checkLikeDislike(Request $req)
     {
         $likeDislikeCount = ReviewLikeDislike::where('from', $req->customerId)->where('to', $req->userId)->where('advertisement_id', $req->adId)->first();
         $adRev = AdvertisementReview::where('advertisement_id', $req->adId)->first();
+
         $total = [
-            'totalLike' => ($adRev ? $adRev->liked : []),
+            'totalLike' => ($adRev ? $adRev->likes : []),
             'totalDislike' => ($adRev ? $adRev->dislikes : []),
         ];
+
+        // dd($likeDislikeCount);
+        $data = [];
+
         if($likeDislikeCount) {
             if(($likeDislikeCount->like == 0) && ($likeDislikeCount->dislike == 1)) {
                 $data = [
@@ -752,11 +757,17 @@ class AdvertisementController extends Controller
                     'dislike' => true,
                     'total' => $total
                 ];
-            }
-            if(($likeDislikeCount->like == 1) && ($likeDislikeCount->dislike == 0)) {
+            } elseif(($likeDislikeCount->like == 1) && ($likeDislikeCount->dislike == 0)) {
                 $data = [
                     'error' => false,
                     'like' => true,
+                    'dislike' => false,
+                    'total' => $total
+                ];
+            } else {
+                $data = [
+                    'error' => false,
+                    'like' => false,
                     'dislike' => false,
                     'total' => $total
                 ];
@@ -774,6 +785,7 @@ class AdvertisementController extends Controller
 
     public function countLikeDislike(Request $req)
     {
+        // dd($req->all());
         $revCount = ReviewLikeDislike::where('from', $req->customerId)->where('to', $req->userId)->where('advertisement_id', $req->adId)->first();
         $adRev = AdvertisementReview::where('advertisement_id', $req->adId)->first();
         if($revCount) {
@@ -830,7 +842,21 @@ class AdvertisementController extends Controller
         $data = User::findOrFail(base64_decode($id));
         $advertisement = Advertisement::where('user_type', 2)->where('club_id', base64_decode($id))->first();
         $ourLadies = Advertisement::where([['ladies_id', 0], ['club_id', base64_decode($id)], ['user_type', 0]])->get();
-        $reviews = AdvertisementReview::where('advertisement_id', base64_decode($id))->get();
+
+        // $reviews = User::select('advertisement_reviews.*')->join('advertisements', 'advertisements.club_id', '=', 'users.id')
+        //         ->join('advertisement_reviews', 'advertisement_reviews.advertisement_id', '=', 'advertisements.id')
+        //         ->where('users.id', base64_decode($id))
+        //         ->where('advertisements.user_type', 2)
+                // ->get();
+        // dd($reviews);
+        $reviews = AdvertisementReview::select('advertisement_reviews.*')
+        ->join('advertisements', 'advertisements.id', '=', 'advertisement_reviews.advertisement_id')
+        ->where('advertisements.club_id', base64_decode($id))
+        ->where('user_type', 2)
+        ->with('user_details', 'advertisement_details', 'reply_user')
+        ->get();
+        // $reviews = AdvertisementReview::where('advertisement_id', base64_decode($id))->get();
+
         return view('front.club-details', compact('data', 'ourLadies', 'advertisement', 'languages', 'reviews'));
 
         // $guard = get_guard();
@@ -852,5 +878,107 @@ class AdvertisementController extends Controller
         // if(empty(auth()->guard($guard)->user()) || !empty(auth()->guard($guard)->user())) {
         //     return view('front.advertisement-details', compact('advertisement','languages','reviews', 'premium_pics', 'ourLadies'));
         // }
+    }
+
+    // club count like dislike
+    public function clubCountLikeDislike(Request $req)
+    {
+        // dd($req->all());
+        $revCount = ReviewLikeDislike::where('from', $req->customerId)->where('to', $req->userId)->where('advertisement_id', $req->adId)->first();
+        $adRev = AdvertisementReview::where('id', $req->adRevId)->first();
+        if($revCount) {
+            if ($req->option == 'reviewLike') {
+                if ($revCount->like == 0) {
+                    $revCount->like = 1;
+                    $revCount->dislike = 0;
+                    $revCount->save();
+                    $adRev->likes += 1;
+                    $adRev->dislikes -= 1;
+                } else {
+                    $revCount->delete();
+                    $adRev->likes -= 1;
+                }
+            }
+            if ($req->option == 'reviewDislike') {
+                if ($revCount->dislike == 0) {
+                    $revCount->like = 0;
+                    $revCount->dislike = 1;
+                    $revCount->save();
+                    $adRev->likes -= 1;
+                    $adRev->dislikes += 1;
+                } else {
+                    $revCount->delete();
+                    $adRev->dislikes -= 1;
+                }
+            }
+            $adRev->save();
+            return response()->json(['error' => false, 'like' => $adRev->likes , 'dislike' => $adRev->dislikes, 'advReviewId' => (int)$req->adRevId]);
+        } else {
+            $rev = new ReviewLikeDislike();
+            $rev->from = $req->customerId;
+            $rev->to = $req->userId;
+            $rev->advertisement_id = $req->adId;
+            if ($req->option == 'reviewLike') {
+                $rev->like = 1;
+                $rev->dislike = 0;
+                $adRev->likes += 1;
+            }
+            if ($req->option == 'reviewDislike') {
+                $rev->like = 0;
+                $rev->dislike = 1;
+                $adRev->dislikes += 1;
+            }
+            $rev->save();
+            $adRev->save(); 
+            return response()->json(['error' => false, 'like' => $adRev->likes , 'dislike' => $adRev->dislikes, 'advReviewId' => (int)$req->adRevId]);
+        }
+    }
+
+    //club review like dislike section
+    public function clubCheckLikeDislike(Request $req)
+    {
+        $likeDislikeCount = ReviewLikeDislike::where('from', $req->customerId)->where('to', $req->userId)->where('advertisement_id', $req->adId)->first();
+        $adRev = AdvertisementReview::where('id', $req->adRevId)->first();
+
+        $total = [
+            'totalLike' => ($adRev ? $adRev->likes : []),
+            'totalDislike' => ($adRev ? $adRev->dislikes : []),
+        ];
+
+        // dd($likeDislikeCount);
+        $data = [];
+
+        if($likeDislikeCount) {
+            if(($likeDislikeCount->like == 0) && ($likeDislikeCount->dislike == 1)) {
+                $data = [
+                    'error' => false,
+                    'like' => false,
+                    'dislike' => true,
+                    'total' => $total
+                ];
+            } elseif(($likeDislikeCount->like == 1) && ($likeDislikeCount->dislike == 0)) {
+                $data = [
+                    'error' => false,
+                    'like' => true,
+                    'dislike' => false,
+                    'total' => $total
+                ];
+            } else {
+                $data = [
+                    'error' => false,
+                    'like' => false,
+                    'dislike' => false,
+                    'total' => $total
+                ];
+            }
+        } else {
+            $data = [
+                'error' => false,
+                'like' => false,
+                'dislike' => false,
+                'total' => $total
+            ];
+        }
+        return response()->json($data);
     }
 }

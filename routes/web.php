@@ -131,6 +131,10 @@ Route::post('count-love', 'AdvertisementController@countLove')->name('count.love
 Route::post('check-like-dislike', 'AdvertisementController@checkLikeDislike')->name('check.like.dislike');
 Route::post('count-like-dislike', 'AdvertisementController@countLikeDislike')->name('count.like.dislike');
 
+// club review like dislke 
+Route::post('club-check-like-dislike', 'AdvertisementController@clubCheckLikeDislike')->name('club.check.like.dislike');
+Route::post('club-count-like-dislike', 'AdvertisementController@clubCountLikeDislike')->name('club.count.like.dislike');
+
 //change password
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/change-password', 'Auth\ChangePasswordController@index')->name('change.password');

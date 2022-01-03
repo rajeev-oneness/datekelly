@@ -192,8 +192,8 @@
                                         <label for="" class="mb-3">Negative</label>
                                         <textarea class="form-control" name="negative" id="" cols="100" rows="3" required></textarea>
                                     </div>
-                            </div>
-                            <div class="modal-footer">
+                                </div>
+                                <div class="modal-footer">
                                     <button type="submit" class="login-btn">Add Review</button>
                                 </form>
                             </div>
@@ -202,6 +202,7 @@
                     </div>
 
                     @foreach ($reviews as $item)
+                        {{-- {{dd($item);}} --}}
                         <div class="card position-relative mb-5 w-100">
                             <div class="card-header border-0 pt-1 d-flex">
                                 <p>
@@ -210,7 +211,7 @@
                                     </span>
                                     <br>{{date('M Y', strtotime($item->advertisement_details->created_at))}}
                                 </p>
-                                <span class="r-review w-50 ml-0">{{$item->rating}}</span>
+                                <span class="r-review w-50 ml-0">{{$item->rating}} <i class="fas fa-star"></i></span>
                             </div>
                             <div class="card-body pt-0">
                                 <div class="d-flex bodytext mb-3">
@@ -240,8 +241,9 @@
                                 </div>
                             </div>
                             <div class="like-section d-flex">
-                                <p id="reviewLike" data-total="{{$item->likes}}" onclick="likeDislikeCount(this.id)" style="cursor: pointer;">{{$item->likes}} <i class="far fa-thumbs-up"></i></p>
-                                <p id="reviewDislike" data-total="{{$item->dislikes}}" onclick="likeDislikeCount(this.id)" style="cursor: pointer;">{{$item->dislikes}} <i class="far fa-thumbs-down"></i></p>
+                                <p id="reviewLike-{{$item->id}}" data-total="{{$item->likes}}" onclick="clubLikeDislikeCount('reviewLike', {{$item->id}})" style="cursor: pointer;">{{$item->likes}} <i class="far fa-thumbs-up"></i></p>
+
+                                <p id="reviewDislike-{{$item->id}}" data-total="{{$item->dislikes}}" onclick="clubLikeDislikeCount('reviewDislike', {{$item->id}})" style="cursor: pointer;">{{$item->dislikes}} <i class="far fa-thumbs-down"></i></p>
                             </div>
                         </div>
                     @endforeach
@@ -302,6 +304,7 @@
 
                 {{-- language --}}
                 @if($advertisement != null)
+                @if($advertisement->language != null)
                 <div class="lady-data bg-light-pink mb-2">
                     <table class="table table-sm table-borderless">
                         <tr>
@@ -319,6 +322,7 @@
                         </tr>
                     </table>
                 </div>
+                @endif
                 @endif
 
                 @if($advertisement != null)
@@ -635,31 +639,30 @@
     loveChecking()
 
     //like dislike on review
-    function likeDislikeCount(id) {
+    function clubLikeDislikeCount(id, adRevId) {
         if (customerId != '') {
             $.ajax({
-                url: "{{route('count.like.dislike')}}",
+                url: "{{route('club.count.like.dislike')}}",
                 type: "POST",
-                data: {customerId: customerId, userId: userId, adId: adId, option: id, _token: "{{csrf_token()}}"},
+                data: {customerId: customerId, userId: userId, adId: adId, adRevId: adRevId, option: id, _token: "{{csrf_token()}}"},
                 success:function(data) {
-                    likeDislikeChecking();
+                    clubLikeDislikeChecking(adRevId);
                 }
-            })
+            });
         } else {
             swal('Oops!', 'You need to login/register first', 'error');
         }
     }
 
-    function likeDislikeChecking() {
+    function clubLikeDislikeChecking(adRevId) {
         if(customerId != '') {
             $.ajax({
-                url: "{{route('check.like.dislike')}}",
+                url: "{{route('club.check.like.dislike')}}",
                 type: "POST",
-                data: {customerId: customerId, userId: userId, adId: adId, _token: "{{csrf_token()}}"},
+                data: {customerId: customerId, userId: userId, adId: adId, adRevId: adRevId, _token: "{{csrf_token()}}"},
                 success:function(data) {
-                    console.log(data);
-                    $("#reviewLike").empty();
-                    $("#reviewDislike").empty();
+                    $("#reviewLike-"+adRevId).empty();
+                    $("#reviewDislike-"+adRevId).empty();
                     let likerow = data.total.totalLike;
                     let dislikerow = data.total.totalDislike;
                     if(data.error == false && ((data.like == false) && (data.dislike == true))) {
@@ -674,13 +677,14 @@
                         likerow += ' <i class="far fa-thumbs-up"></i>';
                         dislikerow += ' <i class="far fa-thumbs-down"></i>';
                     }
-                    $("#reviewLike").append(likerow);
-                    $("#reviewDislike").append(dislikerow);
+                    $("#reviewLike-"+adRevId).append(likerow);
+                    $("#reviewDislike-"+adRevId).append(dislikerow);
                 }
-            })
+            });
         }
     }
-    likeDislikeChecking()
+
+    clubLikeDislikeChecking();
 </script>
 
 @endsection

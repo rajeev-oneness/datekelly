@@ -14,6 +14,10 @@ class AdvertisementReview extends Model
     {
         return $this->belongsTo('App\Models\Advertisement', 'advertisement_id', 'id');
     }
+    public function club_details()
+    {
+        return $this->belongsTo('App\Models\Advertisement', 'advertisement_id', 'id')->where('user_type', 2);
+    }
     public function user_details() 
     {
         return $this->hasOne('App\Models\User', 'id', 'customer_id');

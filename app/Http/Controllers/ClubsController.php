@@ -54,7 +54,7 @@ class ClubsController extends Controller
         $clubs->user_type = 2;
         $clubs->name = $req->name;
         $clubs->email = $req->email;
-        $clubs->phn_no = $req->phn_no;        
+        $clubs->phn_no = $req->phn_no;
         $clubs->password = Hash::make($req->password);
         $clubs->country_id = $req->country_id;
         $clubs->city_id = $req->city_id;
@@ -64,10 +64,17 @@ class ClubsController extends Controller
         if ($req->hasFile('profile_pic')) {
             $image = $req->file('profile_pic');
             $clubs->profile_pic = imageUpload($image, 'club');
-        }else{
+        } else {
             $clubs->profile_pic = 'images/defaultClub.jpg';
         }
         $clubs->save();
+
+        // new club entry into advertisement
+        $newAdvertisement = new Advertisement();
+        $newAdvertisement->user_type = 2;
+        $newAdvertisement->club_id = $clubs->id;
+        $newAdvertisement->save();
+
         $UserVerification = new UserVerification;
         $UserVerification->user_id = $clubs->id;
         $UserVerification->save();
@@ -194,8 +201,8 @@ class ClubsController extends Controller
             $newAdvertisement->user_type = 2;
             $newAdvertisement->club_id = $clubs->id;
             $newAdvertisement->my_service = emptyCheck($req->my_service);
-            $newAdvertisement->extraprice_for_escort = numberCheck($req->extraprice_for_escort);
             $newAdvertisement->language = (!empty($req->language) ? implode(',',$req->language) : '');
+            $newAdvertisement->extraprice_for_escort = numberCheck($req->extraprice_for_escort);
 
             $newAdvertisement->save();
 

@@ -18,7 +18,7 @@ class ReviewController extends Controller
         $guard = get_guard();
         $userId = auth()->guard($guard)->user()->id;
         if(auth()->guard($guard)->user()->user_type == 3) {
-            $reviews = AdvertisementReview::where('customer_id', $userId)->get();
+            $reviews = AdvertisementReview::where('customer_id', $userId)->with('advertisement_details', 'club_details', 'user_details', 'reply_user')->get();
             return view('front.reviews.list', compact('reviews'));
 
         } else {
@@ -47,6 +47,7 @@ class ReviewController extends Controller
      */
     public function store(Request $req)
     {
+        // dd($req->all());
         $req->validate([
             'advertisement_id' => 'required|numeric|min:1',
             'positive' => 'required',
