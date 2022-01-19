@@ -65,7 +65,7 @@
                         </div>
                         <div class="col-12 col-md-10 p-0 aboutme-text mt-4">
                             <div class="mb-3" style="white-space: pre;">{!!$data->about!!}</div>
-                            <p>
+                            {{-- <p>
                                 <strong class="d-block mb-2">Phone No.</strong>
                                 {{$data->phn_no}}
                                 <span class="d-block mt-2"><strong class="d-block mb-2">Address : </strong>{{$data->address}}</span>
@@ -74,7 +74,7 @@
                                     {{$data->address}}<br/>
                                     {{$data->club->website_address}}
                                 @endif
-                            </p>
+                            </p> --}}
                         </div>
                     </div>
                 </div><!--about-me-->
