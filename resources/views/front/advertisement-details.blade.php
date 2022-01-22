@@ -620,7 +620,7 @@
                 <div class="lady-data bg-light-pink mb-2">
                     <table class="table table-sm table-borderless">
                         <tr>
-                            <td>Sex: </td>
+                            <td>Sex2: </td>
                             <th>{{$advertisement->sex}}</th>
                         </tr>
                         <tr>
@@ -645,7 +645,20 @@
                         </tr>
                         <tr>
                             <td>Descent: </td>
-                            <th>{{$advertisement->descent}}</th>
+                            {{-- descents checkbox --}}
+                            <td><b>
+                            @php
+                                $adv_descents = explode(',', $advertisement->descent)
+                            @endphp
+                            @foreach ($descents as $item)
+                                @if(in_array($item->id,$adv_descents))
+                                    {{$item->title}}
+                                    @if(!$loop->last),@endif
+                                @endif
+                            @endforeach
+                            </b></td>
+                            {{-- descents radio --}}
+                            {{-- <th>{{$advertisement->descent}}</th> --}}
                         </tr>
                         <tr>
                             <td>Language: </td>
@@ -655,7 +668,8 @@
                             @endphp
                             @foreach ($languages as $item)
                                 @if(in_array($item->id,$langs))
-                                    {{$item->name}},
+                                    {{$item->name}}
+                                    @if(!$loop->last),@endif
                                 @endif
                             @endforeach
                             </b></td>

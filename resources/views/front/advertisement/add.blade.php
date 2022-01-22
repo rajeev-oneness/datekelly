@@ -20,10 +20,10 @@
 	    		<h5>Create Advertisement</h5><hr>
 				<div class="form-group row">
 	    			<div class="col-lg-6 d-flex flex-column">
-	                    <label class="" for="country">Country where I work:</label>
-	                    <select name="country" id="country" class="sumoSelect form-control @error('country'){{('is-invalid')}}@enderror" onchange="getCity(this);">
+	                    <label class="" for="country">Country where I work: </label>
+	                    <select name="country" id="country" class="sumoSelect form-control @error('country'){{('is-invalid')}}@enderror" onchange="getCity(this);" {{ ($data->user_type == 2) ? 'readonly' : '' }}>
 	                    	@foreach ($data->countries as $couIndex => $country)
-	                            <option value="{{$country->id}}" @if(old('country') == $country->id){{('selected')}}@endif>{{$country->name}}</option>
+	                            <option value="{{($data->user_type == 2) ? $data->clubDetails->country_id : $country->id}}" {{ ($data->user_type == 2) ? ($data->clubDetails->country_id == $country->id) ? 'selected' : '' : '' }}>{{$country->name}}</option>
 	                        @endforeach
 	                    </select>
 	                    @error('country')<span class="text-danger">{{$message}}</span>@enderror
@@ -33,21 +33,25 @@
 	    		<div class="form-group row">
 	    			<div class="col-lg-6 d-flex flex-column">
 	                    <label class="" for="city">City:</label>
-	                    <select name="city" id="city" class="sumoSelect form-control @error('city'){{('is-invalid')}}@enderror"></select>
+	                    <select name="city" id="city" class="sumoSelect form-control @error('city'){{('is-invalid')}}@enderror" {{ ($data->user_type == 2) ? 'readonly' : '' }}>
+							@if ($data->user_type == 2)
+								<option value="{{$data->clubDetails->city_id}}">{{ $data->clubDetails->city->name }}</option>
+							@endif
+						</select>
 	                    @error('city')<span class="text-danger">{{$message}}</span>@enderror
 	                </div>
 	    		</div>
 	    		<div class="form-group row">
 	    			<div class="col-lg-6 d-flex flex-column">
 	                    <label class="" for="address">Address:</label>
-	                    <textarea name="address" class="form-control @error('address'){{('is-invalid')}}@enderror">{{old('address')}}</textarea>
+	                    <textarea name="address" class="form-control @error('address'){{('is-invalid')}}@enderror" {{ ($data->user_type == 2) ? 'readonly' : '' }}>{{($data->user_type == 2) ? $data->clubDetails->address : ''}}</textarea>
 	                    @error('address')<span class="text-danger">{{$message}}</span>@enderror
 	                </div>
 	    		</div>
 	    		<div class="form-group row">
 	    			<div class="col-lg-6 d-flex flex-column">
 	                    <label class="" for="telephone_number">Telephone Number:</label>
-	                    <input type="text" name="telephone_number" value="{{old('telephone_number')}}" class="form-control @error('telephone_number'){{('is-invalid')}}@enderror" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+	                    <input type="text" name="telephone_number" value="{{($data->user_type == 2) ? $data->clubDetails->phn_no : old('telephone_number')}}" class="form-control @error('telephone_number'){{('is-invalid')}}@enderror" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" {{ ($data->user_type == 2) ? 'readonly' : '' }}>
 	                    @error('telephone_number')<span class="text-danger">{{$message}}</span>@enderror
 	                </div>
 	                <div class="col-lg-6 d-flex flex-column">
@@ -152,12 +156,21 @@
 				<div class="form-group">
 					<label class="" for="descent">Descent:</label>
 					<div>
-						@foreach($data->descents as $descentIndex => $descentData)
+						<!-- DESCENT CHECKBOX -->
+						@foreach($data->descents as $descentIndex => $descentsData)
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" name="descent[]" type="checkbox" id="inlineCheckboxDescents{{$descentIndex}}" value="{{$descentsData->id}}" @if(old('descent') && in_array($descentsData->id,old('descent'))){{('checked')}}@endif>
+								<label class="form-check-label" for="inlineCheckboxDescents{{$descentIndex}}">{{$descentsData->title}}</label>
+							</div>
+						@endforeach
+
+						<!-- DESCENT RADIO -->
+						{{-- @foreach($data->descents as $descentIndex => $descentData)
 							<div class="form-check form-check-inline">
 								<input class="form-check-input" name="descent" type="radio" id="inlineCheckboxDescent{{$descentIndex}}" value="{{$descentData->title}}" @if(old('descent') == $descentData->title){{('checked')}}@endif>
 								<label class="form-check-label" for="inlineCheckboxDescent{{$descentIndex}}">{{$descentData->title}}</label>
 							</div>
-						@endforeach
+						@endforeach --}}
 					</div>
 				</div>
 
@@ -343,7 +356,11 @@
 		}
 	}
 
-	coutryByDefault('{{$data->firstCountryId}}');
+	// coutryByDefault('{{ ($data->user_type == 2) ? $data->clubDetails->country_id : $data->firstCountryId }}');
+	@if($data->user_type != 2)
+		coutryByDefault('{{$data->firstCountryId}}');
+	@endif
+
 	function coutryByDefault(countryId){
 		var cityData = '';
 		if(parseInt(countryId) > 0){

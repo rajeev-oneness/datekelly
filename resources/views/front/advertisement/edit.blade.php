@@ -1,6 +1,12 @@
 @extends('front.layouts.master')
 @section('dashboard-content')
 
+<style>
+.form-check .form-check-input {
+	display: none;
+}
+</style>
+
 <div class="col-12 col-md-9 pl-2 pl-md-5 rightpart">
     <div class="row mb-3 dashboard align-items-center">
         <div class="col-12"><a href="{{route('advertisement.list')}}" class="login-btn float-right">Back <i class="fas fa-step-backward"></i></a></div>
@@ -152,12 +158,22 @@
 			<div class="form-group">
 				<label class="" for="descent">Descent:</label>
 				<div>
-					@foreach($data->descents as $descentIndex => $descentData)
+					<!-- DESCENT CHECKBOX -->
+					@php $descentsIdArray = explode(',',$data->info->descent); @endphp
+					@foreach($data->descents as $descentsIndex => $descentData)
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" name="descent[]" type="checkbox" id="inlineCheckboxDescent{{$descentsIndex}}" value="{{$descentData->id}}" @if(in_array($descentData->id,$descentsIdArray)){{('checked')}}@endif>
+							<label class="form-check-label" for="inlineCheckboxDescent{{$descentsIndex}}">{{$descentData->title}}</label>
+						</div>
+					@endforeach
+
+					<!-- DESCENT RADIO -->
+					{{-- @foreach($data->descents as $descentIndex => $descentData)
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" name="descent" type="radio" id="inlineCheckboxDescent{{$descentIndex}}" value="{{$descentData->title}}" @if($data->info->descent == $descentData->title){{('checked')}}@endif>
 							<label class="form-check-label" for="inlineCheckboxDescent{{$descentIndex}}">{{$descentData->title}}</label>
 						</div>
-					@endforeach
+					@endforeach --}}
 				</div>
 			</div>
 

@@ -33,7 +33,7 @@ class AdvertisementController extends Controller
                 $advertisements = Advertisement::where('club_id', 0)->where('ladies_id', auth()->guard($guard)->user()->id)->get();
             }
             if(auth()->guard($guard)->user()->user_type == 2) {
-                $advertisements = Advertisement::where('club_id', auth()->guard($guard)->user()->id)->get();
+                $advertisements = Advertisement::where('user_type', 0)->where('club_id', auth()->guard($guard)->user()->id)->get();
             }
             return view('front.advertisement.list', compact('advertisements'));
         }
@@ -47,6 +47,18 @@ class AdvertisementController extends Controller
     public function add()
     {
         $data = (object)[];
+        $guard = get_guard();
+        $data->clubDetails = '';
+        $data->guard = $guard;
+        $data->user_type = auth()->guard($data->guard)->user()->user_type;
+
+        if ($guard == 'web') {
+            if(auth()->guard($guard)->user()->user_type == 2) {
+                $data->clubDetails = User::findOrFail(auth()->guard($guard)->user()->id);
+            }
+        }
+        // dd($data->clubDetails);
+        
         $data->countries = Country::select('*')->orderBy('name')->get();
         $data->firstCountryId = 0;
         foreach ($data->countries as $key => $value) {
@@ -71,6 +83,7 @@ class AdvertisementController extends Controller
      */
     public function store(Request $req)
     {
+        // dd($req->all());
         $req->validate([
             'country' => 'nullable|min:1|numeric',
             'city' => 'nullable|min:1|numeric',
@@ -85,7 +98,11 @@ class AdvertisementController extends Controller
             'weight' => 'nullable|numeric',
             'cup_size' => 'nullable|string',
             'body_size' => 'nullable|string',
-            'descent' => 'nullable|string',
+            // descents checkbox
+            'descent' => 'nullable|array',
+            'descent.*' => 'nullable|min:1|numeric',
+            // descents radio
+            // 'descent' => 'nullable|string',
             'language' => 'nullable|array',
             'language.*' => 'nullable|min:1|numeric',
             'advertisement_text' => 'nullable|string',
@@ -138,7 +155,10 @@ class AdvertisementController extends Controller
             $newAdvertisement->weight = numberCheck($req->weight);
             $newAdvertisement->cup_size = emptyCheck($req->cup_size);
             $newAdvertisement->body_size = emptyCheck($req->body_size);
-            $newAdvertisement->descent = emptyCheck($req->descent);
+            // descents checkbox
+            $newAdvertisement->descent = (!empty($req->descent) ? implode(',',$req->descent) : '');
+            // descents radio
+            // $newAdvertisement->descent = emptyCheck($req->descent);
             $newAdvertisement->language = (!empty($req->language) ? implode(',',$req->language) : '');
             $newAdvertisement->address = emptyCheck($req->address);
             $newAdvertisement->my_service = emptyCheck($req->my_service);
@@ -299,6 +319,7 @@ class AdvertisementController extends Controller
     {
         $guard = get_guard();
         $languages = Language::all();
+        $descents = Descent::all();
         $reviews = AdvertisementReview::where('advertisement_id', base64_decode($id))->get();
         $ad = Advertisement::where('id', base64_decode($id));
         $advertisement = $ad->first();
@@ -314,7 +335,7 @@ class AdvertisementController extends Controller
             return view('admin.advertisement.details', compact('advertisement','languages','reviews', 'premium_pics', 'ourLadies'));
         }
         if(empty(auth()->guard($guard)->user()) || !empty(auth()->guard($guard)->user())) {
-            return view('front.advertisement-details', compact('advertisement','languages','reviews', 'premium_pics', 'ourLadies'));
+            return view('front.advertisement-details', compact('advertisement','languages','descents','reviews', 'premium_pics', 'ourLadies'));
         }
     }
 
@@ -366,7 +387,11 @@ class AdvertisementController extends Controller
             'weight' => 'nullable|numeric',
             'cup_size' => 'nullable|string',
             'body_size' => 'nullable|string',
-            'descent' => 'nullable|string',
+            // descents checkbox
+            'descent' => 'nullable|array',
+            'descent.*' => 'nullable|min:1|numeric',
+            // descents radio
+            // 'descent' => 'nullable|string',
             'language' => 'nullable|array',
             'language.*' => 'nullable|min:1|numeric',
             'advertisement_text' => 'nullable|string',
@@ -418,7 +443,10 @@ class AdvertisementController extends Controller
             $newAdvertisement->weight = numberCheck($req->weight);
             $newAdvertisement->cup_size = emptyCheck($req->cup_size);
             $newAdvertisement->body_size = emptyCheck($req->body_size);
-            $newAdvertisement->descent = emptyCheck($req->descent);
+            // descents checkbox
+            $newAdvertisement->descent = (!empty($req->descent) ? implode(',',$req->descent) : '');
+            // descents radio
+            // $newAdvertisement->descent = emptyCheck($req->descent);
             $newAdvertisement->language = (!empty($req->language) ? implode(',',$req->language) : '');
             $newAdvertisement->address = emptyCheck($req->address);
             $newAdvertisement->my_service = emptyCheck($req->my_service);

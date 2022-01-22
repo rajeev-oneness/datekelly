@@ -258,6 +258,7 @@
                         <h6>
                             {{ $data->country->name }}
                             <small class="d-block"> {{ $data->city->name }}</small>
+                            <small>{{$data->address}}</small>
                         </h6>
                     @endif
                     <p>
