@@ -69,9 +69,9 @@
                                 <strong class="d-block mb-2">Phone No.</strong>
                                  {{$advertisement->phn_no}}
                                 <span class="d-block mt-2"><strong class="d-block mb-2">Address : </strong>{{$advertisement->address}}</span>
-                                    
+
                                 @if($advertisement->club)
-                                    {{$advertisement->address}}<br/>
+                                    {{-- {{$advertisement->address}}<br/> --}}
                                     {{$advertisement->club->website_address}}
                                 @endif
                             </p>
