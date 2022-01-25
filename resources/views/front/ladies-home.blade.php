@@ -8,7 +8,6 @@
 
 <section class="pt-5 pb-5">
     <div class="container">
-        
         <div class="row m-0 women-List">
             @forelse($advertisement as $advert)
             <div class="col-12 col-md-3 plr" style="cursor: pointer;" onclick="location.href='{{route('advertisement.detail', base64_encode($advert->id))}}'">
@@ -18,16 +17,14 @@
                             <a href="{{route('advertisement.detail', base64_encode($advert->id))}}" style="color: #e91482;">{{$advert->title}}</a>
                             <span class="d-block">{{($advert->city)? $advert->city->name : ''}}</span>
                         </h5>
-                        
                     </div>
                     <div class="position-relative lady-card-img">
-                        <img src="{{asset($advert->image)}}"  class="card-img-top" alt="...">
+                        <img src="{{asset($advert->image)}}" class="card-img-top" alt="...">
                         <div @if($advert->about !='') class="ld_detail" @endif>
-                            <p class="subtext text-white">
-                            {{$advert->title}} : 
-                                  <span class="l_stext">
-                                    {{$advert->about}}
-                                  </span>
+                            <p class="subtext text-white"> {{$advert->title}} : 
+                                <span class="l_stext">
+                                {{$advert->about}}
+                                </span>
                             </p>
                         </div>
                         <div class="verified-sec">
@@ -35,13 +32,13 @@
                                 <p>Verified <i class="fas fa-check"></i></p>
                             @endif
                             <p> {{$advert->rating}} <i class="fas fa-star"></i></p>
-                        </div>    
+                        </div>
                         <div class="price">&euro; {{($advert->price != '' ? $advert->price : 0)}}</div>
                     </div>
                     <div class="card-body p-2">
                       <div class="row m-0">
                         <div class="col-6 col-md-6 text-md-left text-left p-0">
-                            <p class="loves"><i class="fas fa-heart"></i> &nbsp; {{$advert->no_of_loves}} Loves</p>
+                            <p class="loves"><i class="fas fa-heart"></i> &nbsp; {{$advert->no_of_loves}} {{ ($advert->no_of_loves > 1) ? ' Loves' : 'Love' }}</p>
                         </div>
                         <div class="col-6 col-md-6 text-md-right text-right p-0 contacticon">
                             <a href="tel:{{($advert->country)? '+'.$advert->country->phone_code : ''}}{{$advert->phn_no}}"><img src="{{asset('front/img/call-icon.png')}}"></a>

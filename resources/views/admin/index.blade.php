@@ -57,17 +57,17 @@
 				<div class="card card-custom card-stretch">
 					<div class="card-header" style="background-color: #add6ff;">
 						<div class="card-title">
-							<h3 class="card-label">Mens <small><i class="fas fa-mars"></i></small></h3>
+							<h3 class="card-label">Men <small><i class="fas fa-mars"></i></small></h3>
 						</div>
 					</div>
 					<div class="card-body">
 						<h2>
 						@if ($men == 0)
-							No Mens!
+							No Men!
 						@elseif($men == 1)
 							1 Man
 						@else
-							{{$men}} Mens
+							{{$men}} Men
 						@endif
 						</h2>
 					</div>

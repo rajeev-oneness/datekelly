@@ -21,7 +21,7 @@ class FrontController extends Controller
 {
     public function ladiesHome(Request $req)
     {
-        $advertisement = Advertisement::where('club_id', 0)->where('ladies_id','!=',0);
+        $advertisement = Advertisement::where('user_type', 0);
         if(!empty($req->search_by_city)){
             $advertisement = $advertisement->where(function($query) use ($req){
                 $query->where('address', 'like', '%' . $req->search_by_city . '%')

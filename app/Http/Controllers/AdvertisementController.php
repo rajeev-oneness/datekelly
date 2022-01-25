@@ -25,17 +25,18 @@ class AdvertisementController extends Controller
     public function index()
     {
         $guard = get_guard();
+        $user_type = auth()->guard($guard)->user()->user_type;
         if($guard == 'admin') {
-            $advertisements = Advertisement::get();
+            $advertisements = Advertisement::where('user_type', 0)->get();
             return view('admin.advertisement.index', compact('advertisements'));
         } elseif($guard == 'web') {
-            if(auth()->guard($guard)->user()->user_type == 1) {
+            if($user_type == 1) {
                 $advertisements = Advertisement::where('club_id', 0)->where('ladies_id', auth()->guard($guard)->user()->id)->get();
             }
-            if(auth()->guard($guard)->user()->user_type == 2) {
+            if($user_type == 2) {
                 $advertisements = Advertisement::where('user_type', 0)->where('club_id', auth()->guard($guard)->user()->id)->get();
             }
-            return view('front.advertisement.list', compact('advertisements'));
+            return view('front.advertisement.list', compact('advertisements', 'user_type'));
         }
     }
 
@@ -51,9 +52,10 @@ class AdvertisementController extends Controller
         $data->clubDetails = '';
         $data->guard = $guard;
         $data->user_type = auth()->guard($data->guard)->user()->user_type;
+        $data->advertisements = Advertisement::where('club_id', 0)->where('ladies_id', auth()->guard($guard)->user()->id)->get();
 
         if ($guard == 'web') {
-            if(auth()->guard($guard)->user()->user_type == 2) {
+            if($data->user_type == 2) {
                 $data->clubDetails = User::findOrFail(auth()->guard($guard)->user()->id);
             }
         }

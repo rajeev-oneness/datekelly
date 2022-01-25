@@ -27,7 +27,7 @@ Route::get('/club-agencies', 'FrontController@clubAgenciesHome')->name('club.age
 Route::get('/reviews', 'FrontController@getReviews')->name('reviews.home');
 
 Route::middleware(['user.login'])->group(function () {
-Route::get('/login-user', 'FrontController@login')->name('user.login');
+    Route::get('/login-user', 'FrontController@login')->name('user.login');
 });
 
 //front user rgistration
@@ -42,6 +42,9 @@ Route::post('/clubs-store', 'ClubsController@store')->name('clubs.store');
 //Auth
 Auth::routes(['verify' => true,'register' => false,'logout' => false,'login' => true]);
 Route::any('logout','HomeController@logout')->name('logout');
+// default login
+Route::get('login', 'FrontController@login')->name('login');
+// Route::post('login')->name('login.attempt')->uses('Auth\LoginController@login');
 
 Route::get('verify/my/account','VerifyAccountController@emailverification')->name('verify.user.account');
 //user dashboard

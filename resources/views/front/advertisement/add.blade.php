@@ -12,6 +12,9 @@
         <div class="col-12"><a href="{{route('advertisement.list')}}" class="login-btn float-right">Back <i class="fas fa-step-backward"></i></a></div>
     </div>
     <div class="row m-0 dashboard align-items-center">
+		@if($data->user_type == 1 && $data->advertisements->count() > 0)
+			<div class="col-12"><h4 class="text-center"><small>Sorry, you cannot add anymore advertisement. You already added one.</small></h4></div>
+		@else
     	<div class="col-12">
 	    	<form action="{{route('advertisement.store')}}" method="POST" enctype="multipart/form-data" class="w-100">
 	    		@csrf
@@ -139,6 +142,8 @@
 								<label class="form-check-label" for="inlineCheckbox{{$cupIndex}}">{{$cupSize->size}}</label>
 							</div>
 						@endforeach
+
+						@error('cup_size')<p class="text-danger">{{$message}}</p>@enderror
 					</div>
 				</div>
 				<div class="form-group">
@@ -150,6 +155,8 @@
 								<label class="form-check-label" for="inlineCheckboxBodySize{{$bodyIndex}}">{{$bodySize->size}}</label>
 							</div>
 						@endforeach
+
+						@error('body_size')<p class="text-danger">{{$message}}</p>@enderror
 					</div>
 				</div>
 
@@ -171,6 +178,8 @@
 								<label class="form-check-label" for="inlineCheckboxDescent{{$descentIndex}}">{{$descentData->title}}</label>
 							</div>
 						@endforeach --}}
+
+						@error('descent')<p class="text-danger">{{$message}}</p>@enderror
 					</div>
 				</div>
 
@@ -183,6 +192,8 @@
 								<label class="form-check-label" for="inlineCheckboxLanguage{{$languageIndex}}">{{$languageData->name}}</label>
 							</div>
 						@endforeach
+
+						@error('language')<p class="text-danger">{{$message}}</p>@enderror
 					</div>
 				</div>
 
@@ -198,6 +209,8 @@
 	                <div class="col-sm-12">
 	                    <label>Upload Portfolio image:</label>
 	                    <input type="file" class="form-control" name="port_folio_image" required>
+
+						@error('port_folio_image')<p class="text-danger">{{$message}}</p>@enderror
 	                </div>
 	            </div>
 
@@ -205,6 +218,8 @@
 	                <div class="col-sm-12">
 	                    <label>Upload Free images: (select min. 3 photos)</label>
 	                    <input type="file" class="form-control" name="images[]" multiple>
+
+						@error('images')<p class="text-danger">{{$message}}</p>@enderror
 	                </div>
 	            </div>
 
@@ -233,6 +248,8 @@
 								<td><a class="btn btn-sm btn-success actionTimebtn addNewTime">+</a></td>
 							</tr>
 						</table>
+						@error('time')<p class="text-danger">{{$message}}</p>@enderror
+						@error('price')<p class="text-danger">{{$message}}</p>@enderror
 						<table class="table">
 							<tr>
 								<td>Extra price for Escort: </td>
@@ -242,6 +259,7 @@
 								</td>
 							</tr>
 						</table>
+						@error('extraprice_for_escort')<p class="text-danger">{{$message}}</p>@enderror
 	                </div>
 	            </div>
 
@@ -296,6 +314,8 @@
 		                    	</tr>
 	                    	@endforeach
 	                    </table>
+						@error('services')<p class="text-danger">{{$message}}</p>@enderror
+						@error('servicesPrice')<p class="text-danger">{{$message}}</p>@enderror
 	                </div>
 	            </div>
 
@@ -306,7 +326,9 @@
 	                    	@foreach($data->workingDays as $indexWorking => $workingDays)
 		                    	<tr>
 		                    		<td>
-		                    			<input type="checkbox" name="workingDays[]" value="{{$workingDays}}" @if(old('workingDays') && count(old('workingDays') > 0) && in_array($workingDays,old('workingDays'))){{('checked')}}@endif>
+		                    			<input type="checkbox" name="workingDays[]" value="{{$workingDays}}" 
+										{{-- @if(old('workingDays') && count(old('workingDays') > 0) && in_array($workingDays,old('workingDays'))){{('checked')}}@endif --}}
+										>
 		                    			{{$workingDays}}
 		                    		</td>
 		                    		<td>From : <input type="time" name="workingTimeFrom[]" class="form-control" value="{{old('workingTimeFrom') ? old('workingTimeFrom')[$indexWorking]: ''}}"></td>
@@ -314,6 +336,9 @@
 		                    	</tr>
 	                    	@endforeach
 	                    </table>
+						@error('workingDays')<p class="text-danger">{{$message}}</p>@enderror
+						@error('workingTimeFrom')<p class="text-danger">{{$message}}</p>@enderror
+						@error('workingTimeTill')<p class="text-danger">{{$message}}</p>@enderror
 	                </div>
 	            </div>
 
@@ -321,6 +346,7 @@
 					<div class="col-sm-12">
 						<input type="checkbox" name="terms_and_condition" value="1">&nbsp;&nbsp;I agree with the Terms & Condition of DateKelly
 					</div>
+					@error('terms_and_condition')<p class="text-danger">{{$message}}</p>@enderror
 				</div>
 
 	    		<div class="col-12 mt-5">
@@ -328,6 +354,7 @@
 	            </div>
 	    	</form>
     	</div>
+		@endif
     </div>
 </div>
 

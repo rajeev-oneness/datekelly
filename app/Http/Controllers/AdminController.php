@@ -17,10 +17,10 @@ class AdminController extends Controller
         $men = User::where('user_type', 3)->get()->count();
         $clubs = User::where('user_type', 2)->get()->count();
         $date = \Carbon\Carbon::today()->subDays(10);
-        $advertisements = Advertisement::where('created_at', '>=', $date)->get();
-        $total_advertisements = Advertisement::get()->count();
-        $active_advertisements = Advertisement::where('is_verified', 1)->count();
-        $inactive_advertisements = Advertisement::where('is_verified', 0)->count();
+        $advertisements = Advertisement::where('user_type', 0)->where('created_at', '>=', $date)->get();
+        $total_advertisements = Advertisement::where('user_type', 0)->get()->count();
+        $active_advertisements = Advertisement::where('user_type', 0)->where('is_verified', 1)->count();
+        $inactive_advertisements = Advertisement::where('user_type', 0)->where('is_verified', 0)->count();
         return view('admin.index', compact('ladies', 'men', 'clubs', 'advertisements', 'total_advertisements', 'active_advertisements', 'inactive_advertisements'));
     }
     public function siteSettingsEdit()

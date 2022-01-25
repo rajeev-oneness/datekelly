@@ -60,7 +60,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     public function clubs_ad()
     {
-        return $this->HasMany('App\Models\Advertisement', 'club_id', 'id');
+        return $this->HasMany('App\Models\Advertisement', 'club_id', 'id')->where('user_type', 0);
     }
     public function coins()
     {
