@@ -61,7 +61,30 @@
     		</div>
 			
 			<div class="form-group row">
-				<div class="col-lg-6 d-flex flex-column">
+				{{-- my service checkbox --}}
+				<div class="form-group">
+					<label class="" for="my_service">My Service:</label>
+					<div>
+						@php
+						$advMyServices = explode(',', $data->info->my_service);
+						@endphp
+
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" name="my_service[]" type="checkbox" id="inlineCheckboxServices1" value="private_visit" @if( in_array('private_visit', $advMyServices) ) {{('checked')}} @endif>
+							<label class="form-check-label" for="inlineCheckboxServices1">Private Visit - Client can visit me</label>
+						</div>
+
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" name="my_service[]" type="checkbox" id="inlineCheckboxServices2" value="escort" @if( in_array('escort', $advMyServices) ) {{('checked')}} @endif>
+							<label class="form-check-label" for="inlineCheckboxServices2">Escort - I will visit the client</label>
+						</div>
+
+						@error('my_service')<span class="text-danger">{{$message}}</span>@enderror
+					</div>
+				</div>
+
+				{{-- my service radio --}}
+				{{-- <div class="col-lg-6 d-flex flex-column">
 					<label class="" for="myservice">My Service:</label>
 					<div class="d-flex">
 						<input type="radio" name="my_service" value="private_visit" @if($data->info->my_service =='private_visit'){{('checked')}}@endif><p class="ml-2">Private Visit - Client can visit me</p>
@@ -73,7 +96,7 @@
 						<input type="radio" name="my_service" value="escort" @if($data->info->my_service =='escort'){{('checked')}}@endif><p class="ml-2">Escort - I will visit the client</p>
 					</div>
 				</div>
-				@error('my_service')<span class="text-danger">{{$message}}</span>@enderror
+				@error('my_service')<span class="text-danger">{{$message}}</span>@enderror --}}
 			</div>
 			
 			<div class="form-group row">

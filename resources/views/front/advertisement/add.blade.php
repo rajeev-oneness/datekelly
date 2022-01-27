@@ -64,7 +64,27 @@
 	                </div>
 	    		</div>
 				<div class="form-group row">
-					<div class="col-lg-6 d-flex flex-column">
+
+					{{-- my service checkbox --}}
+					<div class="form-group">
+						<label class="" for="my_service">My Service:</label>
+						<div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" name="my_service[]" type="checkbox" id="inlineCheckboxServices1" value="private_visit" @if( old('my_service') && in_array('private_visit', old('my_service')) ) {{('checked')}} @endif>
+								<label class="form-check-label" for="inlineCheckboxServices1">Private Visit - Client can visit me</label>
+							</div>
+
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" name="my_service[]" type="checkbox" id="inlineCheckboxServices2" value="escort" @if( old('my_service') && in_array('escort', old('my_service')) ) {{('checked')}} @endif>
+								<label class="form-check-label" for="inlineCheckboxServices2">Escort - I will visit the client</label>
+							</div>
+
+							@error('my_service')<span class="text-danger">{{$message}}</span>@enderror
+						</div>
+					</div>
+
+					{{-- my service radio --}}
+					{{-- <div class="col-lg-6 d-flex flex-column">
 						<label class="" for="myservice">My Service:</label>
 						<div class="d-flex">
 							<input type="radio" name="my_service" value="private_visit" checked=""><p class="ml-2">Private Visit - Client can visit me</p>
@@ -76,7 +96,7 @@
 							<input type="radio" name="my_service" value="escort"><p class="ml-2">Escort - I will visit the client</p>
 						</div>
 					</div>
-					@error('my_service')<span class="text-danger">{{$message}}</span>@enderror
+					@error('my_service')<span class="text-danger">{{$message}}</span>@enderror --}}
 				</div>
 				<div class="form-group row">
 					<div class="col-lg-6 d-flex flex-column">
@@ -344,7 +364,7 @@
 
 				<div class="form-group row">
 					<div class="col-sm-12">
-						<input type="checkbox" name="terms_and_condition" value="1">&nbsp;&nbsp;I agree with the Terms & Condition of DateKelly
+						<input type="checkbox" name="terms_and_condition" value="1" checked>&nbsp;&nbsp;I agree with the Terms & Condition of DateKelly
 					</div>
 					@error('terms_and_condition')<p class="text-danger">{{$message}}</p>@enderror
 				</div>

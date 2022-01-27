@@ -86,13 +86,18 @@ class AdvertisementController extends Controller
     public function store(Request $req)
     {
         // dd($req->all());
+
         $req->validate([
             'country' => 'nullable|min:1|numeric',
             'city' => 'nullable|min:1|numeric',
             'address' => 'nullable|string|max:200',
             'telephone_number' => 'nullable|numeric',
             'whatsapp_number' => 'nullable|numeric',
-            'my_service' => 'nullable|string|max:255',
+            // my service checkbox
+            'my_service' => 'nullable|array',
+            'my_service.*' => 'nullable',
+            // my service radio
+            // 'my_service' => 'nullable|string|max:255',
             'my_working_name' => 'nullable|string|max:200',
             'sex' => 'nullable|string',
             'age' => 'nullable|numeric',
@@ -163,7 +168,10 @@ class AdvertisementController extends Controller
             // $newAdvertisement->descent = emptyCheck($req->descent);
             $newAdvertisement->language = (!empty($req->language) ? implode(',',$req->language) : '');
             $newAdvertisement->address = emptyCheck($req->address);
-            $newAdvertisement->my_service = emptyCheck($req->my_service);
+            // my service checkbox
+            $newAdvertisement->my_service = (!empty($req->my_service) ? implode(',',$req->my_service) : '');
+            // my service radio
+            // $newAdvertisement->my_service = emptyCheck($req->my_service);
             $newAdvertisement->extraprice_for_escort = numberCheck($req->extraprice_for_escort);
             $newAdvertisement->lat = emptyCheck($req->lat);
             $newAdvertisement->lng = emptyCheck($req->lng);
@@ -381,7 +389,11 @@ class AdvertisementController extends Controller
             'address' => 'nullable|string|max:200',
             'telephone_number' => 'nullable|numeric',
             'whatsapp_number' => 'nullable|numeric',
-            'my_service' => 'nullable|string|max:255',
+            // my service checkbox
+            'my_service' => 'nullable|array',
+            'my_service.*' => 'nullable',
+            // my service radio
+            // 'my_service' => 'nullable|string|max:255',
             'my_working_name' => 'nullable|string|max:200',
             'sex' => 'nullable|string',
             'age' => 'nullable|numeric',
@@ -450,8 +462,10 @@ class AdvertisementController extends Controller
             // descents radio
             // $newAdvertisement->descent = emptyCheck($req->descent);
             $newAdvertisement->language = (!empty($req->language) ? implode(',',$req->language) : '');
-            $newAdvertisement->address = emptyCheck($req->address);
-            $newAdvertisement->my_service = emptyCheck($req->my_service);
+            $newAdvertisement->address = emptyCheck($req->address);// my service checkbox
+            $newAdvertisement->my_service = (!empty($req->my_service) ? implode(',',$req->my_service) : '');
+            // my service radio
+            // $newAdvertisement->my_service = emptyCheck($req->my_service);
             $newAdvertisement->extraprice_for_escort = numberCheck($req->extraprice_for_escort);
             $newAdvertisement->lat = emptyCheck($req->lat);
             $newAdvertisement->lng = emptyCheck($req->lng);

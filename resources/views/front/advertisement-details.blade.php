@@ -556,11 +556,26 @@
                         </h6>
                     @endif
                     <p>
-                        @if($advertisement->my_service == 'private_visit')
+                        {{-- my services checkbox --}}
+                        @php
+                            $advMyServices = explode(',', $advertisement->my_service);
+                            foreach ($advMyServices as $services) {
+                                if ($services == 'private_visit') {
+                                    echo '<span class="d-block mb-0 mt-3">You can visit me - <b>Private visit</b></span>';
+                                } elseif ($services == 'escort') {
+                                    echo '<span class="d-block">I will visit you - <b>Escort</b></span>';
+                                } else {
+                                    echo '';
+                                }
+                            }
+                        @endphp
+
+                        {{-- my services radio --}}
+                        {{-- @if($advertisement->my_service == 'private_visit')
                             <span class="d-block mb-0 mt-3">You can visit me - <b>Private visit</b></span>
                         @elseif($advertisement->my_service == 'escort')
                             <span class="d-block">I will visit you - <b>Escort</b></span>
-                        @endif
+                        @endif --}}
                     </p>
                 </div>
 
@@ -620,7 +635,7 @@
                 <div class="lady-data bg-light-pink mb-2">
                     <table class="table table-sm table-borderless">
                         <tr>
-                            <td>Sex2: </td>
+                            <td>Sex: </td>
                             <th>{{$advertisement->sex}}</th>
                         </tr>
                         <tr>
@@ -652,8 +667,7 @@
                             @endphp
                             @foreach ($descents as $item)
                                 @if(in_array($item->id,$adv_descents))
-                                    {{$item->title}}
-                                    @if(!$loop->last),@endif
+                                    {{$item->title}}{{$loop->last ? '' : ', '}}
                                 @endif
                             @endforeach
                             </b></td>
@@ -668,8 +682,7 @@
                             @endphp
                             @foreach ($languages as $item)
                                 @if(in_array($item->id,$langs))
-                                    {{$item->name}}
-                                    @if(!$loop->last),@endif
+                                    {{$item->name}}{{$loop->last ? '' : ', '}}
                                 @endif
                             @endforeach
                             </b></td>
@@ -708,7 +721,18 @@
                         <p class="mb-0">Views on her profile : &nbsp; <b>{{date('Y') + date('m') + date('d')}}</b></p>
                         {{-- <p class="mb-0">Last time online : &nbsp; <b>{{date('d M, Y')}}</b></p> --}}
                     @elseif($advertisement->club)
-                    <p class="mb-0"><b>{{$advertisement->club->name}}</b> is a member since <br><b>{{date('d/M/Y', strtotime($advertisement->club->created_at))}}</b></p>
+                    <p class="mb-0">
+                    
+                    <b>
+                    
+                    @if($advertisement->lady)
+                        {{$advertisement->lady->name}}
+                    @elseif($advertisement->club)
+                        {{$advertisement->title}}
+                        {{-- {{$advertisement->club->name}} --}}
+                    @endif</b> 
+                    
+                    is a member of <b>{{$advertisement->club->name}}</b> since <br><b>{{date('d/M/Y', strtotime($advertisement->created_at))}}</b></p>
                         <p class="mb-0">Views on profile : &nbsp; <b>{{date('Y') + date('m') + date('d')}}</b></p>
                         {{-- <p class="mb-0">Last time online: &nbsp; <b>{{date('d M, Y')}}</b></p> --}}
                     @endif
