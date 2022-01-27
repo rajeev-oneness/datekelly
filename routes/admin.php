@@ -132,5 +132,22 @@
             Route::post('/update', 'Admin\LanguageController@update')->name('admin.language.update');
             Route::get('/delete/{id}', 'Admin\LanguageController@delete')->name('admin.language.delete');
         });
+
+        //club-servicee
+        Route::prefix('club-service')->group(function () {
+            Route::get('/', 'Admin\ClubServiceController@index')->name('admin.club.list');
+            Route::post('/store', 'Admin\ClubServiceController@store')->name('admin.club.store');
+            Route::post('/update', 'Admin\ClubServiceController@update')->name('admin.club.update');
+            // Route::get('/delete', 'Admin\ClubServiceController@delete')->name('admin.club.delete');
+            Route::post('delete','Admin\ClubServiceController@delete')->name('admin.club.delete');
+        });
+
+         //descent
+         Route::prefix('descent')->group(function () {
+            Route::get('/', 'Admin\DescentController@index')->name('admin.descent.list');
+            Route::post('/store', 'Admin\DescentController@store')->name('admin.descent.store');
+            Route::post('/update', 'Admin\DescentController@update')->name('admin.descent.update');
+            Route::post('delete','Admin\DescentController@delete')->name('admin.descent.delete');
+        });
     });
 ?>

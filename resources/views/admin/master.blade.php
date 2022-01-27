@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 
 <html lang="en">
-	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-<head>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
 		<meta charset="utf-8" />
 		@php
@@ -30,6 +30,9 @@
 			.btn-color {
 				background-color: #e91482;
 				color: #ffffff;
+			}
+			.menu-nav > .menu-item.menu-item-submenu.active {
+				background-color: #1b1b28;
 			}
 		</style>
 		<script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
@@ -162,7 +165,7 @@
 									</div>
 								</li> --}}
 
-								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+								<li class="menu-item menu-item-submenu {{ Request::is('admin/services*') ? 'active' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<span class="svg-icon menu-icon">
 											<i class="fas fa-list"></i>
@@ -195,6 +198,71 @@
 									</div>
 								</li>
 
+								<li class="menu-item menu-item-submenu {{ Request::is('admin/club-service*') ? 'active' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
+									<a href="javascript:;" class="menu-link menu-toggle">
+										<span class="svg-icon menu-icon">
+											<i class="fas fa-list"></i>
+										</span>
+										<span class="menu-text text-white">Club Service</span>
+										<i class="menu-arrow"></i>
+									</a>
+									<div class="menu-submenu">
+										<i class="menu-arrow"></i>
+										<ul class="menu-subnav">
+											<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+												<a href="{{route('admin.club.list')}}" class="menu-link menu-toggle">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Manage</span>
+													<i class="menu-arrow"></i>
+												</a>
+											</li>
+											<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+												<a href="{{route('admin.club.list',['form_type'=>'add'])}}" class="menu-link menu-toggle">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Add</span>
+													<i class="menu-arrow"></i>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+
+								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+									<a href="javascript:;" class="menu-link menu-toggle">
+										<span class="svg-icon menu-icon">
+											<i class="fas fa-list"></i>
+										</span>
+										<span class="menu-text text-white">Descent</span>
+										<i class="menu-arrow"></i>
+									</a>
+									<div class="menu-submenu">
+										<i class="menu-arrow"></i>
+										<ul class="menu-subnav">
+											<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+												<a href="{{route('admin.descent.list')}}" class="menu-link menu-toggle">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Manage</span>
+													<i class="menu-arrow"></i>
+												</a>
+											</li>
+											<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+												<a href="{{route('admin.descent.list',['form_type'=>'add'])}}" class="menu-link menu-toggle">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Add</span>
+													<i class="menu-arrow"></i>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
 
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
@@ -286,56 +354,6 @@
 														<span></span>
 													</i>
 													<span class="menu-text text-white">Add</span>
-													<i class="menu-arrow"></i>
-												</a>
-											</li>
-										</ul>
-									</div>
-								</li>
-								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
-									<a href="javascript:;" class="menu-link menu-toggle">
-										<span class="svg-icon menu-icon">
-											<i class="fas fa-list"></i>
-										</span>
-										<span class="menu-text text-white">Extras</span>
-										<i class="menu-arrow"></i>
-									</a>
-									<div class="menu-submenu">
-										<i class="menu-arrow"></i>
-										<ul class="menu-subnav">
-											<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
-												<a href="{{route('admin.cup.list')}}" class="menu-link menu-toggle">
-													<i class="menu-bullet menu-bullet-line">
-														<span></span>
-													</i>
-													<span class="menu-text text-white">Cup Size</span>
-													<i class="menu-arrow"></i>
-												</a>
-											</li>
-											<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
-												<a href="{{route('admin.body.list')}}" class="menu-link menu-toggle">
-													<i class="menu-bullet menu-bullet-line">
-														<span></span>
-													</i>
-													<span class="menu-text text-white">Body Size</span>
-													<i class="menu-arrow"></i>
-												</a>
-											</li>
-											<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
-												<a href="{{route('admin.origin.list')}}" class="menu-link menu-toggle">
-													<i class="menu-bullet menu-bullet-line">
-														<span></span>
-													</i>
-													<span class="menu-text text-white">Origin</span>
-													<i class="menu-arrow"></i>
-												</a>
-											</li>
-											<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
-												<a href="{{route('admin.language.list')}}" class="menu-link menu-toggle">
-													<i class="menu-bullet menu-bullet-line">
-														<span></span>
-													</i>
-													<span class="menu-text text-white">Language</span>
 													<i class="menu-arrow"></i>
 												</a>
 											</li>
@@ -510,6 +528,56 @@
 										<span class="menu-text text-white">Reports</span>
 										<i class="menu-arrow"></i>
 									</a>
+								</li>
+								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+									<a href="javascript:;" class="menu-link menu-toggle">
+										<span class="svg-icon menu-icon">
+											<i class="fas fa-list"></i>
+										</span>
+										<span class="menu-text text-white">Extras</span>
+										<i class="menu-arrow"></i>
+									</a>
+									<div class="menu-submenu">
+										<i class="menu-arrow"></i>
+										<ul class="menu-subnav">
+											<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+												<a href="{{route('admin.cup.list')}}" class="menu-link menu-toggle">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Cup Size</span>
+													<i class="menu-arrow"></i>
+												</a>
+											</li>
+											<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+												<a href="{{route('admin.body.list')}}" class="menu-link menu-toggle">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Body Size</span>
+													<i class="menu-arrow"></i>
+												</a>
+											</li>
+											<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+												<a href="{{route('admin.origin.list')}}" class="menu-link menu-toggle">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Origin</span>
+													<i class="menu-arrow"></i>
+												</a>
+											</li>
+											<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+												<a href="{{route('admin.language.list')}}" class="menu-link menu-toggle">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Language</span>
+													<i class="menu-arrow"></i>
+												</a>
+											</li>
+										</ul>
+									</div>
 								</li>
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="{{route('admin.site-settings.edit')}}" class="menu-link menu-toggle">
