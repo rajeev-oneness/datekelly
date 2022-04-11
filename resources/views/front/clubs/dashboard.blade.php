@@ -1,0 +1,140 @@
+@extends('front.layouts.master')
+
+@section('dashboard-content')
+<div class="col-12 col-md-9 pl-2 pl-md-5 rightpart">
+    <div class="row m-0 dashboard align-items-center">
+        <div class="col-12 col-md-4 p-0">
+            <div class="card text-center p-0">
+                <div class="card-body">
+                  <div class="tag-sec mb-4">
+                      <h5 class="bg-pink">Business <i class="fas fa-crown"></i></h5>
+                  </div>
+                  <div class="dashboard-text">
+                    <h6><span>Renew</span> advertisement</h6>
+                    <p class="m-0">
+                       <span> Highlight</span> advertisement
+                    </p>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 p-0">
+            <div class="card text-center p-0">
+                <div class="card-body">
+                  <div class="tag-sec mb-4">
+                      <h5 class="bg-pink">{{$banners}} Banners</h5>
+                  </div>
+                  <div class="dashboard-text">
+                    <h6>You have<span> {{$banners}} Banners</span></h6>
+                    <p class="m-0">
+                       <a href="{{route('club.business.banner.add')}}">Create / edit Banners</a>
+                    </p>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 p-0">
+            <div class="card text-center p-0">
+                <div class="card-body">
+                  <div class="tag-sec mb-4">
+                      <h5 class="bg-pink">{{$adCount}} Advertisements</h5>
+                  </div>
+                  <div class="dashboard-text">
+                    <h6>You have <span> {{$adCount}} advertisements</span></h6>
+                    <p class="m-0">
+                      <a href="{{route('advertisement.add')}}">Create / edit advertisements <br/> Upgrade advertisements</a>
+                    </p>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 p-0">
+            <div class="card text-center p-0">
+                <div class="card-body">
+                  <div class="tag-sec mb-4">
+                      <h5 class="bg-pink">Verified <i class="fas fa-check text-green"></i></h5>
+                  </div>
+                  <div class="dashboard-text">
+                    <h6><span>NOT  </span>verified</h6>
+                    <p class="m-0">
+                        Verify your account
+                    </p>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 p-0">
+            <div class="card text-center p-0">
+                <div class="card-body">
+                  <div class="tag-sec mb-4">
+                      <h5 class="bg-pink">{{$messages}} <img src="{{asset('front/img/chat-icon.png')}}" class="ml-1"></h5>
+                  </div>
+                  <div class="dashboard-text">
+                    <h6>You have <span>{{$messages}} Messages</span></h6>
+                    <p class="m-0">
+                      <a href="{{route('message.list')}}">Reply on Messages</a>
+                    </p>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 p-0">
+            <div class="card text-center p-0">
+                <div class="card-body">
+                  <div class="tag-sec mb-4">
+                      <h5 class="bg-dark-blue"><i class="fas fa-donate"></i> DK </h5>
+                  </div>
+                  <div class="dashboard-text">
+                    <h5>Balance:  <span>{{$coinBalance}} DateKelly coins</span></h5>
+                    <p class="m-0">
+                      <a href="{{route('coins.buy')}}">Buy more DateKelly coins</a>
+                    </p>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 p-0">
+            <div class="card text-center p-0">
+                <div class="card-body">
+                  <div class="tag-sec mb-4">
+                      <h5 class="bg-pink">{{$loves}} <i class="fas fa-heart"></i></h5>
+                  </div>
+                  <div class="dashboard-text">
+                    <h6>You got <span>{{$loves}} Love</span></h6>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 p-0">
+            <div class="card text-center p-0">
+                <div class="card-body">
+                  <div class="tag-sec mb-4">
+                      <h5 class="bg-pink">{{round($rating, 1)}} <i class="fas fa-star"></i></h5>
+                  </div>
+                  <div class="dashboard-text">
+                    <h6>You got <span>{{$totalReviews}} Reviews</span></h6>
+                    <p class="m-0">
+                      <a href="{{route('review.list')}}">View my Reviews</a>
+                    </p>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 p-0">
+            <div class="card text-center p-0">
+                <div class="card-body">
+                  <div class="tag-sec mb-4">
+                      <h5 class="bg-dark-blue"><i class="fas fa-donate"></i> Tip </h5>
+                  </div>
+                  <div class="dashboard-text">
+                    <h5>Tips received : <span>15 DateKelly coins</span></h5>
+                    <p class="m-0">
+                        Send DateKelly coins <br/> to another Lady 
+                    </p>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+@endsection

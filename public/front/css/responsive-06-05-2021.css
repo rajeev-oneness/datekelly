@@ -1,0 +1,67 @@
+
+
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+
+
+@media (max-width: 320px){
+	
+}
+@media (max-width: 360px){
+	
+}
+@media (max-width: 480px){
+
+}
+@media (max-width: 640px){
+	
+}
+@media (max-width: 768px){
+	.language-drop{
+      display: none;
+   }
+   .navbar-brand img{
+      width: 153px;
+   }
+   .image-sl-text{
+      left: 0;
+   }
+}
+@media (max-width: 860px) {
+   .navbar-toggler{
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 48%;
+      z-index: 11;
+      background: #e91482;
+      border-radius: 0;
+      text-align: right;
+      height: 60px;
+      border: 0;
+   }
+   header .w-50{
+      width: inherit !important;
+   }
+   .home-lefft-nav li a{
+      display: none;
+   }
+   .home-lefft-nav li{
+      float: inherit !important;
+   }
+   .review h6{
+      font-size: 12px;
+      display: flex;
+   }
+   footer{
+      margin-top: 30px;
+   }
+   .leftpart .ledies_pic{
+      width: 100%;
+      height: auto;
+   }
+   .leftpart{
+      margin-bottom: 30px;
+   }
+}
