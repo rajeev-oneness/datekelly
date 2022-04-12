@@ -31,20 +31,16 @@
                     <tbody>
                         @forelse ($purachaseDetails as $key => $item)
                         @php
-                            $comments = premiumPictureComment($item->customer_id,$item->picture_id);
+                            $comments = premiumPictureCommentFirst($item->customer_id,$item->picture_id);
                         @endphp
                         <tr class="accordion-toggle collapsed{{($key == 0)? ' adv-t-seclect' : ''}}" id="accordion2" data-toggle="collapse" data-parent="#accordion2" href="#collapse-{{$key}}">
                             <td class="expand-button">{{date('d M Y', strtotime($item->created_at))}}</td>
                             <td>{{$item->customerDetails->name}}</td>
                             <td>
-                                @if ($comments->count() > 0)
-                                    <td>
-                                        @foreach ($comments as $comment)
-                                            <span>{{ $comment->comment }}</span>
-                                        @endforeach
-                                    </td>
+                                @if ($comments != null)
+                                            <span>{{ $comments['comment'] }}</span>
                                 @else
-                                    <td>N/A</td>
+                                    N/A
                                 {{-- <td><span>{{substr($item->note, 0, 20).' ...'}}</span></td> --}}
                                 @endif
                             </td>

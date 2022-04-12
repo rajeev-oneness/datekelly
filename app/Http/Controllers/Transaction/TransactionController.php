@@ -102,6 +102,15 @@ class TransactionController extends Controller
         $totalCoin = $totalCoin->sum('coins');
         return view('front.buy-coin', compact('rates', 'totalCoin','points'));
     }
+
+    public function coinReceived(Request $req)
+    {
+        $rates = CoinsRate::select('*')->get();
+        $totalCoin = CoinsDetails::where('user_id', auth()->guard(get_guard())->user()->id);
+        $points = $totalCoin->latest('id')->get();
+        $totalCoin = $totalCoin->sum('coins');
+        return view('front.coin-log', compact('rates', 'totalCoin','points'));
+    }
     
     public function purchaseCoins(Request $req)
     {

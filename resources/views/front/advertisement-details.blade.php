@@ -1181,26 +1181,33 @@
     // lady
     function ladyTip() {
         if (customerId != '') {
-            swal({
-                    title: "Are you sure?",
-                    text: "Once provide tip, Your point 10 will be deducted",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-             })
-             .then((willDelete) => {
-                $.ajax({
-                    url: "{{route('lady.tip')}}",
-                    type: "POST",
-                    data: {customerId: customerId, userId: userId, adId: adId, _token: "{{csrf_token()}}"},
-                    success:function(data) {
-                        swal({
-                            text: "Tip spend successfully",
-                            icon: 'success',
-                        })
+            if (customerId == userId) {
+                swal('Oops!', 'You can not provide tips', 'error');
+            }
+            else{
+                swal({
+                        title: "Are you sure?",
+                        text: "Once provide tip, Your point 10 will be deducted",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                            $.ajax({
+                            url: "{{route('lady.tip')}}",
+                            type: "POST",
+                            data: {customerId: customerId, userId: userId, adId: adId, _token: "{{csrf_token()}}"},
+                            success:function(data) {
+                                swal({
+                                    text: "Tip spend successfully",
+                                    icon: 'success',
+                                })
+                            }
+                        }) 
                     }
                 })
-             })
+            }
         } else {
             swal('Oops!', 'You need to login/register first', 'error');
         }
@@ -1224,8 +1231,6 @@
             })
         }
     }
-
-    loveChecking()
 
     //like dislike on review
     function likeDislikeCount(id) {

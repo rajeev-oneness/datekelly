@@ -141,4 +141,10 @@ use App\Models\PremiumPictureComment;
         return $all_comment;
     }
 
+    function premiumPictureCommentFirst($customer_id,$picture_id)
+    {
+        $all_comment = PremiumPictureComment::where('picture_id',$picture_id)->where('customer_id',$customer_id)->first();
+        return $all_comment;
+    }
+
 ?>

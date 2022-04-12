@@ -1141,7 +1141,8 @@ class AdvertisementController extends Controller
     // LadyTip section
     public function ladyTip(Request $req)
     {
-        // Store tip details
+        $customer_name = User::find($req->customerId)->name;
+        $lady_name = User::find($req->userId)->name;
         $new_tip = new LadyTip();
         $new_tip->customer_id = $req->customerId;
         $new_tip->lady_id = $req->userId;
@@ -1160,7 +1161,7 @@ class AdvertisementController extends Controller
         $coinsMinusCustomer->user_id = $req->customerId;
         $coinsMinusCustomer->coins = '-'.$transaction->amount;
         $coinsMinusCustomer->transaction_id = $transaction->id;
-        $coinsMinusCustomer->remarks = 'You given a tip to the lady';
+        $coinsMinusCustomer->remarks = 'You given a tip to '.$lady_name;
         $coinsMinusCustomer->save();
 
          /********** Adding the Point from Customer to ladies account **************/
@@ -1168,7 +1169,7 @@ class AdvertisementController extends Controller
          $coinsAddedLady->user_id = $req->userId;
          $coinsAddedLady->coins = $transaction->amount;
          $coinsAddedLady->transaction_id = $transaction->id;
-         $coinsAddedLady->remarks = 'You given tip from a customer';
+         $coinsAddedLady->remarks = 'You given tip from '.$customer_name;
          $coinsAddedLady->save();
         
     }

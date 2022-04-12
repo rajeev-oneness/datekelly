@@ -100,6 +100,7 @@ Route::middleware(['user.auth'])->group(function () {
         route::get('buy', 'Transaction\TransactionController@buyCoins')->name('coins.buy');
         route::post('purchase/coin', 'Transaction\TransactionController@purchaseCoins')->name('coins.purchase');
     });
+    route::get('received-tip', 'Transaction\TransactionController@coinReceived')->name('received.tip');
     
     //booking
     Route::prefix('booking')->group(function() {
