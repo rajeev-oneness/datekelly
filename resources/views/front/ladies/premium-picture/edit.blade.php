@@ -70,7 +70,7 @@
                                 $file_extension= explode('.',$file_path)[1];
                                 @endphp
                                 @if ($file_extension === 'jpg' || $file_extension === 'jpeg' || $file_extension === 'png' || $file_extension === 'webp' || $file_extension === 'PNG')
-                                <div class="position-relative overflow-hidden">
+                                <div class="position-relative model_ss_pic overflow-hidden">
                                     <img src="{{ asset($file_path) }}" alt="" class="card-img-top">
                                 </div>
                                 @else

@@ -35,7 +35,7 @@
             @if($picture->pictureDetails)
             <div class="col-6 col-md-3 plr mb-2 premium-p-t">
                 <div class="card border-0 text-center">
-                    <div class="position-relative overflow-hidden">
+                    <div class="position-relative overflow-hidden model_ss_pic">
                         {{-- <a href="{{asset($picture->pictureDetails->picture)}}" download rel="noopener noreferrer" target="_blank"> --}}
                             <a href="#" onclick="purchaseCheckPremiumPicture('{{$picture->pictureDetails->picture}}')">
                                 <img src="{{asset($picture->pictureDetails->picture)}}" class="card-img-top" alt="...">
