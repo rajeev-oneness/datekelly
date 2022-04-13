@@ -155,19 +155,22 @@ class BookingController extends Controller
                                 $transaction->amount = $req->price;
                                 $transaction->transaction_id = 'trans_'.randomgenerator();
                             $transaction->save();
+
+                            $customerName = User::find($req->customerId)->name;
+                            $ladiesName = User::find($req->ladiesId)->name;
                             /********** Minusing the Customer Point **************/
                             $coinsMinusCustomer = new \App\Models\CoinsDetails;
                                 $coinsMinusCustomer->user_id = $req->customerId;
                                 $coinsMinusCustomer->coins = '-'.$transaction->amount;
                                 $coinsMinusCustomer->transaction_id = $transaction->id;
-                                $coinsMinusCustomer->remarks = 'You have purchased premium picture';
+                                $coinsMinusCustomer->remarks = 'You have purchased premium picture of '.$ladiesName;
                             $coinsMinusCustomer->save();
                             /********** Adding the Point from Customer to ladies account **************/
                             $coinsAddedLady = new \App\Models\CoinsDetails;
                                 $coinsAddedLady->user_id = $req->ladiesId;
                                 $coinsAddedLady->coins = $transaction->amount;
                                 $coinsAddedLady->transaction_id = $transaction->id;
-                                $coinsAddedLady->remarks = 'Your Premium Picture Purchased by Customer';
+                                $coinsAddedLady->remarks = 'Your Premium Picture Purchased by '.$customerName;
                             $coinsAddedLady->save();
                             /*************** Making as Purchased Picture **************/
                             $premiumPurchase = new PremiumPicturePurchase;
