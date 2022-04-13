@@ -83,7 +83,7 @@
                         <li><a href="{{route('review.list')}}" class="{{request()->routeIs('review.*')?'active':''}}">Reviews</a></li>
                         <li><a href="{{route('men.favourite.list')}}" class="{{request()->routeIs('men.favourite.*')?'active':''}}">Favorites</a></li>
                         <li><a href="{{route('coins.buy')}}" class="{{request()->routeIs('coins.*')?'active':''}}">Buy DateKelly coins</a></li>
-                        <li><a href="{{route('received.tip')}}" class="{{request()->routeIs('received.tip')?'active':''}}">Tip Receipt</a></li>
+                        <li><a href="{{route('received.tip')}}" class="{{request()->routeIs('received.tip')?'active':''}}">Coins Logs</a></li>
                         <li><a href="{{route('transaction.history')}}" class="{{request()->routeIs('transaction.*')?'active':''}}">My purchases</a></li>
                         <li><a href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

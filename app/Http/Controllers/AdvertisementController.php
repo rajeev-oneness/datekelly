@@ -1169,7 +1169,7 @@ class AdvertisementController extends Controller
          $coinsAddedLady->user_id = $req->userId;
          $coinsAddedLady->coins = $transaction->amount;
          $coinsAddedLady->transaction_id = $transaction->id;
-         $coinsAddedLady->remarks = 'You given tip from '.$customer_name;
+         $coinsAddedLady->remarks = 'You received tip from '.$customer_name;
          $coinsAddedLady->save();
         
     }
